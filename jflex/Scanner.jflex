@@ -26,6 +26,24 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %eofval}
 
 %%
+// "for" { return symbol("For", sym.FOR);}
+// "if" { return symbol("If", sym.IF);}
+// "integer" { return symbol("Integer", sym.INTEGER);}
+// "return" { return symbol("Return", sym.RETURN);}
+// "true" { return symbol("True", sym.TRUE);}
+// "void" { return symbol("Void", sym.VOID);}
+// "while" { return symbol("While", sym.WHILE);}
+// "extern" { return symbol("Extern", sym.EXTERN);}
+
+"for" { System.out.println("FOR");}
+"if" { System.out.println("if");}
+"integer" { System.out.println("INTEGER");}
+"return" { System.out.println("RETURN");}
+"true" { System.out.println("TRUE");}
+"void" { System.out.println("VOID");}
+"while" { System.out.println("WHILE");}
+"extern" { System.out.println("EXTERN");}
+
 ";" { return symbol("Semicolon",sym.SEMI); }
 "+" { return symbol("Plus",sym.PLUS); }
 "*" { return symbol("Times",sym.TIMES); }

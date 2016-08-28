@@ -46,8 +46,8 @@ parser code {:
 	// Mute legacy Error Printing
     }
 :}
-
-terminal SEMI, PLUS, TIMES, LPAREN, RPAREN;
+terminal FOR, IF, INTEGER, RETURN, VOID, WHILE, EXTERN;
+terminal SEMI, PLUS, TIMES, LPAREN, RPAREN, TRUE;
 terminal Integer NUMBER;
 
 non terminal expr_list, expr_part;
