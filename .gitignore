@@ -1,0 +1,14 @@
+	.project
+	bin/Example/
+	dist/Compiler.jar
+	dist/JFlex.jar
+	dist/java-cup-11b-runtime.jar
+	lib/.DS_Store
+	src/.DS_Store
+	src/Example/.DS_Store
+	src/Example/Scanner.java~
+	tools/.DS_Store
+
+	modified:   .DS_Store
+	modified:   bin/.DS_Store
+
