@@ -46,14 +46,12 @@ parser code {:
 	// Mute legacy Error Printing
     }
 :}
-<<<<<<< HEAD
 
 terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, FALSE, FLOAT;
-terminal SEMI, PLUS, TIMES, LPAREN, RPAREN;
-=======
+
 terminal FOR, IF, INTEGER, RETURN, VOID, WHILE, EXTERN;
 terminal SEMI, PLUS, TIMES, LPAREN, RPAREN, TRUE;
->>>>>>> 5ed391a713dfa7ccc19ceb710adaa394c90e008c
+
 terminal Integer NUMBER;
 
 non terminal expr_list, expr_part;
