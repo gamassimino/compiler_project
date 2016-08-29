@@ -26,13 +26,32 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %eofval}
 
 %%
-"bool" { return System.out.println("bool"); }
-"break" { return System.out.println("break"); }
-"class" { return System.out.println("class"); }
-"continue" { return System.out.println("continue"); }
-"else" { return System.out.println("else"); }
-"false" { return System.out.println("false"); }
-"float" { return System.out.println("float"); }
+"bool" { System.out.println("bool"); }
+"break" { System.out.println("break"); }
+"class" { System.out.println("class"); }
+"continue" { System.out.println("continue"); }
+"else" { System.out.println("else"); }
+"false" { System.out.println("false"); }
+"float" { System.out.println("float"); }
+"for" { System.out.println("FOR");}
+"if" { System.out.println("if");}
+"integer" { System.out.println("INTEGER");}
+"return" { System.out.println("RETURN");}
+"true" { System.out.println("TRUE");}
+"void" { System.out.println("VOID");}
+"while" { System.out.println("WHILE");}
+"extern" { System.out.println("EXTERN");}
+
+// "for" { return symbol("For", sym.FOR);}
+// "if" { return symbol("If", sym.IF);}
+// "integer" { return symbol("Integer", sym.INTEGER);}
+// "return" { return symbol("Return", sym.RETURN);}
+// "true" { return symbol("True", sym.TRUE);}
+// "void" { return symbol("Void", sym.VOID);}
+// "while" { return symbol("While", sym.WHILE);}
+// "extern" { return symbol("Extern", sym.EXTERN);}
+
+
 ";" { return symbol("Semicolon",sym.SEMI); }
 "+" { return symbol("Plus",sym.PLUS); }
 "*" { return symbol("Times",sym.TIMES); }
