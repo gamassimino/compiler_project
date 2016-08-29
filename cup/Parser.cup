@@ -42,11 +42,12 @@ parser code {:
 	else new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse();
     }
 
-    public void syntax_error(Symbol sym){ 
+    public void syntax_error(Symbol sym){
 	// Mute legacy Error Printing
     }
 :}
 
+terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, FALSE, FLOAT;
 terminal SEMI, PLUS, TIMES, LPAREN, RPAREN;
 terminal Integer NUMBER;
 

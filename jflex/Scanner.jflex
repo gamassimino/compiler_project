@@ -26,6 +26,13 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %eofval}
 
 %%
+"bool" { return System.out.println("bool"); }
+"break" { return System.out.println("break"); }
+"class" { return System.out.println("class"); }
+"continue" { return System.out.println("continue"); }
+"else" { return System.out.println("else"); }
+"false" { return System.out.println("false"); }
+"float" { return System.out.println("float"); }
 ";" { return symbol("Semicolon",sym.SEMI); }
 "+" { return symbol("Plus",sym.PLUS); }
 "*" { return symbol("Times",sym.TIMES); }
