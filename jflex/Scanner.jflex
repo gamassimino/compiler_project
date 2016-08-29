@@ -42,6 +42,13 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "while" { System.out.println("WHILE");}
 "extern" { System.out.println("EXTERN");}
 
+// "bool" { return symbol("Bool", sym.BOOL); }
+// "break" { return symbol("Break", sym.BREAK); }
+// "class" { return symbol("Class", sym.CLASS); }
+// "continue" { return symbol("Continue", sym.CONTINUE); }
+// "else" { return symbol("Else", sym.ELSE); }
+// "false" { return symbol("False", sym.FALSE); }
+// "float" { return symbol("Float", sym.FLOAT); }
 // "for" { return symbol("For", sym.FOR);}
 // "if" { return symbol("If", sym.IF);}
 // "integer" { return symbol("Integer", sym.INTEGER);}
