@@ -45,6 +45,9 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "or" { System.out.println("OR");}
 "not" { System.out.println("NOT");}
 "null" { System.out.println("NULL");}
+[a-z]* { System.out.println("IDENTIFIER"); }
+[A-Z]* { System.out.println("CONST"); }
+[A-Z]+[a-z]* { System.out.println("Class"); }
 
 // "bool" { return symbol("Bool", sym.BOOL); }
 // "break" { return symbol("Break", sym.BREAK); }
@@ -61,6 +64,17 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 // "void" { return symbol("Void", sym.VOID);}
 // "while" { return symbol("While", sym.WHILE);}
 // "extern" { return symbol("Extern", sym.EXTERN);}
+// "for" { return symbol("For", sym.FOR); }
+// "if" { return symbol("If", sym.IF); }
+// "integer" { return symbol("Integer", sym.INTEGER); }
+// "return" { return symbol("Return", sym.RETURN); }
+// "true" { return symbol("True", sym.TRUE); }
+// "void" { return symbol("Void", sym.VOID); }
+// "while" { return symbol("While", sym.WHILE); }
+// "extern" { return symbol("Extern", sym.EXTERN); }
+
+"//" .* { System.out.println("COMMENT IN ONE LINE"); }
+"/*"~"*/" { System.out.println("COMMENT IN SOMES LINE"); }
 
 ";" { return symbol("Semicolon",sym.SEMI); }
 "+" { return symbol("Plus",sym.PLUS); }
