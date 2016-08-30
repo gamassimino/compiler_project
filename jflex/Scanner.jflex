@@ -31,13 +31,11 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "class" { System.out.println("class"); }
 "continue" { System.out.println("continue"); }
 "else" { System.out.println("else"); }
-// "false" { System.out.println("false"); }
 "float" { System.out.println("float"); }
 "for" { System.out.println("FOR");}
 "if" { System.out.println("if");}
 "integer" { System.out.println("INTEGER");}
 "return" { System.out.println("RETURN");}
-// "true" { System.out.println("TRUE");}
 "void" { System.out.println("VOID");}
 "while" { System.out.println("WHILE");}
 "extern" { System.out.println("EXTERN");}
@@ -54,13 +52,11 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 // "class" { return symbol("Class", sym.CLASS); }A
 // "continue" { return symbol("Continue", sym.CONTINUE); }
 // "else" { return symbol("Else", sym.ELSE); }
-"false" { return symbol("False", sym.FALSE); }
 // "float" { return symbol("Float", sym.FLOAT); }
 // "for" { return symbol("For", sym.FOR);}
 // "if" { return symbol("If", sym.IF);}
 // "integer" { return symbol("Integer", sym.INTEGER);}
 // "return" { return symbol("Return", sym.RETURN);}
-"true" { return symbol("True", sym.TRUE);}
 // "void" { return symbol("Void", sym.VOID);}
 // "while" { return symbol("While", sym.WHILE);}
 // "extern" { return symbol("Extern", sym.EXTERN);}
@@ -73,8 +69,18 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 // "while" { return symbol("While", sym.WHILE); }
 // "extern" { return symbol("Extern", sym.EXTERN); }
 
+// "true" { return symbol("True", sym.TRUE);}
+// "false" { return symbol("False", sym.FALSE); }
+
+"false and". { System.out.println("false"); }
+"true or". { System.out.println("true"); }
+
+"false" { System.out.println("false"); }
+"true" { System.out.println("TRUE");}
+
 "//" .* { System.out.println("COMMENT IN ONE LINE"); }
 "/*"~"*/" { System.out.println("COMMENT IN SOMES LINE"); }
+
 
 ";" { return symbol("Semicolon",sym.SEMI); }
 "+" { return symbol("Plus",sym.PLUS); }

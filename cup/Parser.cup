@@ -4,6 +4,7 @@ import java_cup.runtime.*;
 import Example.Parser.Expr;
 
 parser code {:
+	//START INTEGER'S CODE
   public static abstract class Expr {
 		public abstract int eval();
 		public abstract Location right();
@@ -42,22 +43,44 @@ parser code {:
 	    public Location right() {return r; }
 		}
 	}
-	public static class BoolExpr{
-		Boolean l,r;
-		int s;
-		BoolExpr(Boolean l,int sym,Boolean r){
-			this.l=l;
-			this.r=r;
-			this.s = sym;
-		}
-		public Boolean eval(){
-			if (s==sym.AND)
-				return l && r;
-			else
-				return l || r;
-		}
-  }
+	//END INTEGER'S CODE
+	//START BOOLEAN'S CODE
+	// public static abstract class Booleans {
+	// 	public abstract Boolean eval();
+	// 	public abstract Location right();
+	// 	public abstract Location left();
 
+	// 	static class BoolExpr extends Booleans{
+	// 		Booleans l,r;
+	// 		int s;
+	// 		BoolExpr(Booleans l,int sym,Booleans r){
+	// 			this.l=l;
+	// 			this.r=r;
+	// 			this.s = sym;
+	// 		}
+	// 		public Boolean eval(){
+	// 			if (s==sym.AND)
+	// 				return l.eval() && r.eval();
+	// 			else
+	// 				return l.eval() || r.eval();
+	// 		}
+	// 		public Location left() { return l.left(); }
+	//     public Location right() {return r.right(); }
+	//   }
+	//   static class BoolConst extends Booleans{
+	// 		Location l,r;
+	// 		Boolean value;
+	// 		BoolConst(Location l,Boolean b,Location r){
+	// 			this.l=l;
+	// 			this.r=r;
+	// 			this.value = b;
+	// 		}
+	// 		public Boolean eval(){ return value; }
+	// 		public Location left() { return l; }
+	//     public Location right() {return r; }
+	//   }
+	// }
+	//END BOOLEAN'S CODE
     public static void main(String args[]) throws Exception {
 			ComplexSymbolFactory sf = new ComplexSymbolFactory();
 			if (args.length==0) new Parser(new Scanner(System.in,sf),sf).parse();
@@ -69,15 +92,16 @@ parser code {:
    	}
 :}
 
-terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, FALSE, FLOAT;
+terminal BREAK, CLASS, CONTINUE, ELSE, FALSE, FLOAT;
 terminal FOR, IF, INTEGER, RETURN, VOID, WHILE, EXTERN;
 terminal SEMI, PLUS, MINUS, TIMES, LPAREN, RPAREN, TRUE;
 terminal AND, OR, NOT, NULL;
 terminal Integer NUMBER;
+terminal Boolean BOOL;
 
 non terminal expr_list, expr_part;
 non terminal Expr expr;
-non terminal expr_bool;
+non terminal Booleans expr_bool;
 
 precedence left PLUS;
 precedence left MINUS;
@@ -93,10 +117,13 @@ expr      ::= NUMBER:n {: RESULT= new Expr.Const(nxleft,n,nxright); :}
 					    | expr:l TIMES expr:r {: RESULT = new Expr.BinExpr(l,sym.TIMES,r); :}
 					    | LPAREN expr:e RPAREN {: RESULT = e; :};
 
-// expr_bool ::= TRUE
-// 							|FALSE
-// 							|expr_bool:l AND sym_bool:r {: RESULT = new BoolExpr(l,sym.AND,r); :};
-							// |expr_bool:l OR expr_bool:r {: RESULT = new BoolExpr(l,sym.OR,r); :};
+expr_bool ::= BOOL:b {: RESULT= new Booleans.BoolConst(nxleft,b,nxright); :}
+							|expr_bool:l AND expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.AND,r); :}
+							|expr_bool:l OR expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.OR,r); :};
+
+program ::= class_decl | program class_decl;
+
+class_decl ::= CLASS id "{" "}"
 
 
 
