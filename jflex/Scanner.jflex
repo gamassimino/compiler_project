@@ -14,15 +14,15 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 		this.sf=sf;
 	}
 	public Symbol symbol(String plaintext,int code){
-	    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar));
+    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar));
 	}
 	public Symbol symbol(String plaintext,int code,Integer number){
-	    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
+    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
 	}
 	private ComplexSymbolFactory sf;
 %}
 %eofval{
-    return sf.newSymbol("EOF",sym.EOF);
+  return sf.newSymbol("EOF",sym.EOF);
 %eofval}
 
 %%
@@ -45,9 +45,11 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "or" { System.out.println("OR");}
 "not" { System.out.println("NOT");}
 "null" { System.out.println("NULL");}
+
+
 [a-z]* { System.out.println("IDENTIFIER"); }
 [A-Z]* { System.out.println("CONST"); }
-[A-Z]+[a-z]* { System.out.println("Class"); }
+[A-Z]+[a-z]* { System.out.println("CLASS"); }
 
 // "bool" { return symbol("Bool", sym.BOOL); }
 // "break" { return symbol("Break", sym.BREAK); }
@@ -82,6 +84,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "*" { return symbol("Times",sym.TIMES); }
 "(" { return symbol("Left Bracket",sym.LPAREN); }
 ")" { return symbol("Right Bracket",sym.RPAREN); }
-[0-9]+ { return symbol("Integral Number",sym.NUMBER, new Integer(yytext())); }
+[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER, new Integer(yytext())); }
+// \d+"."\d+ { return symbol("FloatNumber",sym.NUMBERFLOAT, new Float(yytext())); }
+[0-9]+"."[0-9]* { System.out.println("Number Point Float"); }
 [ \t\r\n\f] { /* ignore white space. */ }
 . { System.err.println("Illegal character: "+yytext()); }
