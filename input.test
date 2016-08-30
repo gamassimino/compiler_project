@@ -33,8 +33,13 @@ bool //puto 4+4 bool integer iasdasdkasdjkh120-348a578`
  d a
  sd a
  d !~@#$%^&@!#$%^&*^#& */
+<<<<<<< HEAD
 bool;
 bool;
 bool;
 false and true;
 true or false;
+=======
+bool
+float 1.2343
+>>>>>>> aa98c33f6c601f5549f1b90b274ff2f860705314

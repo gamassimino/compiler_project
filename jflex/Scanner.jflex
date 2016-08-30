@@ -14,15 +14,15 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 		this.sf=sf;
 	}
 	public Symbol symbol(String plaintext,int code){
-	    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar));
+    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar));
 	}
 	public Symbol symbol(String plaintext,int code,Integer number){
-	    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
+    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
 	}
 	private ComplexSymbolFactory sf;
 %}
 %eofval{
-    return sf.newSymbol("EOF",sym.EOF);
+  return sf.newSymbol("EOF",sym.EOF);
 %eofval}
 
 %%
@@ -43,9 +43,11 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "or" { System.out.println("OR");}
 "not" { System.out.println("NOT");}
 "null" { System.out.println("NULL");}
+
+
 [a-z]* { System.out.println("IDENTIFIER"); }
 [A-Z]* { System.out.println("CONST"); }
-[A-Z]+[a-z]* { System.out.println("Class"); }
+[A-Z]+[a-z]* { System.out.println("CLASS"); }
 
 // "bool" { return symbol("Bool", sym.BOOL); }
 // "break" { return symbol("Break", sym.BREAK); }
@@ -72,22 +74,28 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 // "true" { return symbol("True", sym.TRUE);}
 // "false" { return symbol("False", sym.FALSE); }
 
-"false and". { System.out.println("false"); }
-"true or". { System.out.println("true"); }
+// "false and". { System.out.println("false"); }
+// "true or". { System.out.println("true"); }
 
-"false" { System.out.println("false"); }
-"true" { System.out.println("TRUE");}
+// "false" { System.out.println("false"); }
+// "true" { System.out.println("TRUE");}
 
 "//" .* { System.out.println("COMMENT IN ONE LINE"); }
 "/*"~"*/" { System.out.println("COMMENT IN SOMES LINE"); }
 
-
+"," { return symbol("Comma",sym.COMMA); }
 ";" { return symbol("Semicolon",sym.SEMI); }
 "+" { return symbol("Plus",sym.PLUS); }
 "-" { return symbol("Minus",sym.MINUS); }
 "*" { return symbol("Times",sym.TIMES); }
-"(" { return symbol("Left Bracket",sym.LPAREN); }
-")" { return symbol("Right Bracket",sym.RPAREN); }
-[0-9]+ { return symbol("Integral Number",sym.NUMBER, new Integer(yytext())); }
+"(" { return symbol("Left Parenthesis",sym.LPAREN); }
+"[" { return symbol("Left Bracket",sym.LBRACKET); }
+"{" { return symbol("Left Parenthesis",sym.LKEY); }
+")" { return symbol("Right Parenthesis",sym.RPAREN); }
+"]" { return symbol("Right Bracket",sym.RBRACKET); }
+"}" { return symbol("Right Parenthesis",sym.RKEY); }
+[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER, new Integer(yytext())); }
+// \d+"."\d+ { return symbol("FloatNumber",sym.NUMBERFLOAT, new Float(yytext())); }
+[0-9]+"."[0-9]* { System.out.println("Number Point Float"); }
 [ \t\r\n\f] { /* ignore white space. */ }
 . { System.err.println("Illegal character: "+yytext()); }

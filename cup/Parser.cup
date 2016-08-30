@@ -6,43 +6,6 @@ import Example.Parser.Expr;
 parser code {:
 	//START INTEGER'S CODE
   public static abstract class Expr {
-		public abstract int eval();
-		public abstract Location right();
-		public abstract Location left();
-		static class BinExpr extends Expr {
-			Expr l,r;
-		  int s;
-		  BinExpr(Expr l, int sym,Expr r){
-				this.l=l;
-				this.r=r;
-				this.s=sym;
-	    }
-		  public int eval(){
-				if (s==sym.PLUS)
-					return l.eval() + r.eval();
-				else{
-					if (s==sym.MINUS)
-						return l.eval() - r.eval();
-				 	else
-				 		return l.eval() * r.eval();
-				}
-		  }
-	    public Location left() { return l.left(); }
-	    public Location right() {return r.right(); }
-		}
-		static class Const extends Expr {
-	    Location l,r;
-	    Integer value;
-	    Const(Location l,Integer i,Location r){
-				this.l=l;
-				this.r=r;
-				this.value = i;
-	    }
-	    public int eval(){ return value;  }
-	    public Location left() { return l; }
-	    public Location right() {return r; }
-		}
-	}
 	//END INTEGER'S CODE
 	//START BOOLEAN'S CODE
 	// public static abstract class Booleans {
@@ -81,23 +44,76 @@ parser code {:
 	//   }
 	// }
 	//END BOOLEAN'S CODE
-    public static void main(String args[]) throws Exception {
-			ComplexSymbolFactory sf = new ComplexSymbolFactory();
-			if (args.length==0) new Parser(new Scanner(System.in,sf),sf).parse();
-			else new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse();
+  public abstract int eval();
+  public abstract Location right();
+  public abstract Location left();
+    static class BinExpr extends Expr {
+      Expr l,r;
+      int s;
+      BinExpr(Expr l, int sym,Expr r){
+        this.l=l;
+        this.r=r;
+        this.s=sym;
+      }
+      public int eval(){
+        if (s==sym.PLUS) return l.eval() + r.eval();
+        else return l.eval() * r.eval();
+      }
+      public Location left() { return l.left(); }
+      public Location right() {return r.right(); }
     }
 
-    public void syntax_error(Symbol sym){
-		// Mute legacy Error Printing
-   	}
+    static class FloatExpr extends Expr {
+      Expr l,r;
+      int s;
+      FloatExpr(Expr l, int sym,Expr r){
+        this.l=l;
+        this.r=r;
+        this.s=sym;
+      }
+
+      public int eval(){
+        if (s==sym.PLUS) return l.eval() + r.eval();
+        else return l.eval() * r.eval();
+      }
+      public Location left() { return l.left(); }
+      public Location right() {return r.right(); }
+    }
+
+    static class Const extends Expr {
+      Location l,r;
+      Integer value;
+      Const(Location l,Integer i,Location r){
+        this.l=l;
+        this.r=r;
+        this.value = i;
+      }
+      public int eval(){ return value;  }
+      public Location left() { return l; }
+      public Location right() {return r; }
+    }
+  }
+
+  public static void main(String args[]) throws Exception {
+    ComplexSymbolFactory sf = new ComplexSymbolFactory();
+    if (args.length==0) new Parser(new Scanner(System.in,sf),sf).parse();
+    else new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse();
+  }
+
+  public void syntax_error(Symbol sym){
+    // Mute legacy Error Printing
+  }
 :}
 
-terminal BREAK, CLASS, CONTINUE, ELSE, FALSE, FLOAT;
+terminal BREAK, CLASS, CONTINUE, ELSE, FLOAT;
 terminal FOR, IF, INTEGER, RETURN, VOID, WHILE, EXTERN;
-terminal SEMI, PLUS, MINUS, TIMES, LPAREN, RPAREN, TRUE;
+terminal PLUS, MINUS, TIMES;
 terminal AND, OR, NOT, NULL;
+terminal SEMI, COMMA
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, LKEY, RKEY;
+terminal BOOL, TRUE, FALSE;
 terminal Integer NUMBER;
-terminal Boolean BOOL;
+terminal Float NUMBERFLOAT;
 
 non terminal expr_list, expr_part;
 non terminal Expr expr;
@@ -109,21 +125,42 @@ precedence left TIMES;
 
 expr_list ::= expr_list expr_part | expr_part;
 expr_part ::= expr:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
-            | error:e SEMI:s {: parser.report_error("Syntax error in input from "+exleft +" to "+sxright,e); :}
-            ;
+            | error:e SEMI:s {: parser.report_error("Syntax error in input from "+exleft +" to "+sxright,e); :};
+
 expr      ::= NUMBER:n {: RESULT= new Expr.Const(nxleft,n,nxright); :}
             	| expr:l PLUS expr:r {: RESULT = new Expr.BinExpr(l,sym.PLUS,r); :}
 					    | expr:l MINUS expr:r {: RESULT = new Expr.BinExpr(l,sym.MINUS,r); :}
 					    | expr:l TIMES expr:r {: RESULT = new Expr.BinExpr(l,sym.TIMES,r); :}
 					    | LPAREN expr:e RPAREN {: RESULT = e; :};
 
-expr_bool ::= BOOL:b {: RESULT= new Booleans.BoolConst(nxleft,b,nxright); :}
-							|expr_bool:l AND expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.AND,r); :}
-							|expr_bool:l OR expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.OR,r); :};
+// expr_bool ::= BOOL:b {: RESULT= new Booleans.BoolConst(nxleft,b,nxright); :}
+// 							|expr_bool:l AND expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.AND,r); :}
+// 							|expr_bool:l OR expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.OR,r); :};
+
+
+// fexp     ::= NUMBERFLOAT:n {: RESULT= new Expr.Const(nxleft,n,nxright); :}
+//            | fexp:l PLUS fexp:r {: RESULT=new Expr.FloatExpr(l,sym.PLUS,r); :}
+//            | fexp:l TIMES fexp:r {: RESULT=new Expr.FloatExpr(l,sym.TIMES,r); :}
+//            | LPAREN fexp:e RPAREN {: RESULT=e; :};
+
 
 program ::= class_decl | program class_decl;
 
-class_decl ::= CLASS id "{" "}"
+class_decl ::= CLASS id LKEY field_decl method_decl RKEY
+						| CLASS id LKEY field_decl RKEY
+						| CLASS id LKEY method_decl RKEY
+						| CLASS id LKEY RKEY
 
+field_decl ::= type id SEMI
+							|type id LBRACKET int_literal RBRACKET SEMI
+							|type field_decl_aux SEMI
 
+field_decl_aux ::= id
+									|id LBRACKET int_literal RBRACKET
+									|NULL
 
+method_decl ::= type id LPAREN  RPAREN
+
+id ::=
+
+typr ::=
