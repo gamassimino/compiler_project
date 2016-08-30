@@ -4,74 +4,99 @@ import java_cup.runtime.*;
 import Example.Parser.Expr;
 
 parser code {:
-    public static abstract class Expr {
-	public abstract int eval();
-	public abstract Location right();
-	public abstract Location left();
-	static class BinExpr extends Expr {
-	    Expr l,r;
-	    int s;
-	    BinExpr(Expr l, int sym,Expr r){
-		this.l=l;
-		this.r=r;
-		this.s=sym;
+  public static abstract class Expr {
+		public abstract int eval();
+		public abstract Location right();
+		public abstract Location left();
+		static class BinExpr extends Expr {
+			Expr l,r;
+		  int s;
+		  BinExpr(Expr l, int sym,Expr r){
+				this.l=l;
+				this.r=r;
+				this.s=sym;
 	    }
-	    public int eval(){
-		if (s==sym.PLUS) return l.eval() + r.eval();
-		else return l.eval() * r.eval();
-	    }
+		  public int eval(){
+				if (s==sym.PLUS)
+					return l.eval() + r.eval();
+				else{
+					if (s==sym.MINUS)
+						return l.eval() - r.eval();
+				 	else
+				 		return l.eval() * r.eval();
+				}
+		  }
 	    public Location left() { return l.left(); }
 	    public Location right() {return r.right(); }
-	}
-	static class Const extends Expr {
+		}
+		static class Const extends Expr {
 	    Location l,r;
 	    Integer value;
 	    Const(Location l,Integer i,Location r){
-		this.l=l;
-		this.r=r;
-		this.value = i;
+				this.l=l;
+				this.r=r;
+				this.value = i;
 	    }
 	    public int eval(){ return value;  }
 	    public Location left() { return l; }
 	    public Location right() {return r; }
+		}
 	}
-    }
+	public static class BoolExpr{
+		Boolean l,r;
+		int s;
+		BoolExpr(Boolean l,int sym,Boolean r){
+			this.l=l;
+			this.r=r;
+			this.s = sym;
+		}
+		public Boolean eval(){
+			if (s==sym.AND)
+				return l && r;
+			else
+				return l || r;
+		}
+  }
+
     public static void main(String args[]) throws Exception {
-	ComplexSymbolFactory sf = new ComplexSymbolFactory();
-	if (args.length==0) new Parser(new Scanner(System.in,sf),sf).parse();
-	else new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse();
+			ComplexSymbolFactory sf = new ComplexSymbolFactory();
+			if (args.length==0) new Parser(new Scanner(System.in,sf),sf).parse();
+			else new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse();
     }
 
     public void syntax_error(Symbol sym){
-	// Mute legacy Error Printing
-    }
+		// Mute legacy Error Printing
+   	}
 :}
-<<<<<<< HEAD
 
 terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, FALSE, FLOAT;
-terminal SEMI, PLUS, TIMES, LPAREN, RPAREN;
-=======
 terminal FOR, IF, INTEGER, RETURN, VOID, WHILE, EXTERN;
-terminal SEMI, PLUS, TIMES, LPAREN, RPAREN, TRUE;
->>>>>>> 5ed391a713dfa7ccc19ceb710adaa394c90e008c
+terminal SEMI, PLUS, MINUS, TIMES, LPAREN, RPAREN, TRUE;
+terminal AND, OR, NOT, NULL;
 terminal Integer NUMBER;
 
 non terminal expr_list, expr_part;
 non terminal Expr expr;
+non terminal expr_bool;
 
 precedence left PLUS;
+precedence left MINUS;
 precedence left TIMES;
 
 expr_list ::= expr_list expr_part | expr_part;
 expr_part ::= expr:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
             | error:e SEMI:s {: parser.report_error("Syntax error in input from "+exleft +" to "+sxright,e); :}
             ;
-expr      ::= NUMBER:n
-              {: RESULT= new Expr.Const(nxleft,n,nxright); :}
-            | expr:l PLUS expr:r
-	    {: RESULT=new Expr.BinExpr(l,sym.PLUS,r); :}
-	    | expr:l TIMES expr:r
-	    {: RESULT=new Expr.BinExpr(l,sym.TIMES,r); :}
-	    | LPAREN expr:e RPAREN
-	      {: RESULT=e; :}
-	    ;
+expr      ::= NUMBER:n {: RESULT= new Expr.Const(nxleft,n,nxright); :}
+            	| expr:l PLUS expr:r {: RESULT = new Expr.BinExpr(l,sym.PLUS,r); :}
+					    | expr:l MINUS expr:r {: RESULT = new Expr.BinExpr(l,sym.MINUS,r); :}
+					    | expr:l TIMES expr:r {: RESULT = new Expr.BinExpr(l,sym.TIMES,r); :}
+					    | LPAREN expr:e RPAREN {: RESULT = e; :};
+
+// expr_bool ::= TRUE
+// 							|FALSE
+// 							|expr_bool:l AND sym_bool:r {: RESULT = new BoolExpr(l,sym.AND,r); :};
+							// |expr_bool:l OR expr_bool:r {: RESULT = new BoolExpr(l,sym.OR,r); :};
+
+
+
