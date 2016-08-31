@@ -155,7 +155,8 @@ terminal FOR, WHILE;
 terminal VOID, NULL;
 terminal CLASS;
 terminal RETURN, EXTERN;
-terminal SEMI, LPAREN, RPAREN, LBRACKET, RBRACKET, LKEY, RKEY;
+terminal SEMI, COMMA;
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, LKEY, RKEY;
 terminal AND, OR, NOT;
 terminal PERCENTAGE, DIVIDED,PLUS, MINUS, TIMES;
 terminal LESS, LESSOREQ;
@@ -200,6 +201,14 @@ expr      ::=   NUMBER_I:n {: RESULT= new Expr.Const_i(nxleft,n,nxright); :}
               | expr:l DIVIDED expr:r {: RESULT = new Expr.BinExpr(l,sym.DIVIDED,r); :}
               | LPAREN expr:e RPAREN {: RESULT = e; :};
 
+expr ::= location
+       | method_call
+       | literal
+       | expr bin_op expr
+       | MINUS expr
+       | NOT expr
+       | LPAREN expr RPAREN
+
 boolexp   ::=   TRUE:t {: RESULT= new Expr.Const_b(null, t, null); :}
               | FALSE:f {: RESULT= new Expr.Const_b(null, f, null); :}
               | boolexp:l AND boolexp:r {: RESULT = new Expr.BooleanExpr(l, sym.AND, r); :}
@@ -225,14 +234,14 @@ field_decl ::= type id SEMI
               |type id LBRACKET int_literal RBRACKET SEMI
               |type field_decl_aux SEMI
 
-field_decl_aux ::= id
-                  |id LBRACKET int_literal RBRACKET
+field_decl_aux ::= id COMMA field_decl_aux
+                  |id LBRACKET int_literal RBRACKET COMMA field_decl_aux
                   |NULL
 
 method_decl ::= type id LPAREN param RPAREN body
                 |type id LPAREN RPAREN body
 
-param ::= type id |type id COMA param
+param ::= type id |type id COMMA param
 
 body ::= block | EXTERN SEMI
 
@@ -243,6 +252,20 @@ field_decl_aux ::= field_decl field_decl_aux | NULL
 statement_aux ::= statement statement_aux | NULL
 
 type ::= INTEGER | FLOAT | BOOL | id | VOID
+
+statement ::= location assignop expr SEMI
+            | method_call
+            |IF LPAREN expr RPAREN statement optional_else
+            |FOR id EQUAL expr COMMA expr statement
+            |WHILE expr statement
+            |RETURN expr SEMI
+            |RETURN NULL SEMI
+            |BREAK SEMI
+            |CONTINUE SEMI
+            |SEMI
+            |block
+
+optional_else ::= ELSE statement | NULL
 
 assignop := EQUAL | ADDASSIGNMENT | SUBASSIGNMENT
 
