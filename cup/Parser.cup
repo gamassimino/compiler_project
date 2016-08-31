@@ -236,33 +236,33 @@ lambda ::= ;
 program ::= class_decl | program class_decl;
 
 class_decl ::= CLASS ID LKEY field_decl_list method_decl RKEY
-            | CLASS ID LKEY field_decl RKEY
-            | CLASS ID LKEY method_decl RKEY
-            | CLASS ID LKEY RKEY;
+             | CLASS ID LKEY field_decl RKEY
+             | CLASS ID LKEY method_decl RKEY
+             | CLASS ID LKEY RKEY;
 
-field_decl_list ::= field_decl | field_decl_list field_decl;
+field_decl_list ::= field_decl
+                  | field_decl_list field_decl;
 
 field_decl ::= type id_list SEMI;
 
-id_list ::= id_name | id_list COMMA id_name;
+id_list ::= id_name 
+          | id_list COMMA id_name;
 
 id_name ::= ID | ID LBRACKET NUMBER_I RBRACKET;
 
 method_decl ::=  type ID LPAREN param RPAREN body
                | type ID LPAREN RPAREN body;
 
-param ::= type ID |type ID COMMA param;
+param ::= type ID 
+        | type ID COMMA param;
 
 body ::=  block
         | EXTERN SEMI;
 
-block ::=  LKEY field_decl statement RKEY
-         | LKEY field_decl RKEY
-         | LKEY statement RKEY
-         | LKEY RKEY;
-
-// field_decl_aux ::= field_decl field_decl_aux | NULL
-
+block ::= LKEY field_decl statement RKEY
+        | LKEY field_decl RKEY
+        | LKEY statement RKEY
+        | LKEY RKEY;
 
 type ::= INTEGER | FLOAT | BOOL | ID | VOID;
 
@@ -278,23 +278,28 @@ statement ::= location assignop expr SEMI
             | SEMI
             | block;
 
-optional_else ::= ELSE statement | lambda ;
+optional_else ::= ELSE statement 
+                | lambda ;
 
 assignop ::= EQUAL | ADDASSIGNMENT | SUBASSIGNMENT;
 
 method_call ::= ID navigation LPAREN method_expr RPAREN
-              |ID LPAREN method_expr RPAREN
-              |ID navigation LPAREN RPAREN
-              |ID LPAREN RPAREN;
+              | ID LPAREN method_expr RPAREN
+              | ID navigation LPAREN RPAREN
+              | ID LPAREN RPAREN;
 
 navigation ::= POINT ID | navigation POINT ID;
 
-method_expr ::= expr | method_expr COMMA expr;
+method_expr ::= expr
+              | method_expr COMMA expr;
 
 location ::= ID navigation
-            |ID navigation LBRACKET expr RBRACKET;
+           | ID navigation LBRACKET expr RBRACKET;
 
-bin_op ::= arith_op | rel_op | eq_op | cond_op;
+bin_op ::= arith_op
+         | rel_op
+         | eq_op
+         | cond_op;
 
 arith_op ::= PLUS | MINUS | TIMES | DIVIDED | PERCENTAGE;
 

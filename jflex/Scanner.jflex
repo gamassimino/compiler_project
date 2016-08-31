@@ -32,12 +32,6 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %eofval}
 
 %%
-// ### Class Declaration ###
-[A-Z]+[a-z]* { System.out.println("CLASS"); }
-
-// ### Const Declaration ###
-[A-Z]* { System.out.println("CONST"); }
-
 // ### Others ###
 "break" { return symbol("Break", sym.BREAK); }
 "class" { return symbol("Class", sym.CLASS); }
@@ -110,7 +104,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "]" { return symbol("Right Bracket",sym.RBRACKET); }
 
 // ### Identifier ###
-[a-z]* { return symbol("Id", sym.ID); }
+[a-z]+[a-zA-Z0-9]* { return symbol("Id", sym.ID); }
 
 [ \t\r\n\f] { /* ignore white space. */ }
 . { System.err.println("Illegal character: "+yytext()); }
