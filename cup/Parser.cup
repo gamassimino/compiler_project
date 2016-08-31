@@ -33,7 +33,7 @@ parser code {:
       public Location left() { return l.left(); }
       public Location right() { return r.right(); }
     }
-    // - - - - - - - - - 
+    // - - - - - - - - -
     static class Const_i extends Expr<Integer> {
       Location l,r;
       Integer value;
@@ -76,7 +76,7 @@ parser code {:
       public Location left() { return l.left(); }
       public Location right() { return r.right(); }
     }
-    // - - - - - - - - - 
+    // - - - - - - - - -
     static class Const_f extends Expr<Float> {
       Location l,r;
       Float value;
@@ -117,7 +117,7 @@ parser code {:
       public Location left() { return l.left(); }
       public Location right() { return r.right(); }
     }
-    // - - - - - - - - - 
+    // - - - - - - - - -
     static class Const_b extends Expr<Boolean> {
       Location l,r;
       Boolean value;
@@ -155,7 +155,7 @@ terminal FOR, WHILE;
 terminal VOID, NULL;
 terminal CLASS;
 terminal RETURN, EXTERN;
-terminal SEMI, LPAREN, RPAREN;
+terminal SEMI, LPAREN, RPAREN, LBRACKET, RBRACKET, LKEY, RKEY;
 terminal AND, OR, NOT;
 terminal PERCENTAGE, DIVIDED,PLUS, MINUS, TIMES;
 terminal LESS, LESSOREQ;
@@ -175,7 +175,7 @@ non terminal Expr fexp;
 non terminal bin_op, arith_op, rel_op, eq_op;
 non terminal cond_op, literal, id , alpha_num_aux;
 non terminal alpha_num, alpha, digit, int_literal;
-non terminal int_literal_aux, bool_literal, flaot_literal; 
+non terminal int_literal_aux, bool_literal, flaot_literal;
 
 precedence left PLUS;
 precedence left MINUS;
@@ -211,12 +211,54 @@ fexp      ::=   NUMBER_F:n {: RESULT= new Expr.Const_f(nxleft,n,nxright); :}
               | fexp:l TIMES fexp:r {: RESULT = new Expr.FloatExpr(l,sym.TIMES,r); :}
               | fexp:l MINUS fexp:r {: RESULT = new Expr.FloatExpr(l,sym.MINUS,r); :}
               | fexp:l DIVIDED fexp:r {: RESULT = new Expr.FloatExpr(l,sym.DIVIDED,r); :}
-              | LPAREN fexp:e RPAREN {: RESULT = e; :};  
+              | LPAREN fexp:e RPAREN {: RESULT = e; :};
+
+
+program ::= class_decl | program class_decl;
+
+class_decl ::= CLASS id LKEY field_decl method_decl RKEY
+            | CLASS id LKEY field_decl RKEY
+            | CLASS id LKEY method_decl RKEY
+            | CLASS id LKEY RKEY
+
+field_decl ::= type id SEMI
+              |type id LBRACKET int_literal RBRACKET SEMI
+              |type field_decl_aux SEMI
+
+field_decl_aux ::= id
+                  |id LBRACKET int_literal RBRACKET
+                  |NULL
+
+method_decl ::= type id LPAREN param RPAREN body
+                |type id LPAREN RPAREN body
+
+param ::= type id |type id COMA param
+
+body ::= block | EXTERN SEMI
+
+block ::= LKEY field_decl_aux statement_aux RKEY
+
+field_decl_aux ::= field_decl field_decl_aux | NULL
+
+statement_aux ::= statement statement_aux | NULL
+
+type ::= INTEGER | FLOAT | BOOL | id | VOID
+
+assignop := EQUAL | ADDASSIGNMENT | SUBASSIGNMENT
+
+method_call ::= id navigation LPAREN method_expr RPAREN
+
+navigation ::= POINT id | POINT id navigation | NULL
+
+method_expr ::= expr | expr SEMI method_expr | NULL
+
+location ::= id navigation
+            |id navigation LBRACKET expr RBRACKET
 
 // bin_op ::= arith_op | rel_op | eq_op | cond_op
 
 // arith_op ::= PLUS | MINUS | TIMES | DIVIDED | PERCENTAGE
- 
+
 // rel_op ::= LESS | GREATER | LESSOREQ | GREATEROREQ
 
 // eq_op ::= EQUALTO | NOTEQUALTO
