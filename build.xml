@@ -20,7 +20,6 @@
     <cup srcfile="${cup}/Parser.cup"      destdir="${src}" 
          interface="true" parser="Parser" locations="true"   />
   </target>
-
   
   <path id="libraries">
     <files includes="${lib}/java-cup-11b-runtime.jar" />

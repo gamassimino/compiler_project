@@ -4,91 +4,74 @@ import java_cup.runtime.*;
 import Example.Parser.Expr;
 
 parser code {:
-	//START INTEGER'S CODE
-  public static abstract class Expr {
-	//END INTEGER'S CODE
-	//START BOOLEAN'S CODE
-	// public static abstract class Booleans {
-	// 	public abstract Boolean eval();
-	// 	public abstract Location right();
-	// 	public abstract Location left();
-
-	// 	static class BoolExpr extends Booleans{
-	// 		Booleans l,r;
-	// 		int s;
-	// 		BoolExpr(Booleans l,int sym,Booleans r){
-	// 			this.l=l;
-	// 			this.r=r;
-	// 			this.s = sym;
-	// 		}
-	// 		public Boolean eval(){
-	// 			if (s==sym.AND)
-	// 				return l.eval() && r.eval();
-	// 			else
-	// 				return l.eval() || r.eval();
-	// 		}
-	// 		public Location left() { return l.left(); }
-	//     public Location right() {return r.right(); }
-	//   }
-	//   static class BoolConst extends Booleans{
-	// 		Location l,r;
-	// 		Boolean value;
-	// 		BoolConst(Location l,Boolean b,Location r){
-	// 			this.l=l;
-	// 			this.r=r;
-	// 			this.value = b;
-	// 		}
-	// 		public Boolean eval(){ return value; }
-	// 		public Location left() { return l; }
-	//     public Location right() {return r; }
-	//   }
-	// }
-	//END BOOLEAN'S CODE
-  public abstract int eval();
-  public abstract Location right();
-  public abstract Location left();
-    static class BinExpr extends Expr {
-      Expr l,r;
+  public static abstract class Expr<T> {
+    public abstract T eval();
+    public abstract Location right();
+    public abstract Location left();
+    static class BinExpr extends Expr<Integer> {
+      Expr<Integer> l,r;
       int s;
-      BinExpr(Expr l, int sym,Expr r){
-        this.l=l;
-        this.r=r;
-        this.s=sym;
-      }
-      public int eval(){
-        if (s==sym.PLUS) return l.eval() + r.eval();
-        else return l.eval() * r.eval();
-      }
-      public Location left() { return l.left(); }
-      public Location right() {return r.right(); }
-    }
-
-    static class FloatExpr extends Expr {
-      Expr l,r;
-      int s;
-      FloatExpr(Expr l, int sym,Expr r){
+      BinExpr(Expr<Integer> l, int sym, Expr<Integer> r){
         this.l=l;
         this.r=r;
         this.s=sym;
       }
 
-      public int eval(){
-        if (s==sym.PLUS) return l.eval() + r.eval();
-        else return l.eval() * r.eval();
+      public Integer eval(){
+        if (s == sym.PLUS) return l.eval() + r.eval();
+        if (s == sym.TIMES) return l.eval() * r.eval();
+        if (s == sym.MINUS) return l.eval() - r.eval();
+        if (s == sym.DIVIDED) return l.eval() / r.eval(); // trow and exception
+        return 0;
       }
+
       public Location left() { return l.left(); }
-      public Location right() {return r.right(); }
+      public Location right() { return r.right(); }
     }
 
-    static class Const extends Expr {
+    static class FloatExpr extends Expr<Float> {
+      Expr<Float> l,r;
+      int s;
+      FloatExpr(Expr<Float> l, int sym, Expr<Float> r){
+        this.l=l;
+        this.r=r;
+        this.s=sym;
+      }
+
+      public Float eval(){
+        if (s == sym.PLUS) return l.eval() + r.eval();
+        if (s == sym.TIMES) return l.eval() * r.eval();
+        if (s == sym.MINUS) return l.eval() - r.eval();
+        if (s == sym.DIVIDED) return l.eval() / r.eval(); // trow and exception
+        return new Float(0);
+      }
+
+      public Location left() { return l.left(); }
+      public Location right() { return r.right(); }
+    }
+
+    static class Const_i extends Expr<Integer> {
       Location l,r;
       Integer value;
-      Const(Location l,Integer i,Location r){
+      Const_i(Location l,Integer i,Location r){
         this.l=l;
         this.r=r;
         this.value = i;
       }
-      public int eval(){ return value;  }
+      public Integer eval(){ return value;  }
+      public Location left() { return l; }
+      public Location right() {return r; }
+    }
+
+    static class Const_f extends Expr<Float> {
+      Location l,r;
+      Float value;
+      Const_f(Location l, Float i, Location r){
+        this.l=l;
+        this.r=r;
+        this.value = i;
+      }
+      public Float eval(){ return value;  }
       public Location left() { return l; }
       public Location right() {return r; }
     }
@@ -105,19 +88,27 @@ parser code {:
   }
 :}
 
-terminal BREAK, CLASS, CONTINUE, ELSE, FLOAT;
+terminal BOOL, BREAK, CLASS, CONTINUE, ELSE, FALSE, FLOAT;
 terminal FOR, IF, INTEGER, RETURN, VOID, WHILE, EXTERN;
-terminal PLUS, MINUS, TIMES;
+terminal SEMI, PLUS, MINUS, TIMES, LPAREN, RPAREN, TRUE;
 terminal AND, OR, NOT, NULL;
-terminal SEMI, COMMA
-terminal LPAREN, RPAREN, LBRACKET, RBRACKET, LKEY, RKEY;
-terminal BOOL, TRUE, FALSE;
-terminal Integer NUMBER;
-terminal Float NUMBERFLOAT;
+terminal Integer NUMBER_I;
+terminal Float NUMBER_F;
+terminal PERCENTAGE, DIVIDED;
+terminal LESS, LESSOREQ;
+terminal GREATER, GREATEROREQ;
+
+terminal EQUALTO, NOTEQUALTO;
 
 non terminal expr_list, expr_part;
 non terminal Expr expr;
-non terminal Booleans expr_bool;
+non terminal expr_bool;
+non terminal Expr fexp;
+
+non terminal bin_op, arith_op, rel_op, eq_op;
+non terminal cond_op, literal, id , alpha_num_aux;
+non terminal alpha_num, alpha, digit, int_literal;
+non terminal int_literal_aux, bool_literal, flaot_literal; 
 
 precedence left PLUS;
 precedence left MINUS;
@@ -125,42 +116,52 @@ precedence left TIMES;
 
 expr_list ::= expr_list expr_part | expr_part;
 expr_part ::= expr:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
-            | error:e SEMI:s {: parser.report_error("Syntax error in input from "+exleft +" to "+sxright,e); :};
+            | fexp:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
 
-expr      ::= NUMBER:n {: RESULT= new Expr.Const(nxleft,n,nxright); :}
+            | error:e SEMI:s {: parser.report_error("Syntax error in input from "+exleft +" to "+sxright,e); :};
+expr      ::= NUMBER_I:n {: RESULT= new Expr.Const_i(nxleft,n,nxright); :}
             	| expr:l PLUS expr:r {: RESULT = new Expr.BinExpr(l,sym.PLUS,r); :}
 					    | expr:l MINUS expr:r {: RESULT = new Expr.BinExpr(l,sym.MINUS,r); :}
 					    | expr:l TIMES expr:r {: RESULT = new Expr.BinExpr(l,sym.TIMES,r); :}
 					    | LPAREN expr:e RPAREN {: RESULT = e; :};
 
-// expr_bool ::= BOOL:b {: RESULT= new Booleans.BoolConst(nxleft,b,nxright); :}
-// 							|expr_bool:l AND expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.AND,r); :}
-// 							|expr_bool:l OR expr_bool:r {: RESULT = new Booleans.BoolExpr(l,sym.OR,r); :};
+// expr_bool ::= TRUE
+// 							|FALSE
+// 							|expr_bool:l AND sym_bool:r {: RESULT = new BoolExpr(l,sym.AND,r); :};
+							// |expr_bool:l OR expr_bool:r {: RESULT = new BoolExpr(l,sym.OR,r); :};
 
+fexp     ::= NUMBER_F:n {: RESULT= new Expr.Const_f(nxleft,n,nxright); :}
+           | fexp:l PLUS fexp:r {: RESULT=new Expr.FloatExpr(l,sym.PLUS,r); :}
+           | fexp:l TIMES fexp:r {: RESULT=new Expr.FloatExpr(l,sym.TIMES,r); :}
+           | fexp:l MINUS fexp:r {: RESULT=new Expr.FloatExpr(l,sym.MINUS,r); :}
+           | LPAREN fexp:e RPAREN {: RESULT = e; :};  
 
-// fexp     ::= NUMBERFLOAT:n {: RESULT= new Expr.Const(nxleft,n,nxright); :}
-//            | fexp:l PLUS fexp:r {: RESULT=new Expr.FloatExpr(l,sym.PLUS,r); :}
-//            | fexp:l TIMES fexp:r {: RESULT=new Expr.FloatExpr(l,sym.TIMES,r); :}
-//            | LPAREN fexp:e RPAREN {: RESULT=e; :};
+// bin_op ::= arith_op | rel_op | eq_op | cond_op
 
+// arith_op ::= PLUS | MINUS | TIMES | DIVIDED | PERCENTAGE
+ 
+// rel_op ::= LESS | GREATER | LESSOREQ | GREATEROREQ
 
-program ::= class_decl | program class_decl;
+// eq_op ::= EQUALTO | NOTEQUALTO
 
-class_decl ::= CLASS id LKEY field_decl method_decl RKEY
-						| CLASS id LKEY field_decl RKEY
-						| CLASS id LKEY method_decl RKEY
-						| CLASS id LKEY RKEY
+// cond_op ::= AND | OR
 
-field_decl ::= type id SEMI
-							|type id LBRACKET int_literal RBRACKET SEMI
-							|type field_decl_aux SEMI
+// literal ::= int_literal | flaot_literal | bool_literal
 
-field_decl_aux ::= id
-									|id LBRACKET int_literal RBRACKET
-									|NULL
+// id  ::= alpha | alpha  alpha_num_aux
 
-method_decl ::= type id LPAREN  RPAREN
+// alpha_num_aux ::= alpha_num alpha_num_aux | _
 
-id ::=
+// alpha_num ::= alpha | digit | _
 
-typr ::=
+// alpha ::= a | b | c | d | e | f | g | h | i | j | k | l | m | n | ñ | o | p | q | r | s | t | u | v | w | x | y | z
+
+// digit ::= NUMBER
+
+// int_literal ::= digit int_literal_aux
+
+// int_literal_aux ::= digit int_literal_aux | _
+
+// bool_literal ::= TREU | FALSE
+
+// flaot_literal ::= int_literal . int_literal
