@@ -56,8 +56,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "for" { return symbol("For", sym.FOR);}
 
 // ### Logic Values ###
-"false" { return symbol("False", sym.FALSE, false); }
-"true" { return symbol("True", sym.TRUE, true); }
+"false" { return symbol("False", sym.BOOLEAN_VALUE, false); }
+"true" { return symbol("True", sym.BOOLEAN_VALUE, true); }
 
 // ### Pointer Values ###
 "void" { return symbol("Void", sym.VOID); }
@@ -90,9 +90,11 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "<=" { return symbol("Less or Equal",sym.LESSOREQ); }
 
 // ### End Sentence ###
+"," { return symbol("Comma",sym.COMMA); }
 ";" { return symbol("Semicolon",sym.SEMI); }
 
 // ### Numeric Operators ###
+"." { return symbol("Point",sym.POINT); }
 "+" { return symbol("Plus",sym.PLUS); }
 "-" { return symbol("Minus",sym.MINUS); }
 "%" { return symbol("Percentage",sym.PERCENTAGE); }
@@ -102,9 +104,13 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 // ### Grouper ###
 "(" { return symbol("Left Bracket",sym.LPAREN); }
 ")" { return symbol("Right Bracket",sym.RPAREN); }
+"{" { return symbol("Left Bracket",sym.LKEY); }
+"}" { return symbol("Right Bracket",sym.RKEY); }
+"[" { return symbol("Left Bracket",sym.LBRACKET); }
+"]" { return symbol("Right Bracket",sym.RBRACKET); }
 
 // ### Identifier ###
-[a-z]* { System.out.println("IDENTIFIER"); }
+[a-z]* { return symbol("Id", sym.ID); }
 
 [ \t\r\n\f] { /* ignore white space. */ }
 . { System.err.println("Illegal character: "+yytext()); }

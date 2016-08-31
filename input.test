@@ -1,19 +1,16 @@
-4+4;
-2.5 * 3.5;
-true || false;
-5++5;
-5+5*2;
-true and false;
-whiletrue;
-While
-PI
-/  / holaa
-bool //puto 4+4 bool integer iasdasdkasdjkh120-348a578`
-/* /* holaquehacesdsdsdssds
- ads
- asd
- d a
- sd a
- d !~@#$%^&@!#$%^&*^#& */
-bool
-float 1.2343
+class test {
+  integer algo, otro[4];
+
+  integer metodo(){
+    integer atributometodo;
+    if (true || false){
+      integer ifatribute;
+    }
+    else{
+      while (true){
+        return metodo.algo.algo.algo(2+2);
+      }
+    }
+
+  }
+}

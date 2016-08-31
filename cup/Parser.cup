@@ -161,12 +161,15 @@ terminal AND, OR, NOT;
 terminal PERCENTAGE, DIVIDED,PLUS, MINUS, TIMES;
 terminal LESS, LESSOREQ;
 terminal GREATER, GREATEROREQ;
-
-terminal EQUALTO, NOTEQUALTO;
+terminal EQUALTO, NOTEQUALTO, EQUAL;
+terminal ADDASSIGNMENT, SUBASSIGNMENT;
+terminal POINT;
+terminal NUMBER;
+terminal ID;
 
 terminal Integer NUMBER_I;
 terminal Float NUMBER_F;
-terminal Boolean TRUE, FALSE;
+terminal Boolean BOOLEAN_VALUE;
 
 non terminal expr_list, expr_part;
 non terminal Expr expr;
@@ -175,31 +178,37 @@ non terminal Expr fexp;
 
 non terminal bin_op, arith_op, rel_op, eq_op;
 non terminal cond_op, literal, id , alpha_num_aux;
-non terminal alpha_num, alpha, digit, int_literal;
-non terminal int_literal_aux, bool_literal, flaot_literal;
-
-precedence left PLUS;
-precedence left MINUS;
-precedence left TIMES;
-precedence left DIVIDED;
+non terminal location, method_call;
+non terminal program, class_decl, field_decl, method_decl;
+non terminal type, param, body, block;
+non terminal statement, assignop, optional_else;
+non terminal navigation, method_expr, lambda;
+non terminal id_list, id_name, field_decl_list;
 
 precedence left OR;
 precedence left AND;
+precedence left EQUALTO, NOTEQUALTO;
+precedence left LESS, LESSOREQ, GREATER, GREATEROREQ;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDED, PERCENTAGE;
+precedence left NOT;
+precedence left ELSE;
 
+start with program;
 
-expr_list ::=   expr_list expr_part | expr_part;
+// expr_list ::=   expr_list expr_part | expr_part;
 
-expr_part ::=   expr:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
-              | fexp:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
-              | boolexp:b {: System.out.println(" = "+b.eval()+";"); :} SEMI
-              | error:e SEMI:s {: parser.report_error("Syntax error in input from "+exleft +" to "+sxright,e); :};
+// expr_part ::=   expr:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
+//               | fexp:e {: System.out.println(" = "+e.eval()+";"); :} SEMI
+//               | boolexp:b {: System.out.println(" = "+b.eval()+";"); :} SEMI
+//               | error:e SEMI:s {: parser.report_error("Syntax error in input from "+exleft +" to "+sxright,e); :};
 
-expr      ::=   NUMBER_I:n {: RESULT= new Expr.Const_i(nxleft,n,nxright); :}
-              | expr:l PLUS expr:r {: RESULT = new Expr.BinExpr(l,sym.PLUS,r); :}
-              | expr:l MINUS expr:r {: RESULT = new Expr.BinExpr(l,sym.MINUS,r); :}
-              | expr:l TIMES expr:r {: RESULT = new Expr.BinExpr(l,sym.TIMES,r); :}
-              | expr:l DIVIDED expr:r {: RESULT = new Expr.BinExpr(l,sym.DIVIDED,r); :}
-              | LPAREN expr:e RPAREN {: RESULT = e; :};
+// expr      ::=   NUMBER_I:n {: RESULT= new Expr.Const_i(nxleft,n,nxright); :}
+//               | expr:l PLUS expr:r {: RESULT = new Expr.BinExpr(l,sym.PLUS,r); :}
+//               | expr:l MINUS expr:r {: RESULT = new Expr.BinExpr(l,sym.MINUS,r); :}
+//               | expr:l TIMES expr:r {: RESULT = new Expr.BinExpr(l,sym.TIMES,r); :}
+//               | expr:l DIVIDED expr:r {: RESULT = new Expr.BinExpr(l,sym.DIVIDED,r); :}
+//               | LPAREN expr:e RPAREN {: RESULT = e; :};
 
 expr ::= location
        | method_call
@@ -207,103 +216,94 @@ expr ::= location
        | expr bin_op expr
        | MINUS expr
        | NOT expr
-       | LPAREN expr RPAREN
+       | LPAREN expr RPAREN;
 
-boolexp   ::=   TRUE:t {: RESULT= new Expr.Const_b(null, t, null); :}
-              | FALSE:f {: RESULT= new Expr.Const_b(null, f, null); :}
-              | boolexp:l AND boolexp:r {: RESULT = new Expr.BooleanExpr(l, sym.AND, r); :}
-              | boolexp:l OR boolexp:r {: RESULT = new Expr.BooleanExpr(l, sym.OR, r); :}
-              | LPAREN boolexp:e RPAREN {: RESULT = e; :};
+// boolexp   ::=   TRUE:t {: RESULT= new Expr.Const_b(null, t, null); :}
+//               | FALSE:f {: RESULT= new Expr.Const_b(null, f, null); :}
+//               | boolexp:l AND boolexp:r {: RESULT = new Expr.BooleanExpr(l, sym.AND, r); :}
+//               | boolexp:l OR boolexp:r {: RESULT = new Expr.BooleanExpr(l, sym.OR, r); :}
+//               | LPAREN boolexp:e RPAREN {: RESULT = e; :};
 
-fexp      ::=   NUMBER_F:n {: RESULT= new Expr.Const_f(nxleft,n,nxright); :}
-              | fexp:l PLUS fexp:r {: RESULT = new Expr.FloatExpr(l,sym.PLUS,r); :}
-              | fexp:l TIMES fexp:r {: RESULT = new Expr.FloatExpr(l,sym.TIMES,r); :}
-              | fexp:l MINUS fexp:r {: RESULT = new Expr.FloatExpr(l,sym.MINUS,r); :}
-              | fexp:l DIVIDED fexp:r {: RESULT = new Expr.FloatExpr(l,sym.DIVIDED,r); :}
-              | LPAREN fexp:e RPAREN {: RESULT = e; :};
+// fexp      ::=   NUMBER_F:n {: RESULT= new Expr.Const_f(nxleft,n,nxright); :}
+//               | fexp:l PLUS fexp:r {: RESULT = new Expr.FloatExpr(l,sym.PLUS,r); :}
+//               | fexp:l TIMES fexp:r {: RESULT = new Expr.FloatExpr(l,sym.TIMES,r); :}
+//               | fexp:l MINUS fexp:r {: RESULT = new Expr.FloatExpr(l,sym.MINUS,r); :}
+//               | fexp:l DIVIDED fexp:r {: RESULT = new Expr.FloatExpr(l,sym.DIVIDED,r); :}
+//               | LPAREN fexp:e RPAREN {: RESULT = e; :};
 
+lambda ::= ;
 
 program ::= class_decl | program class_decl;
 
-class_decl ::= CLASS id LKEY field_decl method_decl RKEY
-            | CLASS id LKEY field_decl RKEY
-            | CLASS id LKEY method_decl RKEY
-            | CLASS id LKEY RKEY
+class_decl ::= CLASS ID LKEY field_decl_list method_decl RKEY
+            | CLASS ID LKEY field_decl RKEY
+            | CLASS ID LKEY method_decl RKEY
+            | CLASS ID LKEY RKEY;
 
-field_decl ::= type id SEMI
-              |type id LBRACKET int_literal RBRACKET SEMI
-              |type field_decl_aux SEMI
+field_decl_list ::= field_decl | field_decl_list field_decl;
 
-field_decl_aux ::= id COMMA field_decl_aux
-                  |id LBRACKET int_literal RBRACKET COMMA field_decl_aux
-                  |NULL
+field_decl ::= type id_list SEMI;
 
-method_decl ::= type id LPAREN param RPAREN body
-                |type id LPAREN RPAREN body
+id_list ::= id_name | id_list COMMA id_name;
 
-param ::= type id |type id COMMA param
+id_name ::= ID | ID LBRACKET NUMBER_I RBRACKET;
 
-body ::= block | EXTERN SEMI
+method_decl ::=  type ID LPAREN param RPAREN body
+               | type ID LPAREN RPAREN body;
 
-block ::= LKEY field_decl_aux statement_aux RKEY
+param ::= type ID |type ID COMMA param;
 
-field_decl_aux ::= field_decl field_decl_aux | NULL
+body ::=  block
+        | EXTERN SEMI;
 
-statement_aux ::= statement statement_aux | NULL
+block ::=  LKEY field_decl statement RKEY
+         | LKEY field_decl RKEY
+         | LKEY statement RKEY
+         | LKEY RKEY;
 
-type ::= INTEGER | FLOAT | BOOL | id | VOID
+// field_decl_aux ::= field_decl field_decl_aux | NULL
+
+
+type ::= INTEGER | FLOAT | BOOL | ID | VOID;
 
 statement ::= location assignop expr SEMI
             | method_call
-            |IF LPAREN expr RPAREN statement optional_else
-            |FOR id EQUAL expr COMMA expr statement
-            |WHILE expr statement
-            |RETURN expr SEMI
-            |RETURN NULL SEMI
-            |BREAK SEMI
-            |CONTINUE SEMI
-            |SEMI
-            |block
+            | IF LPAREN expr RPAREN statement optional_else
+            | FOR ID EQUAL expr COMMA expr statement
+            | WHILE expr statement
+            | RETURN expr SEMI
+            | RETURN SEMI
+            | BREAK SEMI
+            | CONTINUE SEMI
+            | SEMI
+            | block;
 
-optional_else ::= ELSE statement | NULL
+optional_else ::= ELSE statement | lambda ;
 
-assignop := EQUAL | ADDASSIGNMENT | SUBASSIGNMENT
+assignop ::= EQUAL | ADDASSIGNMENT | SUBASSIGNMENT;
 
-method_call ::= id navigation LPAREN method_expr RPAREN
+method_call ::= ID navigation LPAREN method_expr RPAREN
+              |ID LPAREN method_expr RPAREN
+              |ID navigation LPAREN RPAREN
+              |ID LPAREN RPAREN;
 
-navigation ::= POINT id | POINT id navigation | NULL
+navigation ::= POINT ID | navigation POINT ID;
 
-method_expr ::= expr | expr SEMI method_expr | NULL
+method_expr ::= expr | method_expr COMMA expr;
 
-location ::= id navigation
-            |id navigation LBRACKET expr RBRACKET
+location ::= ID navigation
+            |ID navigation LBRACKET expr RBRACKET;
 
-// bin_op ::= arith_op | rel_op | eq_op | cond_op
+bin_op ::= arith_op | rel_op | eq_op | cond_op;
 
-// arith_op ::= PLUS | MINUS | TIMES | DIVIDED | PERCENTAGE
+arith_op ::= PLUS | MINUS | TIMES | DIVIDED | PERCENTAGE;
 
-// rel_op ::= LESS | GREATER | LESSOREQ | GREATEROREQ
+rel_op ::= LESS | GREATER | LESSOREQ | GREATEROREQ;
 
-// eq_op ::= EQUALTO | NOTEQUALTO
+eq_op ::= EQUALTO | NOTEQUALTO;
 
-// cond_op ::= AND | OR
+cond_op ::= AND | OR;
 
-// literal ::= int_literal | flaot_literal | bool_literal
+literal ::= NUMBER_I | NUMBER_F | BOOLEAN_VALUE;
 
-// id  ::= alpha | alpha  alpha_num_aux
 
-// alpha_num_aux ::= alpha_num alpha_num_aux | _
-
-// alpha_num ::= alpha | digit | _
-
-// alpha ::= a | b | c | d | e | f | g | h | i | j | k | l | m | n | ñ | o | p | q | r | s | t | u | v | w | x | y | z
-
-// digit ::= NUMBER
-
-// int_literal ::= digit int_literal_aux
-
-// int_literal_aux ::= digit int_literal_aux | _
-
-// bool_literal ::= TREU | FALSE
-
-// flaot_literal ::= int_literal . int_literal
