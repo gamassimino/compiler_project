@@ -1,0 +1,6 @@
+
+class mamato{
+	boolean no_se_wachoo(){
+		return (2==3);
+	}
+}

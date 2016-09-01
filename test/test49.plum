@@ -1,0 +1,9 @@
+
+class mamatoPrimera{
+	string name;
+
+	string nombreEzequiel(){
+ 		return ezequiel;
+ 	}
+
+}

@@ -1,0 +1,6 @@
+
+class mamato{
+	boolean metodo(){
+		return false;
+	}
+}

@@ -1,0 +1,9 @@
+class mamato{
+	boolean pepito(){
+		while true {
+			if (2 == 1){
+				return false;
+			}
+		}
+	}
+}

@@ -1,0 +1,4 @@
+class mamato{
+	boolean arreglo[45];
+}
+

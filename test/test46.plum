@@ -1,0 +1,8 @@
+
+class mamatoajai1123_12398asd_123{
+	nueva_clase nueva(){
+		while(!true || false == true){
+			continue;
+		}
+	}
+}

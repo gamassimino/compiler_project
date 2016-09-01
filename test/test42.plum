@@ -1,0 +1,6 @@
+
+class mamato{
+	integer nombre(int nombre){
+		return nombre;
+	}
+}

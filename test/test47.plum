@@ -1,0 +1,16 @@
+
+class mamatoPrimera{
+	integer primera(){
+		return 1;
+	}
+}
+class mamatoSegunda{
+	boolean segunda(){
+		return true;
+	}
+}
+class mamatoTercera{
+	float tercera(){
+		return 3.2;
+	}
+}

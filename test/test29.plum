@@ -1,0 +1,5 @@
+class mamato{
+	integer papa(){
+		while(false)break;
+	}
+}

@@ -1,0 +1,9 @@
+class mamato{
+	boolean pepito(){
+		while(true == (2+3)){
+			return 123124;
+		}
+		for i = true,		true||false	return 24;
+	}
+}
+

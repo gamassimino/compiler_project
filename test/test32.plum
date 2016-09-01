@@ -1,0 +1,12 @@
+class mamato{
+	boolean alfajor, menregue[523];
+
+	integer metodo(){
+		return 42;
+	}
+
+	integer jota(){
+		integer pipi;
+		pipi = metodo(23);
+	}
+}

@@ -1,0 +1,6 @@
+
+class mamato{
+	int expresion_multi(){
+		return 2+3==true || 2.3<=342;
+	}
+}
