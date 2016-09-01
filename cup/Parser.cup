@@ -180,7 +180,7 @@ non terminal type, param, body, block;
 non terminal statement, assignop, optional_else;
 non terminal navigation, method_expr, lambda;
 non terminal id_list, id_name, field_decl_list;
-non terminal location_aux, list_field_decl, list_statement;
+non terminal location_aux, list_field_decl, list_statement, method_decl_list;
 
 precedence left OR;
 precedence left AND;
@@ -232,13 +232,12 @@ lambda ::= ;
 
 program ::= class_decl | program class_decl;
 
-class_decl ::= CLASS ID LKEY field_decl_list method_decl RKEY
-             | CLASS ID LKEY field_decl RKEY
-             | CLASS ID LKEY method_decl RKEY
+class_decl ::= CLASS ID LKEY field_decl_list method_decl_list RKEY
+             | CLASS ID LKEY field_decl_list RKEY
+             | CLASS ID LKEY method_decl_list RKEY
              | CLASS ID LKEY RKEY;
 
-field_decl_list ::= field_decl
-                  | field_decl_list field_decl;
+field_decl_list ::= field_decl | field_decl_list field_decl;
 
 field_decl ::= type id_list SEMI;
 
@@ -246,6 +245,8 @@ id_list ::= id_name
           | id_list COMMA id_name;
 
 id_name ::= ID | ID LBRACKET NUMBER_I RBRACKET;
+
+method_decl_list ::= method_decl | method_decl_list method_decl;
 
 method_decl ::=  type ID LPAREN param RPAREN body
                | type ID LPAREN RPAREN body;
@@ -268,7 +269,7 @@ list_statement ::= statement | list_statement statement;
 type ::= INTEGER | FLOAT | BOOL | ID | VOID;
 
 statement ::= location assignop expr SEMI
-            | method_call
+            | method_call SEMI
             | IF LPAREN expr RPAREN statement optional_else
             | FOR ID EQUAL expr COMMA expr statement
             | WHILE expr statement
