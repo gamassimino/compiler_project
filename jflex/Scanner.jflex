@@ -109,7 +109,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "]" { return symbol("Right Bracket",sym.RBRACKET); }
 
 // ### Identifier ###
-[a-z]+[a-zA-Z0-9]* { return symbol("Id", sym.ID); }
+[a-z]+[a-zA-Z0-9_]* { return symbol("Id", sym.ID); }
 
 [ \t\r\n\f] { /* ignore white space. */ }
 . { System.err.println("Illegal character: "+yytext()); }

@@ -1,21 +1,16 @@
-class test {
-  integer algo, otro[4];
-
-  integer metodo(){
-    integer atributometodo;
-    if (true || false){
-      flag = true;
-      flag += true;
-      flag -= true;
-    }
-    else{
-      while (true){
-        return metodo.algo.algo.algo(2+2);
-      }
-      flag = true;
-      flag += true;
-      flag -= true;
-    }
-    this.metodo(this.metodo());
+class main {
+  integer inc(integer x) {
+    return x + 1;
+  }
+  integer read_int() extern;
+  void print(bool s) extern;
+  void main() {
+    integer y;
+    y = read_int();
+    y = inc(y);
+    if (y == 1)
+      print(y==1);
+    else
+      print(y!=1);
   }
 }
