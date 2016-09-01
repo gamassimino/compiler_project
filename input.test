@@ -4,13 +4,18 @@ class test {
   integer metodo(){
     integer atributometodo;
     if (true || false){
-      integer ifatribute;
+      flag = true;
+      flag += true;
+      flag -= true;
     }
     else{
       while (true){
         return metodo.algo.algo.algo(2+2);
       }
+      flag = true;
+      flag += true;
+      flag -= true;
     }
-
+    this.metodo(this.metodo());
   }
 }

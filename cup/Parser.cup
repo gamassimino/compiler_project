@@ -152,7 +152,7 @@ terminal BOOL, INTEGER, FLOAT;
 terminal BREAK, CONTINUE;
 terminal IF, ELSE;
 terminal FOR, WHILE;
-terminal VOID, NULL;
+terminal VOID;
 terminal CLASS;
 terminal RETURN, EXTERN;
 terminal SEMI, COMMA;
@@ -164,26 +164,23 @@ terminal GREATER, GREATEROREQ;
 terminal EQUALTO, NOTEQUALTO, EQUAL;
 terminal ADDASSIGNMENT, SUBASSIGNMENT;
 terminal POINT;
-terminal NUMBER;
 terminal ID;
 
 terminal Integer NUMBER_I;
 terminal Float NUMBER_F;
 terminal Boolean BOOLEAN_VALUE;
 
-non terminal expr_list, expr_part;
 non terminal Expr expr;
-non terminal Expr boolexp;
-non terminal Expr fexp;
 
 non terminal bin_op, arith_op, rel_op, eq_op;
-non terminal cond_op, literal, id , alpha_num_aux;
+non terminal cond_op, literal;
 non terminal location, method_call;
 non terminal program, class_decl, field_decl, method_decl;
 non terminal type, param, body, block;
 non terminal statement, assignop, optional_else;
 non terminal navigation, method_expr, lambda;
 non terminal id_list, id_name, field_decl_list;
+non terminal location_aux, list_field_decl, list_statement;
 
 precedence left OR;
 precedence left AND;
@@ -245,7 +242,7 @@ field_decl_list ::= field_decl
 
 field_decl ::= type id_list SEMI;
 
-id_list ::= id_name 
+id_list ::= id_name
           | id_list COMMA id_name;
 
 id_name ::= ID | ID LBRACKET NUMBER_I RBRACKET;
@@ -253,16 +250,20 @@ id_name ::= ID | ID LBRACKET NUMBER_I RBRACKET;
 method_decl ::=  type ID LPAREN param RPAREN body
                | type ID LPAREN RPAREN body;
 
-param ::= type ID 
+param ::= type ID
         | type ID COMMA param;
 
 body ::=  block
         | EXTERN SEMI;
 
-block ::= LKEY field_decl statement RKEY
-        | LKEY field_decl RKEY
-        | LKEY statement RKEY
+block ::= LKEY list_field_decl list_statement RKEY
+        | LKEY list_field_decl RKEY
+        | LKEY list_statement RKEY
         | LKEY RKEY;
+
+list_field_decl ::= field_decl | list_field_decl field_decl;
+
+list_statement ::= statement | list_statement statement;
 
 type ::= INTEGER | FLOAT | BOOL | ID | VOID;
 
@@ -278,7 +279,7 @@ statement ::= location assignop expr SEMI
             | SEMI
             | block;
 
-optional_else ::= ELSE statement 
+optional_else ::= ELSE statement
                 | lambda ;
 
 assignop ::= EQUAL | ADDASSIGNMENT | SUBASSIGNMENT;
@@ -293,8 +294,9 @@ navigation ::= POINT ID | navigation POINT ID;
 method_expr ::= expr
               | method_expr COMMA expr;
 
-location ::= ID navigation
-           | ID navigation LBRACKET expr RBRACKET;
+location ::= ID | ID location_aux;
+
+location_aux ::= navigation | navigation LBRACKET expr RBRACKET;
 
 bin_op ::= arith_op
          | rel_op

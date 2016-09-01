@@ -55,7 +55,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 
 // ### Pointer Values ###
 "void" { return symbol("Void", sym.VOID); }
-"null" { return symbol("Null", sym.NULL); }
+// "null" { return symbol("Null", sym.NULL); }
 
 // ### Numeric Values ###
 [1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER_I, new Integer(yytext())); }
@@ -74,6 +74,11 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "&&" { return symbol("And", sym.AND); }
 "||" { return symbol("Or", sym.OR); }
 "!" { return symbol("Not", sym.NOT); }
+
+// ### Assignment
+"=" { return symbol("Assign",sym.EQUAL); }
+"+=" { return symbol("Assign and Add",sym.ADDASSIGNMENT); }
+"-=" { return symbol("Assign and Substract",sym.SUBASSIGNMENT); }
 
 // ### Relationship Operators ###
 "!=" { return symbol("Not Equal To",sym.NOTEQUALTO); }
