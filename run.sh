@@ -6,8 +6,6 @@ J='\033[0;35m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 
-for i in {1..2}
-do
 	printf "${L}This Script run ours test, the test are listed like 'Running test nº1'${NC}\n"
 	printf "${L}If below a test you see text on ${RED}RED${L} that means the test fail${NC}\n"
 	printf "${L}And if you don't see any text on ${RED}RED${L}, so the test was ${GREEN}SUCCESS${L}${NC}\n"
@@ -25,6 +23,8 @@ do
 	printf "\n"
 	printf "\n"
 
+for i in {1..2}
+do
 	printf "${GREEN}Running test nº${i}${NC}\n"
 	printf "${RED}"
   java -jar dist/Compiler.jar test/test${i}.plum
