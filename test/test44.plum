@@ -1,6 +1,9 @@
+class plumTest44{
+  integer method(integer num1, integer num2){
+    return (num1 + num2);
+  }
 
-class mamato{
-	boolean no_se_wachoo(){
-		return (2==3);
-	}
+  integer method2(integer num1, integer num2){
+    return (num1 - num2);
+  }
 }

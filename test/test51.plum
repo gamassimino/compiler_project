@@ -1,0 +1,6 @@
+class string{
+  string method(){
+    string s;
+    return s;
+  }
+}

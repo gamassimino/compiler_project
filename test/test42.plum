@@ -1,6 +1,13 @@
+class plumTest42{
+  integer method(integer num1, integer num2){
+    return (num1 * num2);
+  }
 
-class mamato{
-	integer nombre(int nombre){
-		return nombre;
-	}
+  integer method2(integer num1, integer num2){
+    return (num1 / num2);
+  }
+
+  integer method2(integer num1, integer num2){
+    return (num1 % num2);
+  }
 }

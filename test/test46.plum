@@ -1,8 +1,9 @@
+class plumTest46{
+  boolean method(integer num1, integer num2){
+    return (num1 < num2);
+  }
 
-class mamatoajai1123_12398asd_123{
-	nueva_clase nueva(){
-		while(!true || false == true){
-			continue;
-		}
-	}
+  boolean method2(integer num1, integer num2){
+    return (num1 <= num2);
+  }
 }

@@ -1,8 +1,9 @@
+class plumTest45{
+  boolean method(integer num1, integer num2){
+    return (num1 > num2);
+  }
 
-class mamato{
-	boolean no_se_wachoo(){
-		while(!true){
-			return sos_puto;
-		}
-	}
+  boolean method2(integer num1, integer num2){
+    return (num1 >= num2);
+  }
 }

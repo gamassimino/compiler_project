@@ -1,9 +1,5 @@
-
-class mamatoPrimera{
-	string name;
-
-	string nombreEzequiel(){
- 		return ezequiel;
- 	}
-
+class plumTest49{
+  boolean method(boolean t, boolean f){
+    return (t && f);
+  }
 }
