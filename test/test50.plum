@@ -1,0 +1,9 @@
+
+class mamatoPrimera{
+	boolean a0[20];
+	flaot fff0[20];
+
+ 	integer medir(boolean boo, integer numero, boolean pepe, boolean aoskdoas){
+ 		return medir(true,3,true,false);
+ 	}
+}

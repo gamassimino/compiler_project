@@ -1,0 +1,15 @@
+
+class mamato{
+	int aux_123(){
+		while(true){
+			if(2+3 == 5){
+				return 5;
+			}
+			else{
+				while(aux(123)){
+					return 412;
+				}
+			}
+		}
+	}
+}

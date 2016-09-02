@@ -1,0 +1,10 @@
+
+class mamato{
+	integer metodo(){
+		if(!true){
+			return 23;
+		}else{
+			return 24;
+		}
+	}
+}
