@@ -1,0 +1,11 @@
+class plumTest24{
+  void method(){
+    integer number;
+    integer number_two;
+    integer array_number[10];
+    float fnumber;
+    float fnumber[20];
+    boolean fnumber;
+    boolean fnumber[20];
+  }
+}

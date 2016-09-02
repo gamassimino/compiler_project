@@ -1,0 +1,3 @@
+class plumTest10{
+  integer method(float param){}
+}

@@ -1,17 +1,9 @@
-class plumTest1{}
-
-class plumTest2{
+class plumTest5{
   integer number;
   integer number_two;
   integer array_number[10];
-}
-
-class plumTest3{
   float fnumber;
   float fnumber[20];
-}
-
-class plumTest4{
   boolean fnumber;
   boolean fnumber[20];
 }

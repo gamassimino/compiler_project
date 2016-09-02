@@ -1,0 +1,3 @@
+class plumTest23{
+  boolean method(boolean param){}
+}

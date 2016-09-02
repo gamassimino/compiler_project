@@ -1,0 +1,3 @@
+class plumTest11{
+  integer method(boolean param){}
+}

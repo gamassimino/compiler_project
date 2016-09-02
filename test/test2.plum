@@ -1,3 +1,5 @@
-class plumTest{
-	integer iasdij;
+class plumTest2{
+  integer number;
+  integer number_two;
+  integer array_number[10];
 }

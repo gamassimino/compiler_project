@@ -1,0 +1,3 @@
+class plumTest9{
+  integer method(integer param){}
+}

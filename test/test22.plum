@@ -1,0 +1,3 @@
+class plumTest22{
+  boolean method(float param){}
+}

@@ -1,0 +1,3 @@
+class plumTest30{
+  void method(boolean param){}
+}

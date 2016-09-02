@@ -1,0 +1,4 @@
+class plumTest3{
+  float fnumber;
+  float fnumber[20];
+}
