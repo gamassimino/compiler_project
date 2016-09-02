@@ -31,3 +31,8 @@ Our Team is formed by
 ```
 > $ sudo chmod 777 compile.sh
 ```
+
+> **Note:** _If you wanna see this project in github, enter here
+```
+git@github.com:gamassimino/compiler_project.git
+```
