@@ -8,8 +8,8 @@ L='\033[0;34m'
 U='\033[0;36m'
 M='\033[0;33m'
 
-if [ -e src/Example/Parser.java ]; then
-	rm src/Example/*
+if [ -e src/CodeGenerated/Parser.java ]; then
+	rm src/CodeGenerated/*
 fi
 
 printf "${GREEN}==${P}==${L}==${U}==${M}==${GREEN}==${P}==${L}==${U}==${M}==${GREEN}==${P}==${L}==${U}==${M}==${GREEN}==${P}==${L}==${GREEN}=${NC}\n"
@@ -19,7 +19,7 @@ printf "${GREEN}==${P}==${L}==${U}==${M}==${GREEN}==${P}==${L}==${U}==${M}==${GR
 sleep 7
 ant
 
-if [ -e src/Example/Parser.java ]; then
+if [ -e src/CodeGenerated/Parser.java ]; then
 	printf "\n"
 	printf "\n"
 	printf "\n"
