@@ -67,8 +67,8 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "float" { return symbol("Float", sym.FLOAT); }
 
 // ### Coments ###
-"//" .* { System.out.println("COMMENT IN ONE LINE"); }
-"/*"~"*/" { System.out.println("COMMENT IN SOMES LINE"); }
+"//" .* {  }
+"/*"~"*/" {  }
 
 // ### Logic Operators ###
 "&&" { return symbol("And", sym.AND); }
