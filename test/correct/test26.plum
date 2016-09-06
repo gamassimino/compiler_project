@@ -1,0 +1,13 @@
+//testing a program with various methods
+//return a boolean
+class plumTest26{
+  boolean method_one(){
+    return 2;
+  }
+
+  boolean method_two(){
+    boolean x;
+    x = this.method_one();
+    return x;
+  }
+}

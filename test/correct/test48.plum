@@ -1,0 +1,6 @@
+//testing unary expression with 'or'
+class plumTest48{
+  boolean method(boolean t, boolean f){
+    return !(t || f);
+  }
+}

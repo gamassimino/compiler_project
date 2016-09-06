@@ -1,0 +1,10 @@
+//testing a 'while' with an if that body
+class plumTest37{
+	int aux_123(){
+		while(true){
+			if(2+3 == 5){
+				return 5;
+			}
+		}
+	}
+}

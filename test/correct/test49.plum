@@ -1,0 +1,6 @@
+//testing and expression with 'and'
+class plumTest49{
+  boolean method(boolean t, boolean f){
+    return (t && f);
+  }
+}

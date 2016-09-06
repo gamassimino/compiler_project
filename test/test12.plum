@@ -1,3 +1,0 @@
-class plumTest12{
-  integer method(integer param, float param_two, boolean param_three){}
-}

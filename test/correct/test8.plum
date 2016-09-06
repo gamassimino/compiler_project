@@ -1,0 +1,4 @@
+//testing a program with empty method that return a boolean
+class plumTest8{
+  boolean method(){}
+}

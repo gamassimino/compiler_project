@@ -1,6 +1,0 @@
-
-class mamato{
-	boolean nombre(){
-		return (2 || 3);
-	}
-}

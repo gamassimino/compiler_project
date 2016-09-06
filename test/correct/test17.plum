@@ -1,0 +1,5 @@
+//testing a program with an empty method that return a float
+//testing an boolean param
+class plumTest17{
+  float method(boolean param){}
+}

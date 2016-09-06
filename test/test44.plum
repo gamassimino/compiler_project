@@ -1,9 +1,0 @@
-class plumTest44{
-  integer method(integer num1, integer num2){
-    return (num1 + num2);
-  }
-
-  integer method2(integer num1, integer num2){
-    return (num1 - num2);
-  }
-}

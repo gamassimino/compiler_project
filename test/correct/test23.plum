@@ -1,0 +1,5 @@
+//testing an empty method with boolean param
+//return a boolean
+class plumTest23{
+  boolean method(boolean param){}
+}

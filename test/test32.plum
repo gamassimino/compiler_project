@@ -1,3 +1,0 @@
-class plumTest32{
-  void method(integer param, float param_two, boolean param_three){}
-}

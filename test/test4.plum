@@ -1,4 +1,0 @@
-class plumTest4{
-  boolean fnumber;
-  boolean fnumber[20];
-}

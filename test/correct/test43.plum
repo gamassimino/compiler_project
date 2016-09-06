@@ -1,0 +1,6 @@
+//testing the navigation of the methods
+class plumTest43{
+	boolean method(){
+		return este.metodo.no.hace.una.mierda.pero.iene.mucha.navegacion();
+	}
+}

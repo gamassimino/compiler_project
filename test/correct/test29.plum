@@ -1,0 +1,5 @@
+//testing a program with float param
+//return void
+class plumTest29{
+  void method(float param){}
+}

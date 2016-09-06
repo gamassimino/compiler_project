@@ -1,5 +1,0 @@
-class plumTest50{
- 	boolean method(boolean t, boolean f){
- 		return (t || f);
- 	}
-}

@@ -1,0 +1,6 @@
+//testing an expression with 'or'
+class plumTest50{
+ 	boolean method(boolean t, boolean f){
+ 		return (t || f);
+ 	}
+}

@@ -1,6 +1,0 @@
-
-class mamato{
-	float pi(){
-		return 3.141517;
-	}
-}

@@ -21,10 +21,10 @@ GREEN='\033[0;32m'
 	printf "\n"
 	printf "\n"
 
-for i in {1..52}
+for i in {1..54}
 do
 	printf "${GREEN}Running test nº${i}${NC}\n"
 	printf "${RED}"
-  java -jar dist/Compiler.jar test/test${i}.plum
+  java -jar dist/Compiler.jar test/correct/test${i}.plum
 	printf "${NC}"
 done

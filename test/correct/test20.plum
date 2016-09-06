@@ -1,0 +1,13 @@
+//testing a program with various methods
+//return a float
+class plumTest14{
+  float method_one(){
+    return 2;
+  }
+
+  float method_two(){
+    float x;
+    x = this.method_one();
+    return x;
+  }
+}

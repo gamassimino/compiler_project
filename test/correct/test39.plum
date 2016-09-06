@@ -1,0 +1,11 @@
+//testing a method that return a wrong type
+class plumTest39{
+	int aux_123(){
+		if(2+3 == 5){
+			return 5;
+		}
+		else{
+			return hola;
+		}
+	}
+}

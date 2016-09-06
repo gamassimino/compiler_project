@@ -1,6 +1,0 @@
-
-class mamato{
-	integer metodo(){
-		return 2+1;
-	}
-}
