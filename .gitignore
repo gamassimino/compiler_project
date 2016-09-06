@@ -6,15 +6,15 @@ dist/java-cup-11b-runtime.jar
 lib/.DS_Store
 src/*
 src/.DS_Store
-src/Example/.DS_Store
-src/Example/Scanner.java
-src/Example/Scanner.java~
-src/Example/Parser.java
-src/Example/sym.java
+src/CodeGenerated/.DS_Store
+src/CodeGenerated/Scanner.java
+src/CodeGenerated/Scanner.java~
+src/CodeGenerated/Parser.java
+src/CodeGenerated/sym.java
 
 tools/.DS_Store
 .DS_Store
 bin/.DS_Store
 
-src/Example/*
+src/CodeGenerated/*
 
