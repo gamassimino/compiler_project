@@ -4,7 +4,7 @@ dist/Compiler.jar
 dist/JFlex.jar
 dist/java-cup-11b-runtime.jar
 lib/.DS_Store
-src/*
+
 src/.DS_Store
 src/CodeGenerated/.DS_Store
 src/CodeGenerated/Scanner.java
