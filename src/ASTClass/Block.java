@@ -1,18 +1,54 @@
 package ASTClass.Block;
 
-class Block{
-	private LinkedList<FieldDecl> field_decl;
-	private LinkedList<Statement> statement;
+import java.util.ArrayList;
+import java.util.List;
 
-	public Block(LinkedList<FieldDecl> list_fiel_decl){
-		this.field_decl = list_fiel_decl ;
+public class Block extends Statement {
+	private List<Statement> statements;
+	private int blockId;
+	
+	public Block(int bId) {
+		statements = new ArrayList<Statement>();
+		blockId = bId;
+	}
+	
+	public Block(int bId, List<Statement> s) {
+		blockId = bId;
+		statements = s;
+	}
+	
+	public void addStatement(Statement s) {
+		this.statements.add(s);
+	}
+		
+	public List<Statement> getStatements() {
+		return this.statements;
+	} 
+		
+	public int getBlockId() {
+		return blockId;
 	}
 
-	public Block(LinkedList<Statement> list_statement){
-		this.statement = list_statement;
+	public void setBlockId(int blockId) {
+		this.blockId = blockId;
 	}
 
-	public Block(){
+	@Override
+	public String toString() {
+		String rtn = "";
+		
+	    for (Statement s: statements) {
+			rtn += s.toString() + '\n';
+		}
+		
+		if (rtn.length() > 0) return rtn.substring(0, rtn.length() - 1); // remove last new line char
+		
+		return rtn; 
+	}
+
+	@Override
+	public <T> T accept(ASTVisitor<T> v) {
+		return v.visit(this);
 	}
 	
 }
