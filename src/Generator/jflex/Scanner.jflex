@@ -9,23 +9,26 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %char
 %class Scanner
 %{
-	public Scanner(java.io.InputStream r, ComplexSymbolFactory sf){
-		this(r);
-		this.sf=sf;
-	}
-	public Symbol symbol(String plaintext,int code){
+  public Scanner(java.io.InputStream r, ComplexSymbolFactory sf){
+    this(r);
+    this.sf=sf;
+  }
+  public Symbol symbol(String plaintext,int code){
     return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar));
-	}
-	public Symbol symbol(String plaintext,int code, Integer number){
+  }
+  public Symbol symbol(String plaintext,int code, Integer number){
     return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
-	}
-	public Symbol symbol(String plaintext,int code, Float number){
+  }
+  public Symbol symbol(String plaintext,int code, Float number){
     return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
-	}
-	public Symbol symbol(String plaintext,int code, Boolean bool){
+  }
+  public Symbol symbol(String plaintext,int code, Boolean bool){
     return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),bool);
-	}
-	private ComplexSymbolFactory sf;
+  }
+  public Symbol symbol(String plaintext,int code, String id){
+    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),id);
+  }
+  private ComplexSymbolFactory sf;
 %}
 %eofval{
   return sf.newSymbol("EOF",sym.EOF);
@@ -109,7 +112,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "]" { return symbol("Right Bracket",sym.RBRACKET); }
 
 // ### Identifier ###
-[a-z]+[a-zA-Z0-9_]* { return symbol("Id", sym.ID); }
+[a-z]+[a-zA-Z0-9_]* { return symbol("Id", sym.ID, yytext()); }
 
 [ \t\r\n\f] { /* ignore white space. */ }
 . { System.err.println("Illegal character: "+yytext()); }
