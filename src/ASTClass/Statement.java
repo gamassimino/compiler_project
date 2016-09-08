@@ -1,5 +1,6 @@
-package ASTClass.Statement;
+package ir.ast;
 
-class Statement{
+public abstract class Statement extends AST {
+	
 	
 }
