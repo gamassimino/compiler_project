@@ -137,8 +137,8 @@ statement ::= location:lo EQUAL expr:exp SEMI {: RESULT = new Statement(lo, EQUA
             | location:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new Statement(lo, SUBASSIGNMENT, exp) ;:}
             | method_call:m_c SEMI {: RESULT = new Statement(m_c) ;:}
             | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new Statement(IF, exp, s, o_e) ;:}
-            | FOR ID:id EQUAL expr:exp COMMA expr:exp statement:s {: RESULT = new Statement(FOR, id, EQUAL, exp, exp, s) ;:}
-            | WHILE expr:exp statement:s {: RESULT = new Statement(WHILE, exp, s) ;:}
+            | FOR ID:id EQUAL expr:exp COMMA expr:exp statement:s {: RESULT = new Statement(id, exp, exp, s) ;:}
+            | WHILE expr:exp statement:s {: RESULT = new Statement(exp, s) ;:}
             | RETURN expr:exp SEMI {: RESULT = new Statement(RETURN, exp) ;:}
             | RETURN SEMI {: RESULT = new Statement(RETURN) ;:}
             | BREAK SEMI {: RESULT = new Statement(BREAK) ;:}

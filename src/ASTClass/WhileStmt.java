@@ -1,7 +1,7 @@
 package ASTClass.WhileStmt;
 
 import ir.ASTVisitor;
-WHILE expr:exp statement:s {: RESULT = new Statement(exp, s) ;:}
+
 public class WhileStmt extends Statement {
 	private Expression condition;
 	private Statement statement;
@@ -32,7 +32,7 @@ public class WhileStmt extends Statement {
 		String rtn = "while " + condition + '\n';
 		
 		rtn += statement.toString;
-		
+
 		return rtn;
 	}
 
