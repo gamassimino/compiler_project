@@ -21,11 +21,11 @@ class Navigation{
     id = an_id;
   }
 
-  public void getIdName(){
+  public IdName getIdName(){
     return id;
   }
 
-  public void getNavigation(){
+  public Navigation getNavigation(){
     return navigation;
   }
 }
