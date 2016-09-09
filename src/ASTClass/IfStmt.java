@@ -1,4 +1,4 @@
-package ir.ast;
+package ASTClass.IfStmt;
 
 import ir.ASTVisitor;
 

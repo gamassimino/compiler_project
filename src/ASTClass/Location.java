@@ -1,13 +1,13 @@
-package ir.ast;
+package ASTClass.Location;
 
 public abstract class Location extends Expression {
-	protected String id;
+	protected IdName id;
 	
-	public void setId(String id) {
+	public void setId(IdName id){
 		this.id = id;
 	}
 	
-	public String getId() {
+	public IdName getId(){
 		return id;
 	}
 }

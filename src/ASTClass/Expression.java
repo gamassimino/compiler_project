@@ -1,4 +1,4 @@
-package ir.ast;
+package ASTClass.Expression;
 
 public abstract class Expression extends AST {
 	protected Expression expr;
