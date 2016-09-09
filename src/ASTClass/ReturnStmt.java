@@ -1,14 +1,14 @@
-package ir.ast;
+package ASTClass.ReturnStmt;
 
 import ir.ASTVisitor;
 
 public class ReturnStmt extends Statement {
 	private Expression expression; // the return expression
-	
+
 	public ReturnStmt(Expression e) {
 		this.expression = e;
 	}
-	
+
 	public ReturnStmt() {
 		this.expression = null;
 	}
@@ -20,7 +20,7 @@ public class ReturnStmt extends Statement {
 	public void setExpression(Expression expression) {
 		this.expression = expression;
 	}
-	
+
 	@Override
 	public String toString() {
 		if (expression == null) {

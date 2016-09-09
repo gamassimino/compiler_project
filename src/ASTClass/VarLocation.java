@@ -1,4 +1,4 @@
-package ir.ast;
+package ASTClass.VarLocation;
 
 import ir.ASTVisitor;
 
@@ -9,7 +9,7 @@ public class VarLocation extends Location {
 		this.id = id;
 		this.blockId = -1;
 	}
-	
+
 	public int getBlockId() {
 		return blockId;
 	}
@@ -17,7 +17,7 @@ public class VarLocation extends Location {
 	public void setBlockId(int blockId) {
 		this.blockId = blockId;
 	}
-	
+
 	@Override
 	public String toString() {
 		return id;

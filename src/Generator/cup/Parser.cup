@@ -136,7 +136,7 @@ statement ::= location:lo EQUAL expr:exp SEMI {: RESULT = new Statement(lo, EQUA
             | location:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new Statement(lo, ADDASSIGNMENT, exp) ;:}
             | location:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new Statement(lo, SUBASSIGNMENT, exp) ;:}
             | method_call:m_c SEMI {: RESULT = new Statement(m_c) ;:}
-            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new Statement(IF, exp, s, o_e) ;:}
+            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new Statement(exp, s, o_e) ;:}
             | FOR ID:id EQUAL expr:exp COMMA expr:exp statement:s {: RESULT = new Statement(FOR, id, EQUAL, exp, exp, s) ;:}
             | WHILE expr:exp statement:s {: RESULT = new Statement(WHILE, exp, s) ;:}
             | RETURN expr:exp SEMI {: RESULT = new Statement(RETURN, exp) ;:}
@@ -163,5 +163,5 @@ method_expr ::= expr
 location ::= ID:id {: RESULT = new Location(id) ;:}
            | ID:id location_aux:l_a {: RESULT = new Location(id, l_a) ;:};
 
-location_aux ::= navigation 
+location_aux ::= navigation
                | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new LocationAux(na, exp) ;:};
