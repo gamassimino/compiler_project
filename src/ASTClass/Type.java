@@ -1,4 +1,4 @@
-package ir.ast;
+package ASTClass.Type;
 
 public enum Type {
 	INTEGER,
