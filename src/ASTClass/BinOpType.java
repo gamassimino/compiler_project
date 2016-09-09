@@ -1,4 +1,4 @@
-package ir.ast;
+package ASTClass.BinOpType;
 
 public enum BinOpType {
 	PLUS, // Arithmetic

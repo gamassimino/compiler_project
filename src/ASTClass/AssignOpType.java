@@ -1,4 +1,4 @@
-package ir.ast;
+package ASTClass.AssignOpType;
 
 public enum AssignOpType {
 	ADDASSIGNMENT,

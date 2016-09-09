@@ -1,4 +1,4 @@
-package ir.ast;
+package ASTClass.AST;
 
 import ir.ASTVisitor;
 

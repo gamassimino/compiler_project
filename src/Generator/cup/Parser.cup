@@ -154,8 +154,8 @@ method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new Me
               | id:id navigation:na LPAREN RPAREN {: RESULT = new MethodCall(id, na) ;:}
               | ID:id LPAREN RPAREN {: RESULT = new MethodCall(id) ;:};
 
-navigation ::= POINT ID:id {: RESULT = new Navigation(POINT, id) ;:}
-              | navigation:na POINT ID:id {: RESULT = new Navigation(na, POINT, id);:};
+navigation ::= POINT ID:id {: RESULT = new Navigation( id) ;:}
+              | navigation:na POINT ID:id {: RESULT = new Navigation(na, id);:};
 
 method_expr ::= expr
               | method_expr COMMA expr;
