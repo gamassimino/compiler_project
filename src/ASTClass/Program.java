@@ -21,4 +21,8 @@ class Program{
   public void setClassList(ArrayList<ClassDecl> cl){
     class_list = cl;
   }
+
+  public void add(ClassDecl cl){
+    class_list.append(cl);
+  }
 }

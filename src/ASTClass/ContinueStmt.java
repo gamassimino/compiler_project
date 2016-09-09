@@ -24,10 +24,10 @@ public class ContinueStmt extends Statement {
   @Override
   public String toString() {
     if (expression == null) {
-      return "return";
+      return "continue";
     }
     else {
-      return "return " + expression;
+      return "continue " + expression;
     }
   }
 

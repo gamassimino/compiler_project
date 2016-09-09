@@ -79,7 +79,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "!" { return symbol("Not", sym.NOT); }
 
 // ### Assignment
-"=" { return symbol("Assign",sym.EQUAL); }
+"=" { return symbol("Assign",sym.ASSIGNMENT); }
 "+=" { return symbol("Assign and Add",sym.ADDASSIGNMENT); }
 "-=" { return symbol("Assign and Substract",sym.SUBASSIGNMENT); }
 

@@ -27,8 +27,8 @@ terminal AND, OR, NOT;
 terminal PERCENTAGE, DIVIDED,PLUS, MINUS, TIMES;
 terminal LESS, LESSOREQ;
 terminal GREATER, GREATEROREQ;
-terminal EQUALTO, NOTEQUALTO, EQUAL;
-terminal ADDASSIGNMENT, SUBASSIGNMENT;
+terminal EQUALTO, NOTEQUALTO;
+terminal ADDASSIGNMENT, SUBASSIGNMENT, ASSIGNMENT;
 terminal POINT;
 terminal ID;
 
@@ -73,8 +73,8 @@ precedence left ELSE;
 
 start with program;
 
-expr ::= location
-       | method_call
+expr ::= location:lo {: RESULT = lo; :}
+       | method_call:m_c {: RESULT = m_c :}
        | NUMBER_I:in {: RESULT = new Integer(in); :}
        | NUMBER_F:fl  {: RESULT = new Float(fl); :}
        | BOOLEAN_VALUE:bool {: RESULT = new Boolean(bool); :}
@@ -93,14 +93,12 @@ expr ::= location
        | expr:l OR expr:r {: RESULT = new Or(l, r); :}
        | MINUS expr:e {: RESULT = new Minus(e); :}
        | NOT expr:e {: RESULT = new Not(e) ; :}
-       | LPAREN expr RPAREN;
+       | LPAREN expr:exp RPAREN {: RESULT = exp; :};
 
-lambda ::= ;
+lambda ::= {: RESULT = null; :};
 
-ast ::= program {: RESULT = new Program(program): };
-
-program ::= class_decl
-          | program class_decl;
+program ::= class_decl:cl {: RESULT = new Program(cl); :}
+          | program:p class_decl:cl {: p.addClass(cl); RESULT = p; :};
 
 class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(id, f_d_l, m_d_l) ;:}
              | CLASS ID:id LKEY field_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, f_d_l) ;:}
@@ -143,43 +141,22 @@ type ::= INTEGER {: RESULT = new Type(INTEGER): }
        | ID:id {: RESULT = new Type(id) ;:}
        | VOID {: RESULT = new Type(VOID): };
 
+statement ::= location:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
+            | location:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
+            | location:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
+            | method_call:m_c SEMI {: RESULT = m_c; :}
+            | FOR ID:id EQUALTO expr:exp COMMA expr:exp statement:s {: RESULT = new For(id, exp, exp, s); :}
+            | WHILE expr:exp statement:s {: RESULT = new While(exp, s); :}
+            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new If(exp, s, o_e); :}
+            | RETURN expr:exp SEMI {: RESULT = new Return(exp); :}
+            | RETURN SEMI {: RESULT = new Return(); :}
+            | BREAK SEMI {: RESULT = new Break(); :}
+            | CONTINUE SEMI {: RESULT = new Continue(); :}
+            | SEMI 
+            | block:bl {: RESULT = bl; :};
 
-// STATEMENT PREGUNTAR SI ES ASI O SI AL CONSTRUCTOR LE PASAMOS EL CONSTRUCTOR DE CADA SUB CLASE
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-
-statement ::= location:lo EQUAL expr:exp SEMI {: RESULT = new Statement(lo, EQUAL, exp) ;:}
-            | location:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new Statement(lo, ADDASSIGNMENT, exp) ;:}
-            | location:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new Statement(lo, SUBASSIGNMENT, exp) ;:}
-            | method_call:m_c SEMI {: RESULT = new Statement(m_c) ;:}
-            | FOR ID:id EQUAL expr:exp COMMA expr:exp statement:s {: RESULT = new Statement(id, exp, exp, s) ;:}
-            | WHILE expr:exp statement:s {: RESULT = new Statement(exp, s) ;:}
-            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new Statement(exp, s, o_e) ;:}
-            | RETURN expr:exp SEMI {: RESULT = new Statement(RETURN, exp) ;:}
-            | RETURN SEMI {: RESULT = new Statement(RETURN) ;:}
-            | BREAK SEMI {: RESULT = new Statement(BREAK) ;:}
-            | CONTINUE SEMI {: RESULT = new Statement(CONTINUE) ;:}
-            | SEMI {: RESULT = new Statement();:}
-            | block:bl {: RESULT = new Statement(bl) ;:};
-
-optional_else ::= ELSE statement:s {: RESULT = new Statement(ELSE, s) ;:}
+optional_else ::= ELSE statement:s {: RESULT =  s ;:}
                 | lambda ;
-                //
-                //
-                //
-                //
-                //
-                //
-                //
-                //
 
 method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new MethodCall(id, na, method_expr) ;:}
               | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCall(id, m_e) ;:}

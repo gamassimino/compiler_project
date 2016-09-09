@@ -1,6 +1,6 @@
 package ASTClass.MethodCall;
 
-class MethodCall{
+class MethodCall extends Statement{
   private IdName id;
   private Navigation navigation;
   private List<Expression> expressions;
