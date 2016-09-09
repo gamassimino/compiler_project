@@ -2,8 +2,8 @@ package ASTClass.Param;
 
 class Param{
 
-  Type type;
-  IdName id;
+  private Type type;
+  private IdName id;
 
   public Param(Type type, IdName id){
     this.type = type;
@@ -18,7 +18,7 @@ class Param{
     return type;
   }
 
-  public void setId(Id id){
+  public void setIdName(IdName id){
     this.id = id;
   }
 

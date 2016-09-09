@@ -37,6 +37,7 @@ terminal Float NUMBER_F;
 terminal Boolean BOOLEAN_VALUE;
 
 non terminal Expression expr;
+non terminal ast;
 
 non terminal Location location;
 non terminal MethodCall method_call;
@@ -59,7 +60,7 @@ non terminal field_decl_list;
 non terminal LocationAux location_aux;
 non terminal list_field_decl;
 non terminal list_statement;
-// non terminal MethodDecl method_decl_list;
+non terminal method_decl_list;
 
 precedence left OR;
 precedence left AND;

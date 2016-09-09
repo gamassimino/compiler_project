@@ -1,18 +1,27 @@
-package ASTClass.Not;
+package ASTClass.NotEqualTo;
 
-class Not{
-  private Expression expr;
+class NotEqualTo{
+  private Expression left;
   private Expression right;
   
-  public Not(Expression a_expr){
-    expr = a_expr;
+  public NotEqualTo(Expression a_left, Expression a_right){
+    left = a_left;
+    right = a_right;
   }
 
-  public void setExpr(Expression a_expr){
-    expr = a_expr;
+  public void setLeft(Expression a_left){
+    left = a_left;
   }
 
-  public Expression getExpr(){
-    return expr;
+  public Expression getRigth(){
+    return left;
+  }
+
+  public void setRight(Expression a_right){
+    right = a_right;
+  }
+
+  public Expression getRigth(){
+    return right;
   }
 }

@@ -2,12 +2,12 @@ package ASTClass.Statement;
 
 public abstract class Statement extends AST {
 
-  Location location;
-  Expression expression;
-  MethodCall method_call;
-  Statement statement;
-  IdName id;
-  Block block;
+  private Location location;
+  private Expression expression;
+  private MethodCall method_call;
+  private Statement statement;
+  private IdName id;
+  private Block block;
 
   public Statement(){
   }
@@ -21,10 +21,11 @@ public abstract class Statement extends AST {
   }
 
   public Statement(Expression expr, Block if_block, Block else_block){
-    if else_block == null
-      IfStmt if_stm = new IfStmt(e, if_block);
+    IfStmt if_stm;
+    if (else_block == null)
+       if_stm = new IfStmt(e, if_block);
     else
-      IfStmt if_stm = new IfStmt(e, if_block, else_block);
+      if_stm = new IfStmt(e, if_block, else_block);
   }
 
   public Statement(){
@@ -84,11 +85,11 @@ public abstract class Statement extends AST {
     return statement;
   }
 
-  public void setId(IdName idParam){
+  public void setIdName(IdName idParam){
     id = idParam;
   }
 
-  public IdName getId(){
+  public IdName getIdName(){
     return id;
   }
 

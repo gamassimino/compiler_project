@@ -46,6 +46,6 @@ class ClassDecl extends AST{
   }
 
   public IdName getIdName(){
-    return id ;
+    return id;
   }
 }

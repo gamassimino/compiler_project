@@ -11,7 +11,7 @@ class IdName{
 
   public IdName(String an_id, Integer a_size){
     id = an_id;
-    size = a_size
+    size = a_size;
   }
 
   public void setIdName(String an_id){
