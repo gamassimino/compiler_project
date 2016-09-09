@@ -1,6 +1,6 @@
 package ASTClass.IfStmt;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class IfStmt extends Statement {
 	private Expression condition;

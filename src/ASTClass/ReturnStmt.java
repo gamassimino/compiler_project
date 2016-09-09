@@ -1,6 +1,6 @@
 package ASTClass.ReturnStmt;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class ReturnStmt extends Statement {
 	private Expression expression; // the return expression

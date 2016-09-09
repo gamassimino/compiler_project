@@ -6,27 +6,24 @@ import java.util.List;
 public class Block extends Statement {
   private List<Statement> statements;
   private List<FieldDecl> fields_decl;
-  private int blockId;
-  
-  public Block(int bId) {
-    fields_decl = new ArrayList<FieldDecl>();
-    statements = new ArrayList<Statement>();
-    blockId = bId;
-  }
-  
-  public Block(int bId, List<Statement> s, List<FieldDecl> f) {
-    blockId = bId;
-    statements = s;
+ 
+  public Block(ArrayList<FieldDecl> f, ArrayList<Statement> s){
     fields_decl = f;
-  }
-  public Block(int bId, List<Statement> s) {
-    blockId = bId;
     statements = s;
+  }
+  public Block(ArrayList<Statement> s){
+    statements = s;
+    fields_decl = null;
   }
 
-  public Block(int bId, List<FieldDecl> f) {
-    blockId = bId;
+  public Block(ArrayList<FieldDecl> f){
     fields_decl = f;
+    statements = null;
+  }
+
+  public Block() {
+    fields_decl = null;
+    statements = null;
   }
   
   public void addStatement(Statement s) {
@@ -44,14 +41,6 @@ public class Block extends Statement {
   public List<FieldDecl> getFieldDecl() {
     return this.fields_decl;
   } 
-    
-  public int getBlockId() {
-    return blockId;
-  }
-
-  public void setBlockId(int blockId) {
-    this.blockId = blockId;
-  }
 
   @Override
   public String toString() {

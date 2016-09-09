@@ -7,16 +7,17 @@ class MethodDecl{
   private Type type;
 
   public MethodDecl(Type a_type, IdName an_id, Param a_param, Body a_body){
-    Type type = a_type;
-    IdName id = an_id;
-    Param param = a_param;
-    Body body = a_body;
+    type = a_type;
+    id = an_id;
+    param = a_param;
+    body = a_body;
   }
 
-  public MethodDecl(Type a_type, IdName an_id, Param a_param){
-    Type type = a_type;
-    IdName id = an_id;
-    Param param = a_param;
+  public MethodDecl(Type a_type, IdName an_id, Body a_body){
+    type = a_type;
+    id = an_id;
+    body = a_body;
+    param = null;
   }
 
   public void setType(Type a_type){
@@ -35,20 +36,26 @@ class MethodDecl{
     body = a_body;
   }
 
-  public void getType(){
+  public Type getType(){
     return type;
   } 
 
-  public void getIdName(){
+  public IdName getIdName(){
     return id;
   } 
 
-  public void getParam(){
+  public Param getParam(){
     return param;
   } 
 
-  public void getBody(){
+  public Body getBody(){
     return body;
+  }
+
+  public String toString(){
+    String rtn;
+    rtn = type.toString()+" "+ id.toString() +" (" +param.toString()+") " + body.toString();
+    return rtn;
   }
 
 }

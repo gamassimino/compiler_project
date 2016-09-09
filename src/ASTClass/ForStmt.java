@@ -1,6 +1,6 @@
 package ASTClass.ForStmt;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class ForStmt extends Statement {
   private IdName id;

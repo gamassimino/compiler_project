@@ -1,6 +1,6 @@
 package ASTClass.BinOpExpr;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class BinOpExpr extends Expression {
 	private BinOpType operator; //operator in the expr = expr operator expr

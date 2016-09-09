@@ -3,23 +3,23 @@ import java.util.LinkedList;
 
 class Program{
 
-  LinkedList<ClassAST> class_list;
+  LinkedList<ClassDecl> class_list;
 
   public Program(){
-    class_list = new LinkedList<ClassAST>();
+    class_list = new LinkedList<ClassDecl>();
   }
 
-  public Program(ClassAST class){
-    class = new ClassAST();
-    class_list = new LinkedList<ClassAST>();
+  public Program(ClassDecl class){
+    class = new ClassDecl();
+    class_list = new LinkedList<ClassDecl>();
     class_list.add(class);
   }
 
-  public LinkedList<ClassAST> getClassList(){
+  public LinkedList<ClassDecl> getClassList(){
     return class_list;
   }
 
-  public void setClassList(LinkedList<ClassAST> cl){
+  public void setClassList(LinkedList<ClassDecl> cl){
     class_list = cl;
   }
 }

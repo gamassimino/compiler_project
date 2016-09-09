@@ -22,7 +22,7 @@ class Param{
     this.id = id;
   }
 
-  public Id getId(){
+  public IdName getIdName(){
     return id;
   }
 }

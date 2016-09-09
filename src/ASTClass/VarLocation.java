@@ -1,6 +1,6 @@
 package ASTClass.VarLocation;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class VarLocation extends Location {
 	private int blockId;

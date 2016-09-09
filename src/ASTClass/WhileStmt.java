@@ -1,6 +1,6 @@
 package ASTClass.WhileStmt;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class WhileStmt extends Statement {
 	private Expression condition;

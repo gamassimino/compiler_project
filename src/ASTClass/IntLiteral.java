@@ -1,6 +1,6 @@
 package ASTClass.IntLiteral;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class IntLiteral extends Literal {
 	private String rawValue;

@@ -1,6 +1,6 @@
 package ASTClass.AST;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public abstract class AST {
 	private int lineNumber;

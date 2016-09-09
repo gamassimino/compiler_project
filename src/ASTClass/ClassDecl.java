@@ -1,6 +1,6 @@
 package ASTClass.ClassDecl;
 
-class ClassDecl{
+class ClassDecl extends AST{
   private IdName id;
   private FieldDecl field_decl;
   private MethodDecl method_decl;
@@ -37,15 +37,15 @@ class ClassDecl{
     field_decl = a_field_decl;
   }
 
-  public getFieldDecl(){
+  public FieldDecl getFieldDecl(){
     return field_decl;
   }
 
-  public getMethodDecl(){
+  public MethodDecl getMethodDecl(){
     return method_decl;
   }
 
-  public getIdName(){
+  public IdName getIdName(){
     return id ;
   }
 }

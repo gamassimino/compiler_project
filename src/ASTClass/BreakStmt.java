@@ -1,6 +1,6 @@
 package ASTClass.BreakStmt;
 
-import ir.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class BreakStmt extends Statement {
   private Expression expression; // the return expression
