@@ -2,27 +2,26 @@ package ASTClass.Param;
 
 class Param{
 
-  private Type type;
-  private IdName id;
+  private List<Pair<Type, IdName>> list;
 
-  public Param(Type type, IdName id){
-    this.type = type;
-    this.id = id;
+  public Param(List<Pair<Type, IdName>> a_list){
+    this.list = a_list;
   }
 
-  public void setType(Type type){
-    this.type = type;
+  public Param(Type a_type, IdName an_id){
+    list = new ArrayList<Pair<Type, IdName>>();
+    list.add(new Pair<Type, IdName>(a_type, an_id));
   }
 
-  public Type getType(){
-    return type;
+  public void addParam(Type a_type, IdName an_id){
+    list.add(new Pair<Type, IdName>(a_type, an_id));
   }
 
-  public void setIdName(IdName id){
-    this.id = id;
+  public Pair<Type, IdName> getParam(){
+    return list.get(list.size);
   }
 
-  public IdName getIdName(){
-    return id;
+  public Pair<Type, IdName> removeParam(){
+    return list.remove(list.size);
   }
 }

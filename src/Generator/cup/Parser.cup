@@ -58,7 +58,6 @@ non terminal id_list;
 non terminal IdName id_name;
 non terminal field_decl_list;
 non terminal LocationAux location_aux;
-non terminal list_field_decl;
 non terminal list_statement;
 non terminal method_decl_list;
 
@@ -105,35 +104,52 @@ class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKE
              | CLASS ID:id LKEY method_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, m_d_l) ;:}
              | CLASS ID:id LKEY RKEY {: RESULT = new ClassDecl(id) ;:};
 
-field_decl_list ::= field_decl | field_decl_list field_decl;
+field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
+                                      list.add(f_d); 
+                                      RESULT = list; 
+                                   :} 
+                  | field_decl_list:f_d_l field_decl:f_d {: f_d_l.add(f_d); RESULT = f_d_l; :};
 
 field_decl ::= type:t id_list:i_l SEMI {: RESULT = new FieldDecl(t, i_l) ;:};
 
-id_list ::= id_name
-          | id_list COMMA id_name;
+id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
+                      list.add(i_n); 
+                      RESULT = list; 
+                    :}
+          | id_list:i_l COMMA id_name:i_n {: i_l.add(i_n); RESULT = i_l; :};
 
 id_name ::= ID:id {: RESULT = new IdName(id) ;:}
           | ID:id LBRACKET NUMBER_I:n_i RBRACKET  {: RESULT = new IdName(id, n_i) ;:};
 
-method_decl_list ::= method_decl | method_decl_list method_decl;
+method_decl_list ::= method_decl:m_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
+                                        list.add(m_d); 
+                                        RESULT = list; 
+                                     :} 
+                   | method_decl_list:m_d_l method_decl:m_d {: m_d_l.add(m_d); RESULT = m_d_l; :};
 
 method_decl ::=  type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, id, p, b) ;:}
                | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, id, b) ;:};
 
 param ::= type:t ID:id {: RESULT = new Param(t, id) ;:}
-        | type:t ID:id COMMA param:p {: RESULT = new Param(t, id, p) ;:}; // REFACTOR CLASS PARAM
+        | type:t ID:id COMMA param:p {: p.addParam(t, id);  RESULT = p; :}; // REFACTOR CLASS PARAM
 
 body ::=  block:bl {: RESULT = new Body(bl) ;:}
-        | EXTERN SEMI {: RESULT = new Body(EXTERN) ;:};
+        | EXTERN SEMI {: RESULT = new Body() ;:};
 
-block ::= LKEY list_field_decl:l_f_d list_statement:l_s RKEY {: RESULT = new Block(l_f_d, l_s) ;:}
-        | LKEY list_field_decl:l_f_d RKEY {: RESULT = new Block(l_f_d) ;:}
+
+
+        
+block ::= LKEY field_decl_list:f_d_l list_statement:l_s RKEY {: RESULT = new Block(f_d_l, l_s) ;:}
+        | LKEY field_decl_list:f_d_l RKEY {: RESULT = new Block(f_d_l) ;:}
         | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s) ;:}
         | LKEY RKEY {: RESULT = new Block(): };
 
-list_field_decl ::= field_decl | list_field_decl field_decl;
 
-list_statement ::= statement | list_statement statement;
+list_statement ::= statement:s {: ArrayList<Statement> list = new ArrayList<Statement>();
+                                  list.add(s);
+                                  RESULT = list;
+                               :}
+                 | list_statement:l_s statement:s {: l_s.add(s); :};
 
 type ::= INTEGER {: RESULT = new Type(INTEGER): }
        | FLOAT  {: RESULT = new Type(FLOAT): }
@@ -155,6 +171,7 @@ statement ::= location:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo
             | SEMI 
             | block:bl {: RESULT = bl; :};
 
+// REVIEW THE ELSE
 optional_else ::= ELSE statement:s {: RESULT =  s ;:}
                 | lambda ;
 
@@ -163,9 +180,12 @@ method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new Me
               | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCall(id, na) ;:}
               | ID:id LPAREN RPAREN {: RESULT = new MethodCall(id) ;:};
 
+// REVIEW THE NAVIGATION
 navigation ::= POINT ID:id {: RESULT = new Navigation( id) ;:}
               | navigation:na POINT ID:id {: RESULT = new Navigation(na, id);:};
 
+// HEREEE DONE !
+// REVIEW THE METHOD EXPRESSION
 method_expr ::= expr
               | method_expr COMMA expr;
 
