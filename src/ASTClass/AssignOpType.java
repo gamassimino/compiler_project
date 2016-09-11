@@ -1,9 +1,9 @@
-package ASTClass.AssignOpType;
+package src.ASTClass;
 
 public enum AssignOpType {
 	ADDASSIGNMENT,
 	SUBASSIGNMENT,
-	EQUAL;
+	ASSIGNMENT;
 
 	@Override
 	public String toString() {
@@ -12,7 +12,7 @@ public enum AssignOpType {
 				return "+=";
 			case SUBASSIGNMENT:
 				return "-=";
-			case EQUAL:
+			case ASSIGNMENT:
 				return "=";
 		}
 

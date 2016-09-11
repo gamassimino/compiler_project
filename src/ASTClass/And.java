@@ -1,4 +1,4 @@
-package ASTClass.And;
+package src.ASTClass;
 
 class And{
   private Expression left;

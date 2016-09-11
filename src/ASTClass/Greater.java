@@ -1,4 +1,4 @@
-package ASTClass.Greater;
+package src.ASTClass;
 
 class Greater{
   private Expression left;

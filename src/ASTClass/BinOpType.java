@@ -1,18 +1,18 @@
-package ASTClass.BinOpType;
+package src.ASTClass;
 
 public enum BinOpType {
-	PLUS, // Arithmetic
+	PLUS, 
 	MINUS,
 	TIMES,
 	DIVIDED,
 	PERCENTAGE,
-	LESS, // Relational
+	LESS, 
 	LESSOREQ,
 	GREATER,
 	GREATEROREQ,
-	EQUALTO, // Equal
+	EQUALTO, 
 	NOTEQUALTO,
-	AND, // Conditional
+	AND, 
 	OR;
 
 	@Override

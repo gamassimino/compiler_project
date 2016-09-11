@@ -1,4 +1,4 @@
-package ASTClass.NotEqualTo;
+package src.ASTClass;
 
 class NotEqualTo{
   private Expression left;
@@ -13,7 +13,7 @@ class NotEqualTo{
     left = a_left;
   }
 
-  public Expression getRigth(){
+  public Expression getLeft(){
     return left;
   }
 

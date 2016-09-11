@@ -1,4 +1,4 @@
-package ASTClass.Pair;
+package src.ASTClass;
 
 public class Pair<T,E>{
   private T fst;

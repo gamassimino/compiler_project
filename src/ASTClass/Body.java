@@ -1,4 +1,4 @@
-package ASTClass.Body;
+package src.ASTClass;
 
 class Body{
   private Block block;

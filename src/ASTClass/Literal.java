@@ -1,4 +1,4 @@
-package ASTClass.Literal;
+package src.ASTClass;
 
 public abstract class Literal extends Expression {
 	/*

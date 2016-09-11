@@ -1,4 +1,4 @@
-package ASTClass.Minus;
+package src.ASTClass;
 
 class Minus{
   private Expression left;

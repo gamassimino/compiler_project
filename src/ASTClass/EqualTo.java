@@ -1,4 +1,4 @@
-package ASTClass.EqualTo;
+package src.ASTClass;
 
 class EqualTo{
   private Expression left;

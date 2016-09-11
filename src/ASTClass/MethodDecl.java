@@ -1,4 +1,4 @@
-package ASTClass.MethodDecl;
+package src.ASTClass;
 
 class MethodDecl{
   private IdName id;

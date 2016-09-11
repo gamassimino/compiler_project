@@ -1,4 +1,4 @@
-package ASTClass.GreaterOrEq;
+package src.ASTClass;
 
 class GreaterOrEq{
   private Expression left;

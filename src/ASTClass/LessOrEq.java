@@ -1,4 +1,4 @@
-package ASTClass.LessOrEq;
+package src.ASTClass;
 
 class LessOrEq{
   private Expression left;

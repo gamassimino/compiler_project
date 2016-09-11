@@ -1,22 +1,28 @@
-package ASTClass.ClassDecl;
+package src.ASTClass;
 
-class ClassDecl extends AST{
+import java.util.ArrayList;
+import java.util.List;
+
+public class ClassDecl extends AST{
   private IdName id;
-  private List<List<FieldDecl>> field_decl;
-  private List<List<MethodDecl>> method_decl;
+  private List<FieldDecl> field_decl;
+  private List<MethodDecl> method_decl;
   
   public ClassDecl(IdName an_id){
     id = an_id;
   }
   
-  public ClassDecl(IdName an_id, List<FieldDecl> an_field_decl){
-    id = an_id;
-    field_decl = an_field_decl;
-  }
-  
-  public ClassDecl(IdName an_id, List<MethodDecl> an_method_decl){
-    id = an_id;
-    method_decl = an_method_decl;
+  public ClassDecl(IdName an_id, Object list, Boolean is_field){
+    if (is_field) {
+      id = an_id;
+      field_decl = (List<FieldDecl>)list;
+      method_decl = null;
+    }
+    else{
+      id = an_id;
+      method_decl = (List<MethodDecl>)list;
+      field_decl = null;
+    }
   }
   
   public ClassDecl(IdName an_id, List<FieldDecl> an_field_decl, List<MethodDecl> an_method_decl){
@@ -27,6 +33,7 @@ class ClassDecl extends AST{
   
   public void setIdName(IdName an_id){
     id = an_id;    
+
   }
 
   public void setMethodDecl(List<MethodDecl> a_method_decl){

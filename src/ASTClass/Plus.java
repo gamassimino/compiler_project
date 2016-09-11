@@ -1,4 +1,4 @@
-package ASTClass.Plus;
+package src.ASTClass;
 
 class Plus{
   private Expression left;

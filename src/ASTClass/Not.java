@@ -1,4 +1,4 @@
-package ASTClass.Not;
+package src.ASTClass;
 
 class Not{
   private Expression expr;

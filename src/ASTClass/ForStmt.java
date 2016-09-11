@@ -1,6 +1,6 @@
-package ASTClass.ForStmt;
+package src.ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class ForStmt extends Statement {
   private IdName id;
@@ -53,8 +53,8 @@ public class ForStmt extends Statement {
     return rtn;
   }
 
-  @Override
-  public <T> T accept(ASTVisitor<T> v) {
-    return v.visit(this);
-  }
+  // @Override
+  // public <T> T accept(ASTVisitor<T> v) {
+  //   return v.visit(this);
+  // }
 }

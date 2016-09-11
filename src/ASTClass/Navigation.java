@@ -1,4 +1,4 @@
-package ASTClass.Navigation;
+package src.ASTClass;
 
 class Navigation{
   private Navigation navigation;

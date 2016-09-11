@@ -1,6 +1,6 @@
-package ASTClass.ContinueStmt;
+package src.ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class ContinueStmt extends Statement {
   private Expression expression; // the return expression
@@ -31,8 +31,8 @@ public class ContinueStmt extends Statement {
     }
   }
 
-  @Override
-  public <T> T accept(ASTVisitor<T> v) {
-    return v.visit(this);
-  }
+  // @Override
+  // public <T> T accept(ASTVisitor<T> v) {
+  //   return v.visit(this);
+  // }
 }

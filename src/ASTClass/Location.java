@@ -1,4 +1,4 @@
-package ASTClass.Location;
+package src.ASTClass;
 
 public abstract class Location extends Expression {
 	protected IdName id;

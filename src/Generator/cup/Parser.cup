@@ -1,5 +1,7 @@
 package CodeGenerated;
 
+import ASTClass.*;
+import java.util.*;
 import java_cup.runtime.*;
 
 parser code {:
@@ -37,7 +39,6 @@ terminal Float NUMBER_F;
 terminal Boolean BOOLEAN_VALUE;
 
 non terminal Expression expr;
-non terminal ast;
 
 non terminal Location location;
 non terminal MethodCall method_call;
@@ -72,12 +73,13 @@ precedence left ELSE;
 
 start with program;
 
+// ### Expression ###
 expr ::= location:lo {: RESULT = lo; :}
-       | method_call:m_c {: RESULT = m_c :}
+       | method_call:m_c {: RESULT = m_c; :}
        | NUMBER_I:in {: RESULT = new Integer(in); :}
        | NUMBER_F:fl  {: RESULT = new Float(fl); :}
        | BOOLEAN_VALUE:bool {: RESULT = new Boolean(bool); :}
-       | expr:l PLUS expr:r {: RESULT = new Plus(l r); :}
+       | expr:l PLUS expr:r {: RESULT = new Plus(l, r); :}
        | expr:l MINUS expr:r {: RESULT = new Minus(l, r); :}
        | expr:l TIMES expr:r {: RESULT = new Times(l, r); :}
        | expr:l DIVIDED expr:r {: RESULT = new Divided(l, r); :}
@@ -94,16 +96,17 @@ expr ::= location:lo {: RESULT = lo; :}
        | NOT expr:e {: RESULT = new Not(e) ; :}
        | LPAREN expr:exp RPAREN {: RESULT = exp; :};
 
-lambda ::= {: RESULT = null; :};
-
+// ### Program ###
 program ::= class_decl:cl {: RESULT = new Program(cl); :}
           | program:p class_decl:cl {: p.addClass(cl); RESULT = p; :};
 
+// ### Class Declaration ###
 class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(id, f_d_l, m_d_l) ;:}
-             | CLASS ID:id LKEY field_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, f_d_l) ;:}
-             | CLASS ID:id LKEY method_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, m_d_l) ;:}
+             | CLASS ID:id LKEY field_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, f_d_l, true) ;:}
+             | CLASS ID:id LKEY method_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, m_d_l, false) ;:}
              | CLASS ID:id LKEY RKEY {: RESULT = new ClassDecl(id) ;:};
 
+// ### Field Declaration ###
 field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
                                       list.add(f_d); 
                                       RESULT = list; 
@@ -112,6 +115,7 @@ field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<
 
 field_decl ::= type:t id_list:i_l SEMI {: RESULT = new FieldDecl(t, i_l) ;:};
 
+// ### Identifier ###
 id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
                       list.add(i_n); 
                       RESULT = list; 
@@ -121,6 +125,7 @@ id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>(
 id_name ::= ID:id {: RESULT = new IdName(id) ;:}
           | ID:id LBRACKET NUMBER_I:n_i RBRACKET  {: RESULT = new IdName(id, n_i) ;:};
 
+// ### Method Declaration ###
 method_decl_list ::= method_decl:m_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
                                         list.add(m_d); 
                                         RESULT = list; 
@@ -130,33 +135,35 @@ method_decl_list ::= method_decl:m_d {: ArrayList<FieldDecl> list = new ArrayLis
 method_decl ::=  type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, id, p, b) ;:}
                | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, id, b) ;:};
 
+// ### Parameters ###
 param ::= type:t ID:id {: RESULT = new Param(t, id) ;:}
         | type:t ID:id COMMA param:p {: p.addParam(t, id);  RESULT = p; :}; // REFACTOR CLASS PARAM
 
+// ### Body ###
 body ::=  block:bl {: RESULT = new Body(bl) ;:}
         | EXTERN SEMI {: RESULT = new Body() ;:};
 
-
-
-        
+// ### Block ###        
 block ::= LKEY field_decl_list:f_d_l list_statement:l_s RKEY {: RESULT = new Block(f_d_l, l_s) ;:}
-        | LKEY field_decl_list:f_d_l RKEY {: RESULT = new Block(f_d_l) ;:}
-        | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s) ;:}
-        | LKEY RKEY {: RESULT = new Block(): };
+        | LKEY field_decl_list:f_d_l RKEY {: RESULT = new Block(f_d_l, false) ;:}
+        | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s, "true") ;:}
+        | LKEY RKEY {: RESULT = new Block(); :};
 
-
+// ### List Statement ###
 list_statement ::= statement:s {: ArrayList<Statement> list = new ArrayList<Statement>();
                                   list.add(s);
                                   RESULT = list;
                                :}
                  | list_statement:l_s statement:s {: l_s.add(s); :};
 
-type ::= INTEGER {: RESULT = new Type(INTEGER): }
-       | FLOAT  {: RESULT = new Type(FLOAT): }
-       | BOOL {: RESULT = new Type(BOOL) ;:}
-       | ID:id {: RESULT = new Type(id) ;:}
-       | VOID {: RESULT = new Type(VOID): };
+// ### Types ###
+type ::= INTEGER {: RESULT = new Type(INTEGER); :}
+       | FLOAT  {: RESULT = new Type(FLOAT); :}
+       | BOOL {: RESULT = new Type(BOOL); :}
+       | ID:id {: RESULT = new Type(id); :}
+       | VOID {: RESULT = new Type(VOID); :};
 
+// ### Statements ###
 statement ::= location:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
             | location:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
             | location:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
@@ -171,24 +178,29 @@ statement ::= location:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo
             | SEMI 
             | block:bl {: RESULT = bl; :};
 
-// REVIEW THE ELSE
+lambda ::= {: RESULT = null; :};
+
+//                          REVIEW THE ELSE
 optional_else ::= ELSE statement:s {: RESULT =  s ;:}
                 | lambda ;
 
+// ### Method Call ###
 method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new MethodCall(id, na, method_expr) ;:}
               | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCall(id, m_e) ;:}
               | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCall(id, na) ;:}
               | ID:id LPAREN RPAREN {: RESULT = new MethodCall(id) ;:};
 
-// REVIEW THE NAVIGATION
+//                         REVIEW THE NAVIGATION
+// ### Navigation ###
 navigation ::= POINT ID:id {: RESULT = new Navigation( id) ;:}
               | navigation:na POINT ID:id {: RESULT = new Navigation(na, id);:};
 
-// HEREEE DONE !
-// REVIEW THE METHOD EXPRESSION
+//                          HEREEE DONE !
+//                          REVIEW THE METHOD EXPRESSION
 method_expr ::= expr
               | method_expr COMMA expr;
 
+// ### Location ###
 location ::= ID:id {: RESULT = new Location(id) ;:}
            | ID:id location_aux:l_a {: RESULT = new Location(id, l_a) ;:};
 

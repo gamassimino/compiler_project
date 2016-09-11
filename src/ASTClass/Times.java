@@ -1,4 +1,4 @@
-package ASTClass.Times;
+package src.ASTClass;
 
 class Times{
   private Expression left;

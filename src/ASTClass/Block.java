@@ -1,4 +1,4 @@
-package ASTClass.Block;
+package src.ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +11,14 @@ public class Block extends Statement {
     fields_decl = f;
     statements = s;
   }
-  public Block(ArrayList<Statement> s){
-    statements = s;
-    fields_decl = null;
-  }
-
-  public Block(ArrayList<FieldDecl> f){
-    fields_decl = f;
-    statements = null;
+  public Block(Object list, Boolean is_statement){
+    if (is_statement) {
+      statements = (List<Statement>)list;
+      fields_decl = null;
+    }else{
+      fields_decl = (List<FieldDecl>)list;
+      statements = null;
+    }
   }
 
   public Block() {
@@ -59,9 +59,9 @@ public class Block extends Statement {
     return rtn; 
   }
 
-  @Override
-  public <T> T accept(ASTVisitor<T> v) {
-    return v.visit(this);
-  }
+  // @Override
+  // public <T> T accept(ASTVisitor<T> v) {
+  //   return v.visit(this);
+  // }
   
 }

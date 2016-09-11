@@ -1,4 +1,7 @@
-package ASTClass.Param;
+package src.ASTClass;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class Param{
 
@@ -18,10 +21,10 @@ class Param{
   }
 
   public Pair<Type, IdName> getParam(){
-    return list.get(list.size);
+    return list.get(list.size());
   }
 
   public Pair<Type, IdName> removeParam(){
-    return list.remove(list.size);
+    return list.remove(list.size());
   }
 }

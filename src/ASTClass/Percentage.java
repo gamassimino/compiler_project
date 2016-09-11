@@ -1,4 +1,4 @@
-package ASTClass.Percentage;
+package src.ASTClass;
 
 class Percentage{
   private Expression left;

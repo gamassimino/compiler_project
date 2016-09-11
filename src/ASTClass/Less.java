@@ -1,4 +1,4 @@
-package ASTClass.Less;
+package src.ASTClass;
 
 class Less{
   private Expression left;

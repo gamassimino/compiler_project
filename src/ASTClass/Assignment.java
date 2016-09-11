@@ -1,4 +1,4 @@
-package ASTClass.Assignment;
+package src.ASTClass;
 
 class Assignment extends Statement{
   private Expression left;

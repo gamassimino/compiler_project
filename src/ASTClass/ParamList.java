@@ -1,5 +1,8 @@
-package ASTClass.ParamList;
-import java.util.LinkedList;
+package src.ASTClass;
+
+import java.util.ArrayList;
+import java.util.List;
+import src.ASTClass.Param;
 
 class ParamList{
 
@@ -8,12 +11,12 @@ class ParamList{
   private List<Param> listOfParam;
 
   public ParamList(){
-    listOfParam = new LinkedList<Param>();
+    listOfParam = new ArrayList<Param>();
   }
 
   public ParamList(Type type, IdName id){
-    param = new Param(type, id);
-    listOfParam = new LinkedList<Param>();
+    Param param = new Param(type, id);
+    listOfParam = new ArrayList<Param>();
     listOfParam.add(param);
   }
 }

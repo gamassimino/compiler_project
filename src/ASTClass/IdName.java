@@ -1,4 +1,4 @@
-package ASTClass.IdName;
+package src.ASTClass;
 
 class IdName{
   private String id;
@@ -19,7 +19,7 @@ class IdName{
   }
 
   public IdName getIdName(){
-    return id;
+    return new IdName(id);
   }
 
   public void setSize(Integer a_size){

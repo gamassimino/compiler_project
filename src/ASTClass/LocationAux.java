@@ -1,4 +1,4 @@
-package ASTClass.LocationAux;
+package src.ASTClass;
 
 class LocationAux{
 	

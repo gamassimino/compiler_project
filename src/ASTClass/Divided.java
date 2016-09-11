@@ -1,4 +1,4 @@
-package ASTClass.Divided;
+package src.ASTClass;
 
 class Divided{
   private Expression left;

@@ -1,4 +1,7 @@
-package ASTClass.FieldDecl;
+package src.ASTClass;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class FieldDecl{
   private Type type;

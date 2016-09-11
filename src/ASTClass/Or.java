@@ -1,4 +1,4 @@
-package ASTClass.Or;
+package src.ASTClass;
 
 class Or{
   private Expression left;

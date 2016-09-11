@@ -1,5 +1,7 @@
-package ASTClass.Program;
-import java.util.LinkedList;
+package src.ASTClass;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class Program{
 
@@ -23,6 +25,6 @@ class Program{
   }
 
   public void add(ClassDecl cl){
-    class_list.append(cl);
+    class_list.add(cl);
   }
 }
