@@ -1,5 +1,7 @@
 package src.ASTClass;
 
+import Visitor.ASTVisitor;
+
 class MethodDecl{
   private IdName id;
   private Param param;

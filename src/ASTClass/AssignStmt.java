@@ -1,6 +1,6 @@
 package src.ASTClass;
 
-// import src.Visitor.ASTVisitor;
+import src.Visitor.ASTVisitor;
 
 public class AssignStmt extends Statement {
   private Location location;

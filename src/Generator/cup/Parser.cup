@@ -71,6 +71,10 @@ precedence left TIMES, DIVIDED, PERCENTAGE;
 precedence left NOT;
 precedence left ELSE;
 
+precedence left RPAREN;
+precedence left LPAREN;
+precedence left ID;
+
 start with program;
 
 // ### Expression ###
@@ -146,7 +150,7 @@ body ::=  block:bl {: RESULT = new Body(bl) ;:}
 // ### Block ###        
 block ::= LKEY field_decl_list:f_d_l list_statement:l_s RKEY {: RESULT = new Block(f_d_l, l_s) ;:}
         | LKEY field_decl_list:f_d_l RKEY {: RESULT = new Block(f_d_l, false) ;:}
-        | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s, "true") ;:}
+        | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s, true) ;:}
         | LKEY RKEY {: RESULT = new Block(); :};
 
 // ### List Statement ###
@@ -182,7 +186,7 @@ lambda ::= {: RESULT = null; :};
 
 //                          REVIEW THE ELSE
 optional_else ::= ELSE statement:s {: RESULT =  s ;:}
-                | lambda ;
+                | lambda:l {: RESULT = l; :} ;
 
 // ### Method Call ###
 method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new MethodCall(id, na, method_expr) ;:}
@@ -195,11 +199,14 @@ method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new Me
 navigation ::= POINT ID:id {: RESULT = new Navigation( id) ;:}
               | navigation:na POINT ID:id {: RESULT = new Navigation(na, id);:};
 
-//                          HEREEE DONE !
 //                          REVIEW THE METHOD EXPRESSION
-method_expr ::= expr
-              | method_expr COMMA expr;
+method_expr ::= expr:e {: ArrayList<Expression> list = new ArrayList<Expression>();
+                          list.add(e);
+                          RESULT = list;
+                       :}
+              | method_expr:m_e expr:e {: m_e.add(e); RESULT = m_e; :};
 
+//                          HEREEE DONE !
 // ### Location ###
 location ::= ID:id {: RESULT = new Location(id) ;:}
            | ID:id location_aux:l_a {: RESULT = new Location(id, l_a) ;:};

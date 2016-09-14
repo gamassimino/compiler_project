@@ -1,5 +1,7 @@
 package src.ASTClass;
 
+import Visitor.ASTVisitor;
+
 class Minus{
   private Expression left;
   private Expression right;

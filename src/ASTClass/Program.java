@@ -2,8 +2,9 @@ package src.ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
+import Visitor.ASTVisitor;
 
-class Program{
+class Program extends AST {
 
   private List<ClassDecl> class_list;
 

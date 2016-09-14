@@ -1,5 +1,7 @@
 package src.ASTClass;
 
+import Visitor.ASTVisitor;
+
 class Navigation{
   private Navigation navigation;
   private IdName id;

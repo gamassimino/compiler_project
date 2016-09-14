@@ -1,5 +1,7 @@
 package src.ASTClass;
 
+import Visitor.ASTVisitor;
+
 public abstract class Expression extends AST {
 	protected Expression expr;
 	protected Type type;
