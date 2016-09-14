@@ -40,7 +40,8 @@ terminal Boolean BOOLEAN_VALUE;
 
 non terminal Expression expr;
 
-non terminal Location location;
+non terminal LocationExpr location_expr;
+non terminal LocationStmt location_stmt;
 non terminal MethodCallExpr method_call_expr;
 non terminal MethodCallStmt method_call_stmt;
 non terminal Program program;
@@ -79,7 +80,7 @@ precedence left ID;
 start with program;
 
 // ### Expression ###
-expr ::= location:lo {: RESULT = lo; :}
+expr ::= location_expr:lo {: RESULT = lo; :}
        | method_call:m_c {: RESULT = m_c; :}
        | NUMBER_I:in {: RESULT = new Integer(in); :}
        | NUMBER_F:fl  {: RESULT = new Float(fl); :}
@@ -169,9 +170,9 @@ type ::= INTEGER {: RESULT = new Type(INTEGER); :}
        | VOID {: RESULT = new Type(VOID); :};
 
 // ### Statements ###
-statement ::= location:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
-            | location:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
-            | location:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
+statement ::= location_stmt:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
+            | location_stmt:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
+            | location_stmt:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
             | method_call_stmt:m_c SEMI {: RESULT = m_c; :}
             | FOR ID:id EQUALTO expr:exp COMMA expr:exp statement:s {: RESULT = new For(id, exp, exp, s); :}
             | WHILE expr:exp statement:s {: RESULT = new While(exp, s); :}
@@ -209,8 +210,11 @@ method_expr ::= expr:e {: ArrayList<Expression> list = new ArrayList<Expression>
 
 //                          HEREEE DONE !
 // ### Location ###
-location ::= ID:id {: RESULT = new Location(id) ;:}
-           | ID:id location_aux:l_a {: RESULT = new Location(id, l_a) ;:};
+location_expr ::= ID:id {: RESULT = new LocationExpr(id) ;:}
+           | ID:id location_aux:l_a {: RESULT = new LocationExpr(id, l_a) ;:};
+
+location_stmt ::= ID:id {: RESULT = new LocationStmt(id) ;:}
+           | ID:id location_aux:l_a {: RESULT = new LocationStmt(id, l_a) ;:};
 
 location_aux ::= navigation
                | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new LocationAux(na, exp) ;:};
