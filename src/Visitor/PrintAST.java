@@ -19,10 +19,6 @@ public class PrintAST implements ASTVisitor<String>{
     return stmt.toString();
   }
 
-  String visit(AssignStmt stmt){
-    return stmt.toString();
-  }
-
   String visit(AST stmt){
     return stmt.toString();
   }

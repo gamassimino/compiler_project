@@ -9,7 +9,6 @@ public interface ASTVisitor<T> {
   T visit(And stmt);
   T visit(Assignment stmt);
   T visit(AssignOpType stmt);
-  T visit(AssignStmt stmt);
   T visit(AST stmt);
   T visit(BinOpExpr expr);
   T visit(BinOpType expr);
