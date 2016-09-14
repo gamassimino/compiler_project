@@ -19,10 +19,6 @@ public class PrintAST implements ASTVisitor<String>{
     return stmt.toString();
   }
 
-  String visit(AST stmt){
-    return stmt.toString();
-  }
-
   String visit(BinOpExpr expr){
     return expr.getLeftOperand().accept(this)+expr.getOperator().accept(this)+expr.getRightOperand().accept(this);
   }
@@ -106,7 +102,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   String visit(Literal stmt){
-    return stmt.toString();
+    return stmt.getType().accept(this);
   }
 
   String visit(Location stmt){
@@ -127,7 +123,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   String visit(Minus stmt){
-    return stmt.toString();
+    return stmt.getLeft().accept(this)+" - "+stmt.getRight().accept(this);
   }
 
   String visit(Navigation stmt){
@@ -135,7 +131,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   String visit(Not stmt){
-    return stmt.getExpr().accept(this);
+    return "!("+stmt.getExpr().accept(this)+")";
   }
 
   String visit(NotEqualTo stmt){
