@@ -1,4 +1,4 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
@@ -23,7 +23,6 @@ public class VarLocation extends Location {
     return id.toString();
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

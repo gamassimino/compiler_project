@@ -1,8 +1,8 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class Body{
+public class Body{
   private Block block;
 
   public Body(Block bl){
@@ -20,7 +20,6 @@ class Body{
     return block;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

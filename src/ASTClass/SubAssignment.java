@@ -1,8 +1,8 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class SubAssignment  extends Statement{
+public class SubAssignment  extends Statement{
   private Expression left;
   private Expression right;
 
@@ -27,7 +27,6 @@ class SubAssignment  extends Statement{
     return right;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

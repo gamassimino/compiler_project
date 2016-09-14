@@ -1,4 +1,4 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
@@ -36,7 +36,6 @@ public class WhileStmt extends Statement {
     return rtn;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

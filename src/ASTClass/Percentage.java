@@ -1,8 +1,8 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class Percentage{
+public class Percentage extends Expression{
   private Expression left;
   private Expression right;
 
@@ -27,7 +27,6 @@ class Percentage{
     return right;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

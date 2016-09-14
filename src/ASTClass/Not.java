@@ -1,8 +1,8 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class Not{
+public class Not extends Expression{
   private Expression expr;
 
   public Not(Expression a_expr){
@@ -17,7 +17,6 @@ class Not{
     return expr;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

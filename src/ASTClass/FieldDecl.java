@@ -1,10 +1,10 @@
-package src.ASTClass;
+package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import Visitor.ASTVisitor;
 
-class FieldDecl{
+public class FieldDecl{
   private Type type;
   private List<IdName> list_id;
 
@@ -29,7 +29,6 @@ class FieldDecl{
     return list_id;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

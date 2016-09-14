@@ -1,4 +1,4 @@
-package src.ASTClass;
+package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,6 @@ public class ClassDecl extends AST{
     return id;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

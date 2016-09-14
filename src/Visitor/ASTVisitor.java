@@ -52,5 +52,4 @@ public interface ASTVisitor<T> {
   T visit(Type stmt);
   T visit(VarLocation loc);
   T visit(WhileStmt loc);
-  T visit(Stmt stmt);// what it's ?
 }

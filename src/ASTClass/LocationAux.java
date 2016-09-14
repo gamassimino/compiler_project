@@ -1,7 +1,7 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class LocationAux{
+public class LocationAux{
 	
 }

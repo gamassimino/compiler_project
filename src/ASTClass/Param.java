@@ -1,10 +1,10 @@
-package src.ASTClass;
+package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import Visitor.ASTVisitor;
 
-class Param{
+public class Param{
 
   private List<Pair<Type, IdName>> list;
 
@@ -29,7 +29,6 @@ class Param{
     return list.remove(list.size());
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

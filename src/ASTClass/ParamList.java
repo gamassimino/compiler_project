@@ -1,11 +1,11 @@
-package src.ASTClass;
+package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
-import src.ASTClass.Param;
+import ASTClass.Param;
 import Visitor.ASTVisitor;
 
-class ParamList{
+public class ParamList{
 
   private Type type;
   private IdName id;
@@ -21,7 +21,6 @@ class ParamList{
     listOfParam.add(param);
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

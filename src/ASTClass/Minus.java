@@ -1,8 +1,8 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class Minus{
+public class Minus extends Expression{
   private Expression left;
   private Expression right;
 
@@ -32,7 +32,6 @@ class Minus{
     return right;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

@@ -1,4 +1,4 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 import java.util.ArrayList;
@@ -60,7 +60,6 @@ public class Block extends Statement {
     return rtn;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
     return v.visit(this);
   }

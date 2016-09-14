@@ -1,8 +1,8 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class MethodDecl{
+public class MethodDecl{
   private IdName id;
   private Param param;
   private Body body;
@@ -60,7 +60,6 @@ class MethodDecl{
     return rtn;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

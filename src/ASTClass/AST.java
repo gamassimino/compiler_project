@@ -1,4 +1,4 @@
-package src.ASTClass;
+package ASTClass;
 
 // import Visitor.ASTVisitor;
 

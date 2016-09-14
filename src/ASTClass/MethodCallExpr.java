@@ -1,10 +1,10 @@
-package src.ASTClass;
+package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
 import Visitor.ASTVisitor;
 
-class MethodCallExpr extends Statement{
+public class MethodCallExpr extends Statement{
   private IdName id;
   private Navigation navigation;
   private List<Expression> expression;
@@ -15,12 +15,12 @@ class MethodCallExpr extends Statement{
     expression = an_expression;
   }
 
-  public MethodCall(IdName an_id, Navigation a_navigation){
+  public MethodCallExpr(IdName an_id, Navigation a_navigation){
     id = an_id;
     navigation = a_navigation;
   }
 
-  public MethodCall(IdName an_id, ArrayList<Expression> an_expression){
+  public MethodCallExpr(IdName an_id, ArrayList<Expression> an_expression){
     id = an_id;
     expression = an_expression;
   }
@@ -49,7 +49,6 @@ class MethodCallExpr extends Statement{
     return expression;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

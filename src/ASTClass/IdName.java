@@ -1,8 +1,8 @@
-package src.ASTClass;
+package ASTClass;
 
 import Visitor.ASTVisitor;
 
-class IdName{
+public class IdName{
   private String id;
   private Integer size;
 
@@ -36,7 +36,6 @@ class IdName{
     return id;
   }
 
-  @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

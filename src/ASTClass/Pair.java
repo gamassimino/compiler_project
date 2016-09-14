@@ -1,4 +1,4 @@
-package src.ASTClass;
+package ASTClass;
 
 public class Pair<T,E>{
   private T fst;
@@ -23,10 +23,5 @@ public class Pair<T,E>{
 
   public void setSnd(E second){
     snd = second;
-  }
-
-  @Override
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
   }
 }
