@@ -2,6 +2,7 @@ package src.ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
+import Visitor.ASTVisitor;
 
 public class ClassDecl extends AST{
   private IdName id;

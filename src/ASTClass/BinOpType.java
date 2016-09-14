@@ -1,5 +1,7 @@
 package src.ASTClass;
 
+import Visitor.ASTVisitor;
+
 public enum BinOpType {
 	PLUS, 
 	MINUS,

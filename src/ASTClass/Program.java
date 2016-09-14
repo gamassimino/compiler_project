@@ -2,8 +2,9 @@ package src.ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
+import Visitor.ASTVisitor;
 
-class Program{
+class Program extends AST {
 
   private List<ClassDecl> class_list;
 
@@ -27,4 +28,9 @@ class Program{
   public void add(ClassDecl cl){
     class_list.add(cl);
   }
+
+  // @Override
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }

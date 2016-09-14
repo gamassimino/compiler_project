@@ -1,5 +1,7 @@
 package src.ASTClass;
 
+import Visitor.ASTVisitor;
+
 class AddAssignment extends Statement{
   private Expression left;
   private Expression right;
@@ -23,5 +25,10 @@ class AddAssignment extends Statement{
 
   public Expression getRight(){
     return right;
+  }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+    return v.visit(this);
   }
 }

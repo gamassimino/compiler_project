@@ -1,5 +1,7 @@
 package src.ASTClass;
 
+import Visitor.ASTVisitor;
+
 public abstract class Location extends Expression {
 	protected IdName id;
 	
