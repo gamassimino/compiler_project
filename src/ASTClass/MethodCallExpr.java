@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Visitor.ASTVisitor;
 
-class MethodCall extends Statement{
+class MethodCallExpr extends Statement{
   private IdName id;
   private Navigation navigation;
   private List<Expression> expression;

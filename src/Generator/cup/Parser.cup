@@ -41,7 +41,8 @@ terminal Boolean BOOLEAN_VALUE;
 non terminal Expression expr;
 
 non terminal Location location;
-non terminal MethodCall method_call;
+non terminal MethodCallExpr method_call_expr;
+non terminal MethodCallStmt method_call_stmt;
 non terminal Program program;
 non terminal FieldDecl field_decl;
 non terminal MethodDecl method_decl;
@@ -112,17 +113,17 @@ class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKE
 
 // ### Field Declaration ###
 field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                                      list.add(f_d); 
-                                      RESULT = list; 
-                                   :} 
+                                      list.add(f_d);
+                                      RESULT = list;
+                                   :}
                   | field_decl_list:f_d_l field_decl:f_d {: f_d_l.add(f_d); RESULT = f_d_l; :};
 
 field_decl ::= type:t id_list:i_l SEMI {: RESULT = new FieldDecl(t, i_l) ;:};
 
 // ### Identifier ###
 id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                      list.add(i_n); 
-                      RESULT = list; 
+                      list.add(i_n);
+                      RESULT = list;
                     :}
           | id_list:i_l COMMA id_name:i_n {: i_l.add(i_n); RESULT = i_l; :};
 
@@ -131,9 +132,9 @@ id_name ::= ID:id {: RESULT = new IdName(id) ;:}
 
 // ### Method Declaration ###
 method_decl_list ::= method_decl:m_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                                        list.add(m_d); 
-                                        RESULT = list; 
-                                     :} 
+                                        list.add(m_d);
+                                        RESULT = list;
+                                     :}
                    | method_decl_list:m_d_l method_decl:m_d {: m_d_l.add(m_d); RESULT = m_d_l; :};
 
 method_decl ::=  type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, id, p, b) ;:}
@@ -147,7 +148,7 @@ param ::= type:t ID:id {: RESULT = new Param(t, id) ;:}
 body ::=  block:bl {: RESULT = new Body(bl) ;:}
         | EXTERN SEMI {: RESULT = new Body() ;:};
 
-// ### Block ###        
+// ### Block ###
 block ::= LKEY field_decl_list:f_d_l list_statement:l_s RKEY {: RESULT = new Block(f_d_l, l_s) ;:}
         | LKEY field_decl_list:f_d_l RKEY {: RESULT = new Block(f_d_l, false) ;:}
         | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s, true) ;:}
@@ -171,7 +172,7 @@ type ::= INTEGER {: RESULT = new Type(INTEGER); :}
 statement ::= location:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
             | location:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
             | location:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
-            | method_call:m_c SEMI {: RESULT = m_c; :}
+            | method_call_stmt:m_c SEMI {: RESULT = m_c; :}
             | FOR ID:id EQUALTO expr:exp COMMA expr:exp statement:s {: RESULT = new For(id, exp, exp, s); :}
             | WHILE expr:exp statement:s {: RESULT = new While(exp, s); :}
             | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new If(exp, s, o_e); :}
@@ -179,7 +180,7 @@ statement ::= location:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo
             | RETURN SEMI {: RESULT = new Return(); :}
             | BREAK SEMI {: RESULT = new Break(); :}
             | CONTINUE SEMI {: RESULT = new Continue(); :}
-            | SEMI 
+            | SEMI
             | block:bl {: RESULT = bl; :};
 
 lambda ::= {: RESULT = null; :};
@@ -189,10 +190,10 @@ optional_else ::= ELSE statement:s {: RESULT =  s ;:}
                 | lambda:l {: RESULT = l; :} ;
 
 // ### Method Call ###
-method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new MethodCall(id, na, method_expr) ;:}
-              | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCall(id, m_e) ;:}
-              | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCall(id, na) ;:}
-              | ID:id LPAREN RPAREN {: RESULT = new MethodCall(id) ;:};
+method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new MethodCallStmt(id, na, method_expr) ;:}
+              | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(id, m_e) ;:}
+              | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallStmt(id, na) ;:}
+              | ID:id LPAREN RPAREN {: RESULT = new MethodCallStmt(id) ;:};
 
 //                         REVIEW THE NAVIGATION
 // ### Navigation ###
