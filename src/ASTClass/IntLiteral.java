@@ -5,7 +5,7 @@ package src.ASTClass;
 public class IntLiteral extends Literal {
   private String rawValue;
   private Integer value;
-  
+
   /*
    * Constructor for int literal that takes a string as an input
    * @param: String integer
@@ -35,7 +35,7 @@ public class IntLiteral extends Literal {
   public void setValue(int value) {
     this.value = value;
   }
-  
+
   public String getRawValue() {
     return rawValue;
   }
@@ -49,8 +49,8 @@ public class IntLiteral extends Literal {
     return rawValue;
   }
 
-  // @Override
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

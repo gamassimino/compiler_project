@@ -24,4 +24,9 @@ public enum Type {
 
 		return null;
 	}
+
+	@Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

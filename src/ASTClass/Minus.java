@@ -3,7 +3,7 @@ package src.ASTClass;
 class Minus{
   private Expression left;
   private Expression right;
-  
+
   public Minus(Expression a_left, Expression a_right){
     left = a_left;
     right = a_right;
@@ -28,5 +28,10 @@ class Minus{
 
   public Expression getRight(){
     return right;
+  }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
   }
 }

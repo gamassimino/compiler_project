@@ -7,7 +7,7 @@ public class ForStmt extends Statement {
   private Expression condition;
   private Expression step;
   private Statement statement;
-  
+
   public ForStmt(IdName an_id, Expression cond, Expression a_step, Statement st) {
     this.id = an_id;
     this.condition = cond;
@@ -46,15 +46,15 @@ public class ForStmt extends Statement {
   public void setStatement(Statement a_statement) {
     this.statement = a_statement;
   }
-  
+
   @Override
   public String toString() {
     String rtn = "for " + condition.toString()+ " ; " + step.toString() + '\n' + statement.toString();
     return rtn;
   }
 
-  // @Override
-  // public <T> T accept(ASTVisitor<T> v) {
-  //   return v.visit(this);
-  // }
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+    return v.visit(this);
+  }
 }

@@ -15,11 +15,11 @@ class FieldDecl{
   public void setListId(ArrayList<IdName> a_list_id){
     list_id = a_list_id;
   }
-  
+
   public void setType(Type a_type){
     type = a_type;
   }
-  
+
   public Type getType(){
     return type;
   }
@@ -27,5 +27,9 @@ class FieldDecl{
   public List<IdName> getListId(){
     return list_id;
   }
- 
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

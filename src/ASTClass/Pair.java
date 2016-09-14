@@ -24,4 +24,9 @@ public class Pair<T,E>{
   public void setSnd(E second){
     snd = second;
   }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

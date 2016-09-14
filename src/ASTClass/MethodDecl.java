@@ -22,15 +22,15 @@ class MethodDecl{
 
   public void setType(Type a_type){
     type = a_type;
-  } 
+  }
 
   public void setIdName(IdName an_id){
     id = an_id;
-  } 
+  }
 
   public void setParam(Param a_param){
     param = a_param;
-  } 
+  }
 
   public void setBody(Body a_body){
     body = a_body;
@@ -38,15 +38,15 @@ class MethodDecl{
 
   public Type getType(){
     return type;
-  } 
+  }
 
   public IdName getIdName(){
     return id;
-  } 
+  }
 
   public Param getParam(){
     return param;
-  } 
+  }
 
   public Body getBody(){
     return body;
@@ -58,4 +58,8 @@ class MethodDecl{
     return rtn;
   }
 
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

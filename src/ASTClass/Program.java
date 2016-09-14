@@ -27,4 +27,9 @@ class Program{
   public void add(ClassDecl cl){
     class_list.add(cl);
   }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

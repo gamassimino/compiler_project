@@ -28,4 +28,9 @@ class Navigation{
   public Navigation getNavigation(){
     return navigation;
   }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

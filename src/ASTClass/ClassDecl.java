@@ -7,11 +7,11 @@ public class ClassDecl extends AST{
   private IdName id;
   private List<FieldDecl> field_decl;
   private List<MethodDecl> method_decl;
-  
+
   public ClassDecl(IdName an_id){
     id = an_id;
   }
-  
+
   public ClassDecl(IdName an_id, Object list, Boolean is_field){
     if (is_field) {
       id = an_id;
@@ -24,15 +24,15 @@ public class ClassDecl extends AST{
       field_decl = null;
     }
   }
-  
+
   public ClassDecl(IdName an_id, List<FieldDecl> an_field_decl, List<MethodDecl> an_method_decl){
     id = an_id;
     method_decl = an_method_decl;
     field_decl = an_field_decl;
   }
-  
+
   public void setIdName(IdName an_id){
-    id = an_id;    
+    id = an_id;
 
   }
 
@@ -54,5 +54,10 @@ public class ClassDecl extends AST{
 
   public IdName getIdName(){
     return id;
+  }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
   }
 }

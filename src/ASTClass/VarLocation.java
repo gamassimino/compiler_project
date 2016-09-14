@@ -23,8 +23,8 @@ public class VarLocation extends Location {
     return id.toString();
   }
 
-  // @Override
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

@@ -47,4 +47,9 @@ class MethodCall extends Statement{
   public List<Expression> getExpressions(){
     return expression;
   }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

@@ -27,4 +27,9 @@ class Param{
   public Pair<Type, IdName> removeParam(){
     return list.remove(list.size());
   }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

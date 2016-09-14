@@ -54,8 +54,8 @@ public class BinOpExpr extends Expression {
     return lOperand + " " + operator + " " + rOperand;
   }
 
-  // @Override
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

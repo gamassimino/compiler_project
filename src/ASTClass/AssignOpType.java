@@ -18,4 +18,9 @@ public enum AssignOpType {
 
 		return null;
 	}
+
+	@Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

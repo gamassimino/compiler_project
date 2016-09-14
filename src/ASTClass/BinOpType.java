@@ -1,18 +1,18 @@
 package src.ASTClass;
 
 public enum BinOpType {
-	PLUS, 
+	PLUS,
 	MINUS,
 	TIMES,
 	DIVIDED,
 	PERCENTAGE,
-	LESS, 
+	LESS,
 	LESSOREQ,
 	GREATER,
 	GREATEROREQ,
-	EQUALTO, 
+	EQUALTO,
 	NOTEQUALTO,
-	AND, 
+	AND,
 	OR;
 
 	@Override
@@ -48,4 +48,9 @@ public enum BinOpType {
 
 		return null;
 	}
+
+	@Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

@@ -3,7 +3,7 @@ package src.ASTClass;
 class Assignment extends Statement{
   private Expression left;
   private Expression right;
-  
+
   public Assignment(Expression a_left, Expression a_right){
     left = a_left;
     right = a_right;
@@ -23,5 +23,10 @@ class Assignment extends Statement{
 
   public Expression getRight(){
     return right;
+  }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
   }
 }

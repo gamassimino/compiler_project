@@ -19,4 +19,9 @@ class ParamList{
     listOfParam = new ArrayList<Param>();
     listOfParam.add(param);
   }
+
+  @Override
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }
