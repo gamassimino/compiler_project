@@ -2,200 +2,207 @@ package Visitor;
 
 import ASTClass.*;
 
-public class PrintAST<T> implements ASTVisitor<T>{
-  T visit(AddAssignment stmt){
+public class PrintAST implements ASTVisitor<String>{
+  String visit(AddAssignment stmt){
+   return stmt.getId().accept(this)+" += "+stmt.getExpr().acept(this);
+  }
+
+  String visit(And stmt){
+    return stmt.getLeft().accept(this)+" && "+stmt.getRight().accept(this);
+  }
+
+  String visit(Assignment stmt){
+    return stmt.getLeft().accept(this)+" = "+stmt.getRight().accept(this);
+  }
+
+  String visit(AssignOpType stmt){
     return stmt.toString();
   }
 
-  T visit(And stmt){
+  String visit(AssignStmt stmt){
     return stmt.toString();
   }
 
-  T visit(Assignment stmt){
+  String visit(AST stmt){
     return stmt.toString();
   }
 
-  T visit(AssignOpType stmt){
-    return stmt.toString();
+  String visit(BinOpExpr expr){
+    return expr.getLeftOperand().accept(this)+expr.getOperator().accept(this)+expr.getRightOperand().accept(this);
   }
 
-  T visit(AssignStmt stmt){
-    return stmt.toString();
-  }
-
-  T visit(AST stmt){
-    return stmt.toString();
-  }
-
-  T visit(BinOpExpr expr){
+  String visit(BinOpType expr){
     return expr.toString();
   }
 
-  T visit(BinOpType expr){
-    return expr.toString();
+  String visit(Block expr){
+    return expr.getStatements().accept(this)+expr.getFieldDecl().accept(this);
   }
 
-  T visit(Block expr){
-    return expr.toString();
+  String visit(Body expr){
+    return expr.getBlock().accept(this);
   }
 
-  T visit(Body expr){
-    return expr.toString();
+  String visit(BreakStmt expr){
+    return "break "+expr.getExpression().accept(this);
   }
 
-  T visit(BreakStmt expr){
-    return expr.toString();
+  String visit(ClassDecl expr){
+    return "class "+expr.getIdName().accept(this)+"{"+expr.getFieldDecl().accept(this)+expr.getMethodDecl.accept(this)+" }";
   }
 
-  T visit(ClassDecl expr){
-    return expr.toString();
+  String visit(ContinueStmt expr){
+    return "continue "+expr.getExpression().accept(this);
   }
 
-  T visit(ContinueStmt expr){
-    return expr.toString();
+  String visit(Divided expr){
+    return expr.getLeft().accept(this)+" / "+expr.getRight().accept(this);
   }
 
-  T visit(Divided expr){
-    return expr.toString();
+  String visit(EqualTo expr){
+    return expr.getLeft().accept(this)+" == "+expr.getRight().accept(this);
   }
 
-  T visit(EqualTo expr){
-    return expr.toString();
-  }
-
-  // T visit(Expression expr){
+  // String visit(Expression expr){
   //   return stmt.toString();
   // }
 
-  T visit(FieldDecl stmt){
+  String visit(FieldDecl stmt){
+    return stmt.getType().accept(this)+" "+stmt.getListId().accept(this);
+  }
+
+  String visit(ForStmt stmt){
+    return stmt.getIdName().accept(this)
+            +"("+stmt.getCondition().accept(this)+";"+stmt.getStep().accept(this)+")"
+            +stmt.getStatement().accept(this);
+  }
+
+  String visit(Greater stmt){
+    return stmt.getLeft().accept(this)+" > "+stmt.getRight().accept(this);
+  }
+
+  String visit(GreaterOrEq stmt){
+    return stmt.getLeft().accept(this)+" >= "+stmt.getRight().accept(this);
+  }
+
+  String visit(IdName stmt){
     return stmt.toString();
   }
 
-  T visit(ForStmt stmt){
+  String visit(IfStmt stmt){
+    String flag = "if "+stmt.getCondition().accept(this)+"{"+stmt.getIfBlock().accept(this)+"}";
+    if (stmt.setElseBlock() == null)
+      return flag;
+    else
+      return flag+"else{"+stmt.setElseBlock().accept(this)+"}";
+  }
+
+  String visit(IntLiteral stmt){
     return stmt.toString();
   }
 
-  T visit(Greater stmt){
+  String visit(Less expr){
+    return stmt.getLeft().accept(this)+" < "+stmt.getRight().accept(this);
+  }
+
+  String visit(LessOrEq expr){
+    return stmt.getLeft().accept(this)+" <= "+stmt.getRight().accept(this);
+  }
+
+  String visit(Literal stmt){
     return stmt.toString();
   }
 
-  T visit(GreaterOrEq stmt){
+  String visit(Location stmt){
+    return stmt.getId().accept(this);
+  }
+
+  String visit(LocationAux stmt){
     return stmt.toString();
   }
 
-  T visit(IdName stmt){
+  String visit(MethodCall stmt){
+    return stmt.getIdName().accept(this)+stmt.getNavigation().accept(this)+stmt.getExpressions().accept(this);
+  }
+
+  String visit(MethodDecl stmt){
+    return stmt.getType().accept(this)+stmt.getIdName().accept(this)+"("
+            +stmt.getParam().accept(this)+"){"+stmt.getBody().accept(this)+"}";
+  }
+
+  String visit(Minus stmt){
     return stmt.toString();
   }
 
-  T visit(IfStmt stmt){
-    return stmt.toString();
+  String visit(Navigation stmt){
+    return stmt.getIdName().accept(this)+"."+stmt.getNavigation().accept(this);
   }
 
-  T visit(IntLiteral stmt){
-    return stmt.toString();
+  String visit(Not stmt){
+    return stmt.getExpr().accept(this);
   }
 
-  T visit(Less expr){
-    return expr.toString();
+  String visit(NotEqualTo stmt){
+    return stmt.getLeft().accept(this)+" != "+stmt.getRight().accept(this);
   }
 
-  T visit(LessOrEq expr){
-    return expr.toString();
+  String visit(Or stmt){
+    return stmt.getLeft().accept(this)+" || "+stmt.getRight().accept(this);
   }
 
-  T visit(Literal stmt){
-    return stmt.toString();
-  }
-
-  T visit(Location stmt){
-    return stmt.toString();
-  }
-
-  T visit(LocationAux stmt){
-    return stmt.toString();
-  }
-
-  T visit(MethodCall stmt){
-    return stmt.toString();
-  }
-
-  T visit(MethodDecl stmt){
-    return stmt.toString();
-  }
-
-  T visit(Minus stmt){
-    return stmt.toString();
-  }
-
-  T visit(Navigation stmt){
-    return stmt.toString();
-  }
-
-  T visit(Not stmt){
-    return stmt.toString();
-  }
-
-  T visit(NotEqualTo stmt){
-    return stmt.toString();
-  }
-
-  T visit(Or stmt){
-    return stmt.toString();
-  }
-
-  T visit(Pair stmt){
-  return stmt.toString();
+  String visit(Pair stmt){
+  return "<"+stmt.getFst().accept(this)+","+stmt.getSnd().accept(this)+">";
   }
    // it's no needed right?
-  T visit(Param stmt){
+  String visit(Param stmt){
     return stmt.toString();
   }
 
-  T visit(ParamList stmt){
+  String visit(ParamList stmt){
     return stmt.toString();
   }
 
-  T visit(Percentage stmt){
-    return stmt.toString();
+  String visit(Percentage stmt){
+    return stmt.getLeft().accept(this)+" % "+stmt.getRight().accept(this);
   }
 
-  T visit(Plus stmt){
-    return stmt.toString();
+  String visit(Plus stmt){
+    return stmt.getLeft().accept(this)+" + "+stmt.getRight().accept(this);
   }
 
-  T visit(Program stmt){
-    return stmt.toString();
+  String visit(Program stmt){
+    return stmt.getClassList().accept(this);
   }
 
-  T visit(ReturnStmt stmt){
-    return stmt.toString();
+  String visit(ReturnStmt stmt){
+    return "return "+stmt.getExpression().accept(this);
   }
 
-  // T visit(Statement stmt){
+  // String visit(Statement stmt){
   //   return stmt.toString();
   // }
 
-  T visit(SubAssignment expr){
-    return expr.toString();
+  String visit(SubAssignment expr){
+    return stmt.getId().accept(this)+" -= "+stmt.getExpr().acept(this);
   }
 
-  T visit(Times expr){
-    return expr.toString();
+  String visit(Times expr){
+    return stmt.getLeft().accept(this)+" * "+stmt.getRight().accept(this);
   }
 
-  T visit(Type stmt){
+  String visit(Type stmt){
     return stmt.toString();
   }
 
-  T visit(VarLocation loc){
+  String visit(VarLocation loc){
     return loc.toString();
   }
 
-  T visit(WhileStmt stmt){
-    return stmt.toString();
+  String visit(WhileStmt stmt){
+    return "while ("+stmt.getCondition().accept(this)+")"+stmt.getStatement().accept(this);
   }
 
-  // T visit(Stmt stmt){
+  // String visit(Stmt stmt){
   // return stmt.toString();
   // }
   // what it's ?

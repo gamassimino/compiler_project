@@ -24,10 +24,10 @@ public class BreakStmt extends Statement {
   @Override
   public String toString() {
     if (expression == null) {
-      return "return";
+      return "break";
     }
     else {
-      return "return " + expression;
+      return "break " + expression;
     }
   }
 
