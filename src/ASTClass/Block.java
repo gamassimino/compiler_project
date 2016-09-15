@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +60,8 @@ public class Block extends Statement {
     return rtn;
   }
 
-  public <T> T accept(ASTVisitor<T> v) {
-    return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //   return v.visit(this);
+  // }
 
 }

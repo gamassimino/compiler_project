@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class LocationExpr extends Expression {
 	private IdName id;
@@ -32,8 +32,7 @@ public class LocationExpr extends Expression {
     return list;
   }
 
-  // @Override
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }
