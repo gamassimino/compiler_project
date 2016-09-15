@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class BinOpExpr extends Expression {
   private BinOpType operator; //operator in the expr = expr operator expr
@@ -54,7 +54,7 @@ public class BinOpExpr extends Expression {
     return lOperand + " " + operator + " " + rOperand;
   }
 
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }
