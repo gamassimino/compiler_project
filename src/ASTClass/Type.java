@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public enum Type {
 	INTEGER,
@@ -27,7 +27,7 @@ public enum Type {
 		return null;
 	}
 
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }

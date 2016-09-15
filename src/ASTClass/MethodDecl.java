@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class MethodDecl{
   private IdName id;
@@ -60,7 +60,7 @@ public class MethodDecl{
     return rtn;
   }
 
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }

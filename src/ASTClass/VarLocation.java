@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class VarLocation extends Location {
   private int blockId;
@@ -23,7 +23,7 @@ public class VarLocation extends Location {
     return id.toString();
   }
 
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }

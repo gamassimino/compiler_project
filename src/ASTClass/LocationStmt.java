@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class LocationStmt extends Statement {
   private IdName id;
@@ -33,7 +33,7 @@ public class LocationStmt extends Statement {
   }
 
   //@Override
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }

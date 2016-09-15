@@ -1,6 +1,6 @@
 package ASTClass;
 
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class WhileStmt extends Statement {
   private Expression condition;
@@ -36,7 +36,7 @@ public class WhileStmt extends Statement {
     return rtn;
   }
 
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }

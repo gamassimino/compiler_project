@@ -2,7 +2,7 @@ package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
-import Visitor.ASTVisitor;
+// import Visitor.ASTVisitor;
 
 public class Program extends AST {
 
@@ -29,7 +29,7 @@ public class Program extends AST {
     class_list.add(cl);
   }
 
-  public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
-  }
+  // public <T> T accept(ASTVisitor<T> v) {
+  //  return v.visit(this);
+  // }
 }
