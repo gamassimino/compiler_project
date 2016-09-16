@@ -175,7 +175,7 @@ statement ::= location_expr:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignme
             | location_expr:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
             | location_expr:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
             | method_call_stmt:m_c_s SEMI {: RESULT = m_c_s; :}
-            | FOR ID:id EQUALTO expr:exp COMMA expr:exp statement:s {: RESULT = new ForStmt(new IdName(id), exp, exp, s); :}
+            | FOR ID:id EQUALTO expr:condition COMMA expr:step statement:s {: RESULT = new ForStmt(new IdName(id), condition, step, s); :}
             | WHILE expr:exp statement:s {: RESULT = new WhileStmt(exp, s); :}
             | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new IfStmt(exp, s, o_e); :}
             | RETURN expr:exp SEMI {: RESULT = new ReturnStmt(exp); :}
