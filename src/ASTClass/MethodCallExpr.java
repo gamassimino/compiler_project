@@ -54,7 +54,7 @@ public class MethodCallExpr extends Expression{
   }
 
   public List<Expression> getExpressions(){
-    return expression;
+    return (expression == null) ? new ArrayList<Expression>() : expression;
   }
 
   public <T> T accept(ASTVisitor<T> v) {

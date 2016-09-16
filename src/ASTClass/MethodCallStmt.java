@@ -53,7 +53,7 @@ public class MethodCallStmt extends Statement{
   }
 
   public List<Expression> getExpressions(){
-    return expression;
+    return (expression == null) ? new ArrayList<Expression>() : expression;
   }
 
   // @Override

@@ -1,201 +1,231 @@
 package Visitor;
 
 import ASTClass.*;
+import java.util.ArrayList;
+import java_cup.runtime.*;
 
 public class PrintAST implements ASTVisitor<String>{
-  String visit(AddAssignment stmt){
-   return stmt.getId().accept(this)+" += "+stmt.getExpr().acept(this);
+
+  public PrintAST(){
+
+  }
+  @Override 
+  public String visit(AddAssignment stmt){
+    return stmt.getLeft().accept(this)+" += "+stmt.getRight().accept(this);
   }
 
-  String visit(And stmt){
+  public String visit(And stmt){
     return stmt.getLeft().accept(this)+" && "+stmt.getRight().accept(this);
   }
 
-  String visit(Assignment stmt){
+  public String visit(Assignment stmt){
     return stmt.getLeft().accept(this)+" = "+stmt.getRight().accept(this);
   }
 
-  String visit(AssignOpType stmt){
+  public String visit(AssignOpType stmt){
     return stmt.toString();
   }
 
-  String visit(BinOpExpr expr){
+  public String visit(BinOpExpr expr){
     return expr.getLeftOperand().accept(this)+expr.getOperator().accept(this)+expr.getRightOperand().accept(this);
   }
 
-  String visit(BinOpType expr){
+  public String visit(BinOpType expr){
     return expr.toString();
   }
 
-  String visit(Block expr){
-    return expr.getStatements().accept(this)+expr.getFieldDecl().accept(this);
+  public String visit(Block expr){
+    String flag = "";
+    for (Statement statement : expr.getStatements()) {
+      flag += statement.accept(this);
+    }
+    for (FieldDecl field_decl : expr.getFieldDecl()) {
+      flag += field_decl.accept(this);
+    }
+    return flag;
   }
 
-  String visit(Body expr){
+  public String visit(Body expr){
     return expr.getBlock().accept(this);
   }
 
-  String visit(BreakStmt expr){
+  public String visit(BreakStmt expr){
     return "break "+expr.getExpression().accept(this);
   }
 
-  String visit(ClassDecl expr){
-    return "class "+expr.getIdName().accept(this)+"{"+expr.getFieldDecl().accept(this)+expr.getMethodDecl.accept(this)+" }";
+  public String visit(ClassDecl expr){
+    String flag =  "class "+expr.getIdName().accept(this)+"{";
+    for (FieldDecl field_decl : expr.getFieldDecl()) {
+      flag += field_decl.accept(this);
+    }
+    for (MethodDecl method_decl : expr.getMethodDecl()) {
+      flag += method_decl.accept(this);
+    }
+    return flag += " }";
   }
 
-  String visit(ContinueStmt expr){
+  public String visit(ContinueStmt expr){
     return "continue "+expr.getExpression().accept(this);
   }
 
-  String visit(Divided expr){
+  public String visit(Divided expr){
     return expr.getLeft().accept(this)+" / "+expr.getRight().accept(this);
   }
 
-  String visit(EqualTo expr){
+  public String visit(EqualTo expr){
     return expr.getLeft().accept(this)+" == "+expr.getRight().accept(this);
   }
 
-  // String visit(Expression expr){
-  //   return stmt.toString();
-  // }
-
-  String visit(FieldDecl stmt){
-    return stmt.getType().accept(this)+" "+stmt.getListId().accept(this);
+  public String visit(FieldDecl stmt){
+    String flag = stmt.getType().accept(this)+" ";
+    for (IdName id : stmt.getListId()) {
+      flag += id.accept(this);
+    }
+    return flag+=";";
   }
 
-  String visit(ForStmt stmt){
+  public String visit(ForStmt stmt){
     return stmt.getIdName().accept(this)
             +"("+stmt.getCondition().accept(this)+";"+stmt.getStep().accept(this)+")"
             +stmt.getStatement().accept(this);
   }
 
-  String visit(Greater stmt){
+  public String visit(Greater stmt){
     return stmt.getLeft().accept(this)+" > "+stmt.getRight().accept(this);
   }
 
-  String visit(GreaterOrEq stmt){
+  public String visit(GreaterOrEq stmt){
     return stmt.getLeft().accept(this)+" >= "+stmt.getRight().accept(this);
   }
 
-  String visit(IdName stmt){
+  public String visit(IdName stmt){
     return stmt.toString();
   }
 
-  String visit(IfStmt stmt){
+  public String visit(IfStmt stmt){
     String flag = "if "+stmt.getCondition().accept(this)+"{"+stmt.getIfBlock().accept(this)+"}";
-    if (stmt.setElseBlock() == null)
+    if (stmt.getElseBlock() == null)
       return flag;
     else
-      return flag+"else{"+stmt.setElseBlock().accept(this)+"}";
+      return flag+"else{"+stmt.getElseBlock().accept(this)+"}";
   }
 
-  String visit(IntLiteral stmt){
+  public String visit(IntLiteral stmt){
     return stmt.toString();
   }
 
-  String visit(Less expr){
-    return stmt.getLeft().accept(this)+" < "+stmt.getRight().accept(this);
+  public String visit(FloatLiteral stmt){
+    return stmt.toString();
   }
 
-  String visit(LessOrEq expr){
-    return stmt.getLeft().accept(this)+" <= "+stmt.getRight().accept(this);
+  public String visit(BoolLiteral stmt){
+    return stmt.toString();
   }
 
-  String visit(Literal stmt){
+  public String visit(Less expr){
+    return expr.getLeft().accept(this)+" < "+expr.getRight().accept(this);
+  }
+
+  public String visit(LessOrEq expr){
+    return expr.getLeft().accept(this)+" <= "+expr.getRight().accept(this);
+  }
+
+  public String visit(Literal stmt){
     return stmt.getType().accept(this);
   }
 
-  String visit(Location stmt){
+  public String visit(LocationExpr stmt){
     return stmt.getId().accept(this);
   }
 
-  String visit(LocationAux stmt){
-    return stmt.toString();
+  public String visit(LocationStmt stmt){
+    return stmt.getId().accept(this);
   }
 
-  String visit(MethodCall stmt){
-    return stmt.getIdName().accept(this)+stmt.getNavigation().accept(this)+stmt.getExpressions().accept(this);
+  public String visit(MethodCallStmt stmt){
+    String flag = stmt.getIdName().accept(this)+stmt.getNavigation().accept(this);
+    for (Expression expr : stmt.getExpressions()) {
+      flag += expr.accept(this);
+    }
+    return flag;
   }
 
-  String visit(MethodDecl stmt){
+  public String visit(MethodCallExpr stmt){
+    String flag = stmt.getIdName().accept(this)+stmt.getNavigation().accept(this);
+    for (Expression expr : stmt.getExpressions()) {
+      flag += expr.accept(this);
+    }
+    return flag;
+  }
+
+  public String visit(MethodDecl stmt){
     return stmt.getType().accept(this)+stmt.getIdName().accept(this)+"("
             +stmt.getParam().accept(this)+"){"+stmt.getBody().accept(this)+"}";
   }
 
-  String visit(Minus stmt){
+  public String visit(Minus stmt){
     return stmt.getLeft().accept(this)+" - "+stmt.getRight().accept(this);
   }
 
-  String visit(Navigation stmt){
+  public String visit(Navigation stmt){
     return stmt.getIdName().accept(this)+"."+stmt.getNavigation().accept(this);
   }
 
-  String visit(Not stmt){
+  public String visit(Not stmt){
     return "!("+stmt.getExpr().accept(this)+")";
   }
 
-  String visit(NotEqualTo stmt){
+  public String visit(NotEqualTo stmt){
     return stmt.getLeft().accept(this)+" != "+stmt.getRight().accept(this);
   }
 
-  String visit(Or stmt){
+  public String visit(Or stmt){
     return stmt.getLeft().accept(this)+" || "+stmt.getRight().accept(this);
   }
 
-  String visit(Pair stmt){
-  return "<"+stmt.getFst().accept(this)+","+stmt.getSnd().accept(this)+">";
-  }
+
    // it's no needed right?
-  String visit(Param stmt){
+  public String visit(Param stmt){
     return stmt.toString();
   }
 
-  String visit(ParamList stmt){
+  public String visit(ParamList stmt){
     return stmt.toString();
   }
 
-  String visit(Percentage stmt){
+  public String visit(Percentage stmt){
     return stmt.getLeft().accept(this)+" % "+stmt.getRight().accept(this);
   }
 
-  String visit(Plus stmt){
+  public String visit(Plus stmt){
     return stmt.getLeft().accept(this)+" + "+stmt.getRight().accept(this);
   }
 
-  String visit(Program stmt){
-    return stmt.getClassList().accept(this);
+  public String visit(Program stmt){
+    String flag = "";
+    for (ClassDecl clas : stmt.getClassList()) {
+      flag += clas.accept(this);
+    }
+    return flag;
   }
 
-  String visit(ReturnStmt stmt){
+  public String visit(ReturnStmt stmt){
     return "return "+stmt.getExpression().accept(this);
   }
 
-  // String visit(Statement stmt){
-  //   return stmt.toString();
-  // }
-
-  String visit(SubAssignment expr){
-    return stmt.getId().accept(this)+" -= "+stmt.getExpr().acept(this);
+  public String visit(SubAssignment expr){
+    return expr.getLeft().accept(this)+" -= "+expr.getRight().accept(this);
   }
 
-  String visit(Times expr){
-    return stmt.getLeft().accept(this)+" * "+stmt.getRight().accept(this);
+  public String visit(Times expr){
+    return expr.getLeft().accept(this)+" * "+expr.getRight().accept(this);
   }
 
-  String visit(Type stmt){
+  public String visit(Type stmt){
     return stmt.toString();
   }
 
-  String visit(VarLocation loc){
-    return loc.toString();
-  }
-
-  String visit(WhileStmt stmt){
+  public String visit(WhileStmt stmt){
     return "while ("+stmt.getCondition().accept(this)+")"+stmt.getStatement().accept(this);
   }
-
-  // String visit(Stmt stmt){
-  // return stmt.toString();
-  // }
-  // what it's ?
 }

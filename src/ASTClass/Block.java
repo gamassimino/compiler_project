@@ -32,7 +32,7 @@ public class Block extends Statement {
   }
 
   public List<Statement> getStatements() {
-    return this.statements;
+    return (statements == null) ? new ArrayList<Statement>() : statements;
   }
 
   public void addFieldDecl(FieldDecl f) {
@@ -40,7 +40,7 @@ public class Block extends Statement {
   }
 
   public List<FieldDecl> getFieldDecl() {
-    return this.fields_decl;
+    return (fields_decl == null) ? new ArrayList<FieldDecl>() : fields_decl;
   }
 
   @Override

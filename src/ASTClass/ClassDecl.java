@@ -11,6 +11,8 @@ public class ClassDecl extends AST{
 
   public ClassDecl(IdName an_id){
     id = an_id;
+    field_decl = null;
+    method_decl = null;
   }
 
   public ClassDecl(IdName an_id, Object list, Boolean is_field){
@@ -46,18 +48,23 @@ public class ClassDecl extends AST{
   }
 
   public List<FieldDecl> getFieldDecl(){
-    return field_decl;
+    return (field_decl == null) ? new ArrayList<FieldDecl>() : field_decl;
   }
 
   public List<MethodDecl> getMethodDecl(){
-    return method_decl;
+    return (method_decl == null) ? new ArrayList<MethodDecl>() : method_decl;
   }
 
   public IdName getIdName(){
     return id;
   }
 
+  @Override
+  public String toString() {
+    return "class "+ id.toString();
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
-   return v.visit(this);
+    return v.visit(this);
   }
 }

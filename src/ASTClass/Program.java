@@ -18,7 +18,7 @@ public class Program extends AST {
   }
 
   public List<ClassDecl> getClassList(){
-    return class_list;
+    return (class_list == null) ? new ArrayList<ClassDecl>() : class_list;
   }
 
   public void setClassList(ArrayList<ClassDecl> cl){

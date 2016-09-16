@@ -23,7 +23,7 @@ public class NotEqualTo extends Expression{
     right = a_right;
   }
 
-  public Expression getRigth(){
+  public Expression getRight(){
     return right;
   }
 

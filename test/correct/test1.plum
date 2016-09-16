@@ -1,2 +1,4 @@
 //testing a program with empty class
-class plumTest1{}
+class plumTest1{
+	integer x;
+}

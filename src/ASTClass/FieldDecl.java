@@ -26,7 +26,7 @@ public class FieldDecl{
   }
 
   public List<IdName> getListId(){
-    return list_id;
+    return (list_id == null) ? new ArrayList<IdName>() : list_id;
   }
 
   public <T> T accept(ASTVisitor<T> v) {
