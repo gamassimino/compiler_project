@@ -1,6 +1,6 @@
 package ASTClass;
 
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class Body{
   private Block block;
@@ -20,7 +20,7 @@ public class Body{
     return block;
   }
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }
