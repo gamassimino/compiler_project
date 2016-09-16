@@ -25,7 +25,7 @@ public class Program extends AST {
     class_list = cl;
   }
 
-  public void add(ClassDecl cl){
+  public void addClass(ClassDecl cl){
     class_list.add(cl);
   }
 

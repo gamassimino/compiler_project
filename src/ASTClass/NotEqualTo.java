@@ -2,7 +2,7 @@ package ASTClass;
 
 // import Visitor.ASTVisitor;
 
-public class NotEqualTo{
+public class NotEqualTo extends Expression{
   private Expression left;
   private Expression right;
 

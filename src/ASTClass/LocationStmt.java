@@ -1,17 +1,18 @@
 package ASTClass;
 
 // import Visitor.ASTVisitor;
+import java.util.List;
 
 public class LocationStmt extends Statement {
   private IdName id;
-  private List<Navigation> list;
+  private Navigation list;
 
   public LocationStmt(IdName an_id){
     id = an_id;
     list = null;
   }
 
-  public LocationStmt(IdName an_id, List<Navigation> a_list){
+  public LocationStmt(IdName an_id, Navigation a_list){
     id = an_id;
     list = a_list;
   }
@@ -24,11 +25,11 @@ public class LocationStmt extends Statement {
     return id;
   }
 
-  public void setList(List<Navigation> list){
+  public void setList(Navigation list){
     this.list = list;
   }
 
-  public IdName getList(){
+  public Navigation getList(){
     return list;
   }
 

@@ -5,10 +5,18 @@ package ASTClass;
 public class Navigation{
   private Navigation navigation;
   private IdName id;
+  private Expression expr;
 
   public Navigation(Navigation a_navigation, IdName an_id){
     navigation = a_navigation;
     id = an_id;
+    expr = null;
+  }  
+
+  public Navigation(Navigation a_navigation, Expression an_expr){
+    navigation = a_navigation;
+    expr = an_expr;
+    id = null;
   }
 
   public Navigation(IdName an_id){

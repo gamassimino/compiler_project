@@ -16,11 +16,11 @@ parser code {:
   }
 :}
 
-terminal BOOL, INTEGER, FLOAT;
+terminal String BOOL, INTEGER, FLOAT;
 terminal BREAK, CONTINUE;
 terminal IF, ELSE;
 terminal FOR, WHILE;
-terminal VOID;
+terminal String VOID;
 terminal CLASS;
 terminal RETURN, EXTERN;
 terminal SEMI, COMMA;
@@ -32,7 +32,7 @@ terminal GREATER, GREATEROREQ;
 terminal EQUALTO, NOTEQUALTO;
 terminal ADDASSIGNMENT, SUBASSIGNMENT, ASSIGNMENT;
 terminal POINT;
-terminal ID;
+terminal String ID;
 
 terminal Integer NUMBER_I;
 terminal Float NUMBER_F;
@@ -53,16 +53,16 @@ non terminal Param param;
 non terminal Body body;
 non terminal Block block;
 non terminal Statement statement;
-non terminal optional_else;
+non terminal Statement optional_else;
 non terminal Navigation navigation;
-non terminal method_expr;
-non terminal lambda;
-non terminal id_list;
+non terminal ArrayList<Expression> method_expr;
+non terminal Statement lambda;
+non terminal ArrayList<IdName> id_list;
 non terminal IdName id_name;
-non terminal field_decl_list;
-non terminal LocationAux location_aux;
-non terminal list_statement;
-non terminal method_decl_list;
+non terminal ArrayList<FieldDecl> field_decl_list;
+non terminal Navigation location_aux;
+non terminal ArrayList<Statement> list_statement;
+non terminal ArrayList<MethodDecl> method_decl_list;
 
 precedence left OR;
 precedence left AND;
@@ -81,7 +81,7 @@ start with program;
 
 // ### Expression ###
 expr ::= location_expr:lo {: RESULT = lo; :}
-       | method_call:m_c {: RESULT = m_c; :}
+       | method_call_expr :m_c_e {: RESULT = m_c_e; :}
        | NUMBER_I:in {: RESULT = new Integer(in); :}
        | NUMBER_F:fl  {: RESULT = new Float(fl); :}
        | BOOLEAN_VALUE:bool {: RESULT = new Boolean(bool); :}
@@ -107,10 +107,10 @@ program ::= class_decl:cl {: RESULT = new Program(cl); :}
           | program:p class_decl:cl {: p.addClass(cl); RESULT = p; :};
 
 // ### Class Declaration ###
-class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(id, f_d_l, m_d_l) ;:}
-             | CLASS ID:id LKEY field_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, f_d_l, true) ;:}
-             | CLASS ID:id LKEY method_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(id, m_d_l, false) ;:}
-             | CLASS ID:id LKEY RKEY {: RESULT = new ClassDecl(id) ;:};
+class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(new IdName(id), f_d_l, m_d_l) ;:}
+             | CLASS ID:id LKEY field_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(new IdName(id), f_d_l, true) ;:}
+             | CLASS ID:id LKEY method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(new IdName(id), m_d_l, false) ;:}
+             | CLASS ID:id LKEY RKEY {: RESULT = new ClassDecl(new IdName(id)) ;:};
 
 // ### Field Declaration ###
 field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
@@ -122,28 +122,28 @@ field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<
 field_decl ::= type:t id_list:i_l SEMI {: RESULT = new FieldDecl(t, i_l) ;:};
 
 // ### Identifier ###
-id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                      list.add(i_n);
+id_list ::= ID:i_n {: ArrayList<IdName> list = new ArrayList<IdName>();
+                      list.add(new IdName(i_n));
                       RESULT = list;
                     :}
-          | id_list:i_l COMMA id_name:i_n {: i_l.add(i_n); RESULT = i_l; :};
+          | id_list:i_l COMMA ID:i_n {: i_l.add(new IdName(i_n)); RESULT = i_l; :};
 
 id_name ::= ID:id {: RESULT = new IdName(id) ;:}
           | ID:id LBRACKET NUMBER_I:n_i RBRACKET  {: RESULT = new IdName(id, n_i) ;:};
 
 // ### Method Declaration ###
-method_decl_list ::= method_decl:m_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
+method_decl_list ::= method_decl:m_d {: ArrayList<MethodDecl> list = new ArrayList<MethodDecl>();
                                         list.add(m_d);
                                         RESULT = list;
                                      :}
                    | method_decl_list:m_d_l method_decl:m_d {: m_d_l.add(m_d); RESULT = m_d_l; :};
 
-method_decl ::=  type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, id, p, b) ;:}
-               | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, id, b) ;:};
+method_decl ::=  type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id), p, b) ;:}
+               | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id), b) ;:};
 
 // ### Parameters ###
-param ::= type:t ID:id {: RESULT = new Param(t, id) ;:}
-        | type:t ID:id COMMA param:p {: p.addParam(t, id);  RESULT = p; :}; // REFACTOR CLASS PARAM
+param ::= type:t ID:id {: RESULT = new Param(t, new IdName(id)) ;:}
+        | type:t ID:id COMMA param:p {: p.addParam(t, new IdName(id));  RESULT = p; :}; // REFACTOR CLASS PARAM
 
 // ### Body ###
 body ::=  block:bl {: RESULT = new Body(bl) ;:}
@@ -163,24 +163,24 @@ list_statement ::= statement:s {: ArrayList<Statement> list = new ArrayList<Stat
                  | list_statement:l_s statement:s {: l_s.add(s); :};
 
 // ### Types ###
-type ::= INTEGER {: RESULT = new Type(INTEGER); :}
-       | FLOAT  {: RESULT = new Type(FLOAT); :}
-       | BOOL {: RESULT = new Type(BOOL); :}
+type ::= INTEGER:i {: RESULT = new Type(i); :}
+       | FLOAT:f  {: RESULT = new Type(f); :}
+       | BOOL:b {: RESULT = new Type(b); :}
        | ID:id {: RESULT = new Type(id); :}
-       | VOID {: RESULT = new Type(VOID); :};
+       | VOID:v {: RESULT = new Type(v); :};
 
 // ### Statements ###
-statement ::= location_stmt:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
-            | location_stmt:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
-            | location_stmt:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
-            | method_call_stmt:m_c SEMI {: RESULT = m_c; :}
-            | FOR ID:id EQUALTO expr:exp COMMA expr:exp statement:s {: RESULT = new For(id, exp, exp, s); :}
-            | WHILE expr:exp statement:s {: RESULT = new While(exp, s); :}
-            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new If(exp, s, o_e); :}
-            | RETURN expr:exp SEMI {: RESULT = new Return(exp); :}
-            | RETURN SEMI {: RESULT = new Return(); :}
-            | BREAK SEMI {: RESULT = new Break(); :}
-            | CONTINUE SEMI {: RESULT = new Continue(); :}
+statement ::= location_expr:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
+            | location_expr:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
+            | location_expr:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
+            | method_call_stmt:m_c_s SEMI {: RESULT = m_c_s; :}
+            | FOR ID:id EQUALTO expr:exp COMMA expr:exp statement:s {: RESULT = new ForStmt(new IdName(id), exp, exp, s); :}
+            | WHILE expr:exp statement:s {: RESULT = new WhileStmt(exp, s); :}
+            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new IfStmt(exp, s, o_e); :}
+            | RETURN expr:exp SEMI {: RESULT = new ReturnStmt(exp); :}
+            | RETURN SEMI {: RESULT = new ReturnStmt(); :}
+            | BREAK SEMI {: RESULT = new BreakStmt(); :}
+            | CONTINUE SEMI {: RESULT = new ContinueStmt(); :}
             | SEMI
             | block:bl {: RESULT = bl; :};
 
@@ -191,15 +191,20 @@ optional_else ::= ELSE statement:s {: RESULT =  s ;:}
                 | lambda:l {: RESULT = l; :} ;
 
 // ### Method Call ###
-method_call ::= ID:id navigation:na LPAREN method_expr RPAREN {: RESULT = new MethodCallStmt(id, na, method_expr) ;:}
-              | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(id, m_e) ;:}
-              | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallStmt(id, na) ;:}
-              | ID:id LPAREN RPAREN {: RESULT = new MethodCallStmt(id) ;:};
+method_call_stmt ::= ID:id navigation:na LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallStmt(new IdName(id), na, m_e) ;:}
+              | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallStmt(new IdName(id), m_e) ;:}
+              | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallStmt(new IdName(id), na) ;:}
+              | ID:id LPAREN RPAREN {: RESULT = new MethodCallStmt(new IdName(id)) ;:};
+
+method_call_expr ::= ID:id navigation:na LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(new IdName(id), na, m_e) ;:}
+              | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(new IdName(id), m_e) ;:}
+              | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallExpr(new IdName(id), na) ;:}
+              | ID:id LPAREN RPAREN {: RESULT = new MethodCallExpr(new IdName(id)) ;:};
 
 //                         REVIEW THE NAVIGATION
 // ### Navigation ###
-navigation ::= POINT ID:id {: RESULT = new Navigation( id) ;:}
-              | navigation:na POINT ID:id {: RESULT = new Navigation(na, id);:};
+navigation ::= POINT ID:id {: RESULT = new Navigation( new IdName(id)) ;:}
+              | navigation:na POINT ID:id {: RESULT = new Navigation(na, new IdName(id));:};
 
 //                          REVIEW THE METHOD EXPRESSION
 method_expr ::= expr:e {: ArrayList<Expression> list = new ArrayList<Expression>();
@@ -210,11 +215,11 @@ method_expr ::= expr:e {: ArrayList<Expression> list = new ArrayList<Expression>
 
 //                          HEREEE DONE !
 // ### Location ###
-location_expr ::= ID:id {: RESULT = new LocationExpr(id) ;:}
-           | ID:id location_aux:l_a {: RESULT = new LocationExpr(id, l_a) ;:};
+location_expr ::= ID:id {: RESULT = new LocationExpr(new IdName(id)) ;:}
+           | ID:id location_aux:l_a {: RESULT = new LocationExpr(new IdName(id), l_a) ;:};
 
-location_stmt ::= ID:id {: RESULT = new LocationStmt(id) ;:}
-           | ID:id location_aux:l_a {: RESULT = new LocationStmt(id, l_a) ;:};
+location_stmt ::= ID:id {: RESULT = new LocationStmt(new IdName(id)) ;:}
+           | ID:id location_aux:l_a {: RESULT = new LocationStmt(new IdName(id), l_a) ;:};
 
-location_aux ::= navigation
-               | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new LocationAux(na, exp) ;:};
+location_aux ::= navigation:n {:  RESULT = n; :}
+               | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new Navigation(na, exp); :};

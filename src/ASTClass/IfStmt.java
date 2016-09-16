@@ -4,16 +4,16 @@ package ASTClass;
 
 public class IfStmt extends Statement {
   private Expression condition;
-  private Block ifBlock;
-  private Block elseBlock;
+  private Statement ifBlock;
+  private Statement elseBlock;
 
-  public IfStmt(Expression cond, Block ifBl) {
+  public IfStmt(Expression cond, Statement ifBl) {
     this.condition = cond;
     this.ifBlock = ifBl;
     this.elseBlock = null;
   }
 
-  public IfStmt(Expression cond, Block ifBl, Block elseBl) {
+  public IfStmt(Expression cond, Statement ifBl, Statement elseBl) {
     this.condition = cond;
     this.ifBlock = ifBl;
     this.elseBlock = elseBl;
@@ -27,19 +27,19 @@ public class IfStmt extends Statement {
     this.condition = condition;
   }
 
-  public Block getIfBlock() {
+  public Statement getIfBlock() {
     return ifBlock;
   }
 
-  public void setIfBlock(Block ifBlock) {
+  public void setIfBlock(Statement ifBlock) {
     this.ifBlock = ifBlock;
   }
 
-  public Block getElseBlock() {
+  public Statement getElseBlock() {
     return elseBlock;
   }
 
-  public void setElseBlock(Block elseBlock) {
+  public void setElseBlock(Statement elseBlock) {
     this.elseBlock = elseBlock;
   }
 

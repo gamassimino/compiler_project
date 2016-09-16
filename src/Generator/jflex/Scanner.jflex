@@ -57,7 +57,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "true" { return symbol("True", sym.BOOLEAN_VALUE, true); }
 
 // ### Pointer Values ###
-"void" { return symbol("Void", sym.VOID); }
+"void" { return symbol("Void", sym.VOID, yytext()); }
 // "null" { return symbol("Null", sym.NULL); }
 
 // ### Numeric Values ###
@@ -65,9 +65,9 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 [0-9]+"."[0-9]+ { return symbol("Float Number",sym.NUMBER_F, new Float(yytext())); }
 
 // ### Types ##
-"integer" { return symbol("Integer", sym.INTEGER);}
-"bool" { return symbol("Bool", sym.BOOL); }
-"float" { return symbol("Float", sym.FLOAT); }
+"integer" { return symbol("Integer", sym.INTEGER, yytext());}
+"bool" { return symbol("Bool", sym.BOOL, yytext()); }
+"float" { return symbol("Float", sym.FLOAT, yytext()); }
 
 // ### Coments ###
 "//" .* {  }

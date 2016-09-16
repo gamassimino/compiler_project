@@ -2,30 +2,25 @@ package ASTClass;
 
 // import Visitor.ASTVisitor;
 
-public enum Type {
-	INTEGER,
-	BOOL,
-	VOID,
-	ID,
-	FLOAT;
+public class Type {
+  private String type;
 
-	@Override
-	public String toString() {
-		switch(this) {
-			case INTEGER:
-				return "integer";
-			case VOID:
-				return "void";
-			case FLOAT:
-				return "float";
-			case ID:
-				return "id";
-			case BOOL:
-				return "int[]";
-		}
+  public Type(String a_type){
+    type = a_type;
+  }
 
-		return null;
-	}
+  public Type getType(){
+    return new Type(type);
+  } 
+
+  public void setType(String a_type){
+    type = a_type;
+  }
+
+  @Override
+  public String toString() {
+    return type;
+  }
 
   // public <T> T accept(ASTVisitor<T> v) {
   //  return v.visit(this);
