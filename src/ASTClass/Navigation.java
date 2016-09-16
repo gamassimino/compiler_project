@@ -1,6 +1,6 @@
 package ASTClass;
 
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class Navigation{
   private Navigation navigation;
@@ -11,7 +11,7 @@ public class Navigation{
     navigation = a_navigation;
     id = an_id;
     expr = null;
-  }  
+  }
 
   public Navigation(Navigation a_navigation, Expression an_expr){
     navigation = a_navigation;
@@ -39,7 +39,7 @@ public class Navigation{
     return navigation;
   }
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

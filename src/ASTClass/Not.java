@@ -1,6 +1,6 @@
 package ASTClass;
 
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class Not extends Expression{
   private Expression expr;
@@ -17,7 +17,7 @@ public class Not extends Expression{
     return expr;
   }
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

@@ -2,7 +2,7 @@ package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class MethodCallExpr extends Expression{
   private IdName id;
@@ -57,7 +57,7 @@ public class MethodCallExpr extends Expression{
     return expression;
   }
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

@@ -3,7 +3,7 @@ package ASTClass;
 import java.util.ArrayList;
 import java.util.List;
 import ASTClass.Param;
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class ParamList{
 
@@ -21,7 +21,7 @@ public class ParamList{
     listOfParam.add(param);
   }
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

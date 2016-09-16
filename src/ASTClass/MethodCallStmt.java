@@ -2,7 +2,7 @@ package ASTClass;
 
 import java.util.ArrayList;
 import java.util.List;
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class MethodCallStmt extends Statement{
   private IdName id;
@@ -57,7 +57,7 @@ public class MethodCallStmt extends Statement{
   }
 
   // @Override
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }
