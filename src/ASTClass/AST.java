@@ -1,6 +1,6 @@
 package ASTClass;
 
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public abstract class AST {
 	private int lineNumber;
@@ -22,5 +22,5 @@ public abstract class AST {
 		colNumber = cn;
 	}
 	
-	// public abstract <T> T accept(ASTVisitor<T> v);
+	public abstract <T> T accept(ASTVisitor<T> v);
 }

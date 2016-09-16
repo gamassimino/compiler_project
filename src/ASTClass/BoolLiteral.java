@@ -1,6 +1,6 @@
 package ASTClass;
 
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class BoolLiteral extends Literal {
   private String rawValue;
@@ -49,7 +49,7 @@ public class BoolLiteral extends Literal {
     return rawValue;
   }
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }
