@@ -51,7 +51,7 @@ public enum BinOpType {
 		return null;
 	}
 
-//   // public <T> T accept(ASTVisitor<T> v) {
-//   //  return v.visit(this);
-//   // }
-// }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
+}
