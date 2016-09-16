@@ -1,6 +1,6 @@
 package ASTClass;
 
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public class Type {
   private String type;
@@ -11,7 +11,7 @@ public class Type {
 
   public Type getType(){
     return new Type(type);
-  } 
+  }
 
   public void setType(String a_type){
     type = a_type;
@@ -22,7 +22,7 @@ public class Type {
     return type;
   }
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }
