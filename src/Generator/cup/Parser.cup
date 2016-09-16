@@ -34,9 +34,10 @@ terminal ADDASSIGNMENT, SUBASSIGNMENT, ASSIGNMENT;
 terminal POINT;
 terminal String ID;
 
-terminal Integer NUMBER_I;
-terminal Float NUMBER_F;
-terminal Boolean BOOLEAN_VALUE;
+terminal IntLiteral NUMBER_I;
+terminal Integer SIZE;
+terminal FloatLiteral NUMBER_F;
+terminal BoolLiteral BOOLEAN_VALUE;
 
 non terminal Expression expr;
 
@@ -82,9 +83,9 @@ start with program;
 // ### Expression ###
 expr ::= location_expr:lo {: RESULT = lo; :}
        | method_call_expr :m_c_e {: RESULT = m_c_e; :}
-       | NUMBER_I:in {: RESULT = new Integer(in); :}
-       | NUMBER_F:fl  {: RESULT = new Float(fl); :}
-       | BOOLEAN_VALUE:bool {: RESULT = new Boolean(bool); :}
+       | NUMBER_I:in {: RESULT = new IntLiteral(in.toString()); :}
+       | NUMBER_F:fl  {: RESULT = new FloatLiteral(fl.toString()); :}
+       | BOOLEAN_VALUE:bool {: RESULT = new BoolLiteral(bool.toString()); :}
        | expr:l PLUS expr:r {: RESULT = new Plus(l, r); :}
        | expr:l MINUS expr:r {: RESULT = new Minus(l, r); :}
        | expr:l TIMES expr:r {: RESULT = new Times(l, r); :}
@@ -129,7 +130,7 @@ id_list ::= ID:i_n {: ArrayList<IdName> list = new ArrayList<IdName>();
           | id_list:i_l COMMA ID:i_n {: i_l.add(new IdName(i_n)); RESULT = i_l; :};
 
 id_name ::= ID:id {: RESULT = new IdName(id) ;:}
-          | ID:id LBRACKET NUMBER_I:n_i RBRACKET  {: RESULT = new IdName(id, n_i) ;:};
+          | ID:id LBRACKET SIZE:s RBRACKET  {: RESULT = new IdName(id, s) ;:};
 
 // ### Method Declaration ###
 method_decl_list ::= method_decl:m_d {: ArrayList<MethodDecl> list = new ArrayList<MethodDecl>();

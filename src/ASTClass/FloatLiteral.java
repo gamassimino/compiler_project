@@ -2,22 +2,22 @@ package ASTClass;
 
 // import Visitor.ASTVisitor;
 
-public class IntLiteral extends Literal {
+public class FloatLiteral extends Literal {
   private String rawValue;
-  private Integer value;
+  private Float value;
 
   /*
    * Constructor for int literal that takes a string as an input
-   * @param: String integer
+   * @param: String Float
    */
-  public IntLiteral(String val){
+  public FloatLiteral(String val){
     rawValue = val; // Will convert to int value in semantic check
     value = null;
   }
 
   @Override
   public Type getType() {
-    return new Type("integer");
+    return new Type("float");
   }
 
   public String getStringValue() {
@@ -28,11 +28,11 @@ public class IntLiteral extends Literal {
     this.rawValue = stringValue;
   }
 
-  public Integer getValue() {
+  public Float getValue() {
     return value;
   }
 
-  public void setValue(int value) {
+  public void setValue(Float value) {
     this.value = value;
   }
 
