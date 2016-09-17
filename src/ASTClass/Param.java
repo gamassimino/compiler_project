@@ -21,8 +21,8 @@ public class Param{
     list.add(new Pair<Type, IdName>(a_type, an_id));
   }
 
-  public Pair<Type, IdName> getParam(){
-    return list.get(list.size());
+  public List<Pair<Type, IdName>> getParam(){
+    return (list==null) ? new ArrayList<Pair<Type, IdName>>() : list;
   }
 
   public Pair<Type, IdName> removeParam(){

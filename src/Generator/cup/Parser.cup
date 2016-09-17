@@ -15,7 +15,7 @@ parser code {:
         System.out.println(pr.visit(cl));
      }
    }
-    else{ 
+    else{
       Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
         PrintAST pr = new PrintAST();
       // for (ClassDecl cl : p.getClassList()) {
@@ -155,7 +155,7 @@ method_decl_list ::= method_decl:m_d {: ArrayList<MethodDecl> list = new ArrayLi
                    | method_decl_list:m_d_l method_decl:m_d {: m_d_l.add(m_d); RESULT = m_d_l; :};
 
 method_decl ::= type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id), p, b) ;:}
-              | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id), b) ;:};
+              | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id), new Param(null), b) ;:};
 
 // ### Parameters ###
 param ::= type:t ID:id {: RESULT = new Param(t, new IdName(id)) ;:}

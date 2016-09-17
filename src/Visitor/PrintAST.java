@@ -9,7 +9,7 @@ public class PrintAST implements ASTVisitor<String>{
   public PrintAST(){
 
   }
-  @Override 
+  @Override
   public String visit(AddAssignment stmt){
     return stmt.getLeft().accept(this)+" += "+stmt.getRight().accept(this);
   }
@@ -54,14 +54,14 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(ClassDecl expr){
-    String flag =  "class "+expr.getIdName().accept(this)+"{";
+    String flag =  "class "+expr.getIdName().accept(this)+"{\n";
     for (FieldDecl field_decl : expr.getFieldDecl()) {
       flag += field_decl.accept(this);
     }
     for (MethodDecl method_decl : expr.getMethodDecl()) {
       flag += method_decl.accept(this);
     }
-    return flag += " }";
+    return flag += "}\n";
   }
 
   public String visit(ContinueStmt expr){
@@ -151,7 +151,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(MethodCallExpr stmt){
-    String flag = stmt.getIdName().accept(this)+stmt.getNavigation().accept(this);
+    String flag =stmt.getIdName().accept(this)+stmt.getNavigation().accept(this);
     for (Expression expr : stmt.getExpressions()) {
       flag += expr.accept(this);
     }
@@ -159,8 +159,8 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(MethodDecl stmt){
-    return stmt.getType().accept(this)+stmt.getIdName().accept(this)+"("
-            +stmt.getParam().accept(this)+"){"+stmt.getBody().accept(this)+"}";
+    return "  "+stmt.getType().accept(this)+" "+stmt.getIdName().accept(this)+"("
+            +stmt.getParam().accept(this)+"){\n"+stmt.getBody().accept(this)+"  }\n";
   }
 
   public String visit(Minus stmt){
@@ -186,7 +186,13 @@ public class PrintAST implements ASTVisitor<String>{
 
    // it's no needed right?
   public String visit(Param stmt){
-    return stmt.toString();
+    int size = stmt.getParam().size();
+    String flag = "";
+    for (Pair<Type, IdName> param : stmt.getParam()) {
+      flag += param.getFst().toString()+" "+param.getSnd().toString();
+      if(--size>0) flag += ", ";
+    }
+    return flag;
   }
 
   public String visit(ParamList stmt){
@@ -210,7 +216,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(ReturnStmt stmt){
-    return "return "+stmt.getExpression().accept(this);
+    return "return "+stmt.getExpression();
   }
 
   public String visit(SubAssignment expr){
