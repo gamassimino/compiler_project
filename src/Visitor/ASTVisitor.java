@@ -7,7 +7,7 @@ public interface ASTVisitor<T> {
 // visit statements
   public T visit(AddAssignment stmt);
   public T visit(And stmt);
-  public T visit(Assignment stmt);   
+  public T visit(Assignment stmt);
   public T visit(AssignOpType stmt);
   // public T visit(AST stmt);
   public T visit(BinOpExpr expr);
