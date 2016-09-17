@@ -138,11 +138,13 @@ field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<
 field_decl ::= type:t id_list:i_l SEMI {: RESULT = new FieldDecl(t, i_l) ;:};
 
 // ### Identifier ###
-id_list ::= ID:i_n {: ArrayList<IdName> list = new ArrayList<IdName>();
-                      list.add(new IdName(i_n));
+id_list ::= id_name:i_n {: ArrayList<IdName> list = new ArrayList<IdName>();
+                      list.add(i_n);
                       RESULT = list;
                     :}
-          | id_list:i_l COMMA ID:i_n {: i_l.add(new IdName(i_n)); RESULT = i_l; :};
+          | id_list:i_l COMMA id_name:i_n {: i_l.add(i_n); RESULT = i_l; :};
+
+
 // This is never watched
 id_name ::= ID:id {: RESULT = new IdName(id) ;:}
           | ID:id LBRACKET SIZE:s RBRACKET  {: RESULT = new IdName(id, s) ;:};

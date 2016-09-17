@@ -77,11 +77,13 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(FieldDecl stmt){
-    String flag = stmt.getType().accept(this)+" ";
+    String flag = "  "+stmt.getType().accept(this)+" ";
     for (IdName id : stmt.getListId()) {
       flag += id.accept(this);
+      if (id.getSize() != null)
+        flag += "["+id.getSize()+"]";
     }
-    return flag+=";";
+    return flag+=";\n";
   }
 
   public String visit(ForStmt stmt){
@@ -183,6 +185,9 @@ public class PrintAST implements ASTVisitor<String>{
     return stmt.getLeft().accept(this)+" || "+stmt.getRight().accept(this);
   }
 
+  public String visit(Expression expr){
+    return "";
+  }
 
    // it's no needed right?
   public String visit(Param stmt){
@@ -216,7 +221,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(ReturnStmt stmt){
-    return "return "+stmt.getExpression();
+    return "  return "+stmt.getExpression().accept(this)+";";
   }
 
   public String visit(SubAssignment expr){

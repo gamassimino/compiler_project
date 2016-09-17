@@ -1,6 +1,6 @@
 package ASTClass;
 
-// import Visitor.ASTVisitor;
+import Visitor.ASTVisitor;
 
 public abstract class Expression extends AST {
 	protected Expression expr;
@@ -14,7 +14,7 @@ public abstract class Expression extends AST {
 		this.type = t;
 	}
 
-  // public <T> T accept(ASTVisitor<T> v) {
-  //  return v.visit(this);
-  // }
+  public <T> T accept(ASTVisitor<T> v) {
+   return v.visit(this);
+  }
 }

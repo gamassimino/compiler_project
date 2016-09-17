@@ -104,10 +104,10 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "*" { return symbol("Times",sym.TIMES); }
 
 // ### Grouper ###
-"(" { return symbol("Left Bracket",sym.LPAREN); }
-")" { return symbol("Right Bracket",sym.RPAREN); }
-"{" { return symbol("Left Bracket",sym.LKEY); }
-"}" { return symbol("Right Bracket",sym.RKEY); }
+"(" { return symbol("Left Paren",sym.LPAREN); }
+")" { return symbol("Right Paren",sym.RPAREN); }
+"{" { return symbol("Left Key",sym.LKEY); }
+"}" { return symbol("Right Key",sym.RKEY); }
 "[" { return symbol("Left Bracket",sym.LBRACKET); }
 "]" { return symbol("Right Bracket",sym.RBRACKET); }
 

@@ -19,7 +19,7 @@ public interface ASTVisitor<T> {
   public T visit(ContinueStmt expr);
   public T visit(Divided expr);
   public T visit(EqualTo expr);
-  // public T visit(Expression expr);
+  public T visit(Expression expr);
   public T visit(FieldDecl expr);
   public T visit(ForStmt stmt);
   public T visit(Greater stmt);
