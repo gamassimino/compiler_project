@@ -1,5 +1,8 @@
 package CodeGenerated;
 
+import ASTClass.BoolLiteral;
+import ASTClass.FloatLiteral;
+import ASTClass.IntLiteral;
 import java_cup.runtime.*;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 %%
@@ -16,13 +19,13 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
   public Symbol symbol(String plaintext,int code){
     return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar));
   }
-  public Symbol symbol(String plaintext,int code, Integer number){
-    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
+  public Symbol symbol(String plaintext,int code, BoolLiteral bool){
+    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),bool);
   }
-  public Symbol symbol(String plaintext,int code, Float number){
-    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),number);
+  public Symbol symbol(String plaintext,int code, FloatLiteral bool){
+    return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),bool);
   }
-  public Symbol symbol(String plaintext,int code, Boolean bool){
+  public Symbol symbol(String plaintext,int code, IntLiteral bool){
     return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),bool);
   }
   public Symbol symbol(String plaintext,int code, String id){
@@ -53,16 +56,16 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "for" { return symbol("For", sym.FOR);}
 
 // ### Logic Values ###
-"false" { return symbol("False", sym.BOOLEAN_VALUE, false); }
-"true" { return symbol("True", sym.BOOLEAN_VALUE, true); }
+"false" { return symbol("False", sym.BOOLEAN_VALUE, new BoolLiteral("false")); }
+"true" { return symbol("True", sym.BOOLEAN_VALUE, new BoolLiteral("true")); }
 
 // ### Pointer Values ###
 "void" { return symbol("Void", sym.VOID, yytext()); }
 // "null" { return symbol("Null", sym.NULL); }
 
 // ### Numeric Values ###
-[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER_I, new Integer(yytext())); }
-[0-9]+"."[0-9]+ { return symbol("Float Number",sym.NUMBER_F, new Float(yytext())); }
+[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER_I, new IntLiteral(yytext())); }
+[0-9]+"."[0-9]+ { return symbol("Float Number",sym.NUMBER_F, new FloatLiteral(yytext())); }
 
 // ### Types ##
 "integer" { return symbol("Integer", sym.INTEGER, yytext());}

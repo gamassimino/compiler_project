@@ -4,14 +4,14 @@ import Visitor.ASTVisitor;
 
 public class IdName{
   private String id;
-  private Integer size;
+  private IntLiteral size;
 
   public IdName(String an_id){
     id = an_id;
     size = null;
   }
 
-  public IdName(String an_id, Integer a_size){
+  public IdName(String an_id, IntLiteral a_size){
     id = an_id;
     size = a_size;
   }
@@ -24,11 +24,11 @@ public class IdName{
     return new IdName(id);
   }
 
-  public void setSize(Integer a_size){
+  public void setSize(IntLiteral a_size){
     size = a_size;
   }
 
-  public Integer getSize(){
+  public IntLiteral getSize(){
     return size;
   }
 
