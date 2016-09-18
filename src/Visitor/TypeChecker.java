@@ -8,39 +8,64 @@ import java_cup.runtime.*;
 public class TypeChecker implements ASTVisitor<void>{
 
   public TypeChecker(){
-    new
-
   }
+
   @Override
   public void visit(AddAssignment stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(And stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(Assignment stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(Block expr){
     hash.createLevel();
+
+    for (FieldDecl field_decl : expr.getExpressions()) {
+      field_decl().accept(this);
+    }
+
+    for (Statement statement : expr.getExpressions()) {
+      statement().accept(this);
+    }
+
     hash.destroyLevel();
   }
 
   public void visit(Body expr){
+    expr.getBlock().accept(this);
     //elBody
   }
 
   public void visit(BreakStmt expr){
+    if(pr.getExpression() != null)
+      expr.getExpression().accept(this);
     //nada
   }
 
   public void visit(ClassDecl expr){
     hash.createLevel();
-    hash.destroyLevel();
 
+    for (FieldDecl field_decl_list : expr.getFieldDecl()) {
+      field_decl().accept(this);
+    }
+
+    for (MethodDecl statement : expr.getMethodDecl()) {
+      statement().accept(this);
+    }
+
+    hash.destroyLevel();
   }
 
   public void visit(ContinueStmt expr){
@@ -48,38 +73,63 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Divided expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(EqualTo expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(FieldDecl stmt){
+    hash.insertInLevel(stmt);
+    // continue visit ?
     //insertar
   }
 
   public void visit(ForStmt stmt){
     hash.createLevel();
+
+    stmt.getCondition().accept(this);
+    stmt.getStep().accept(this);
+    stmt.getStatement().accept(this);
+
     hash.destroyLevel();
   }
 
   public void visit(Greater stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(GreaterOrEq stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(IdName stmt){
-    //referenciar
+    //referenciar 
     //nada
   }
 
   public void visit(IfStmt stmt){
     hash.createLevel();
+
+
+
     hash.destroyLevel();
+    if(stmt.getElseBlock() != null){
+      hash.createLevel();
+
+
+
+      hash.destroyLevel();
+    }
   }
 
   public void visit(IntLiteral stmt){
@@ -95,10 +145,14 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Less expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(LessOrEq expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
@@ -123,12 +177,17 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(MethodDecl stmt){
+    hash.createLevel();
+    stmt.getParam().accept(this);
+    stmt.getBody().accept(this);
+    hash.destroyLevel();
     //nose
   }
 
   public void visit(Minus stmt){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
+    stmt.getLeft().accept(this);
+    if(stmt.getRight() !=)
+    stmt.getRight().accept(this);
   }
 
   public void visit(Navigation stmt){
@@ -140,8 +199,8 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(NotEqualTo stmt){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
   }
 
   public void visit(Or stmt){
@@ -168,6 +227,9 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Program stmt){
+    for (ClassDecl class_decl : stmt.getClassDecl()) {
+      class.accept(this);
+    }
     //nada
   }
 
@@ -197,6 +259,10 @@ public class TypeChecker implements ASTVisitor<void>{
 
   public void visit(WhileStmt stmt){
     hash.createLevel();
+
+    stmt.getCondition.accept(this);
+    stmt.getStatement.accept(this);
+
     hash.destroyLevel();
   }
 }
