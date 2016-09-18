@@ -12,7 +12,7 @@ public class IntLiteral extends Literal {
    */
   public IntLiteral(String val){
     rawValue = val; // Will convert to int value in semantic check
-    value = null;
+    value = new Integer(val);
   }
 
   @Override

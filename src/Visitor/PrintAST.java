@@ -81,7 +81,7 @@ public class PrintAST implements ASTVisitor<String>{
     for (IdName id : stmt.getListId()) {
       flag += id.accept(this);
       if (id.getSize() != null)
-        flag += "["+id.getSize()+"]";
+        flag += "["+id.getSize().toString()+"]";
     }
     return flag+=";\n";
   }
