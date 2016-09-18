@@ -153,10 +153,16 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(MethodCallExpr stmt){
-    String flag =stmt.getIdName().accept(this)+stmt.getNavigation().accept(this);
-    for (Expression expr : stmt.getExpressions()) {
-      flag += expr.accept(this);
+    String flag =stmt.getIdName().accept(this);
+    if (stmt.getNavigation() != null)
+      flag += stmt.getNavigation().accept(this);
+    flag += "(";
+    if (stmt.getExpressions() != null) {
+      for (Expression expr : stmt.getExpressions()) {
+        flag += expr.accept(this);
+      }
     }
+    flag += ")";
     return flag;
   }
 
@@ -170,7 +176,10 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(Navigation stmt){
-    return stmt.getIdName().accept(this)+"."+stmt.getNavigation().accept(this);
+    String flag = "."+stmt.getIdName().accept(this);
+    if (stmt.getNavigation() != null)
+      flag += stmt.getNavigation().accept(this);
+    return flag;
   }
 
   public String visit(Not stmt){

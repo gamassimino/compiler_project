@@ -90,8 +90,9 @@ precedence left NOT;
 precedence left ELSE;
 
 precedence left RPAREN;
-precedence left LPAREN;
 precedence left ID;
+precedence left POINT;
+precedence left LPAREN;
 
 start with program;
 
