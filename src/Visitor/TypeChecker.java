@@ -7,7 +7,7 @@ import java_cup.runtime.*;
 
 public class TypeChecker implements ASTVisitor<String>{
   Hash hash;
-  
+
   public TypeChecker(){
     hash = new Hash();
   }
@@ -17,7 +17,7 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
     if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
@@ -33,7 +33,7 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
     if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
@@ -90,7 +90,7 @@ public class TypeChecker implements ASTVisitor<String>{
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
     if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
@@ -99,7 +99,7 @@ public class TypeChecker implements ASTVisitor<String>{
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
     if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
@@ -126,7 +126,7 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
     if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
@@ -135,53 +135,49 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
     if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
 
   public String visit(IdName stmt){
-    //referenciar 
+    //referenciar
     //nada
     return "";
   }
 
   public String visit(IfStmt stmt){
     hash.createLevel();
-
-
-
     hash.destroyLevel();
     if(stmt.getElseBlock() != null){
       hash.createLevel();
-
-
-
       hash.destroyLevel();
     }
+    if (stmt.getCondition().getType().toString() != "boolean")
+      System.out.println("WRONG TYPE");
     return "";
   }
 
   public String visit(IntLiteral stmt){
     //nada
-    return "";
+    return stmt.toString();
   }
 
   public String visit(FloatLiteral stmt){
     //nada
-    return "";
+    return stmt.toString();
   }
 
   public String visit(BoolLiteral stmt){
     //nada
-    return "";
+    return stmt.toString();
   }
 
   public String visit(Less expr){
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
     if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
@@ -190,7 +186,7 @@ public class TypeChecker implements ASTVisitor<String>{
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
     if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     //visitar
     return "";
   }
@@ -236,7 +232,7 @@ public class TypeChecker implements ASTVisitor<String>{
     }
     else{
       if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
-        System.out.println("NO ES DEL MISMO TIPOO");
+        System.out.println("DON'T ARE THE SAME TYPE");
     }
     return "";
   }
@@ -248,18 +244,24 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(Not stmt){
     stmt.getExpr().accept(this);
+    if (stmt.getExpr().getType().toString() != "boolean")
+      System.out.println("WRONG TYPE");
     return "";
   }
 
   public String visit(NotEqualTo stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("DON'T ARE THE SAME TYPE");
     return "";
   }
 
   public String visit(Or stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("DON'T ARE THE SAME TYPE");
     return "";
   }
 
@@ -277,7 +279,7 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
     if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     return "";
   }
 
@@ -285,7 +287,7 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
     if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     return "";
   }
 
@@ -313,7 +315,7 @@ public class TypeChecker implements ASTVisitor<String>{
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
     if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     return "";
   }
 
@@ -321,7 +323,7 @@ public class TypeChecker implements ASTVisitor<String>{
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
     if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
-      System.out.println("NO ES DEL MISMO TIPOO");
+      System.out.println("DON'T ARE THE SAME TYPE");
     return "";
   }
 
