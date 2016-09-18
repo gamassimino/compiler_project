@@ -10,6 +10,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 %line
 %column
 %char
+%public
 %class Scanner
 %{
   public Scanner(java.io.InputStream r, ComplexSymbolFactory sf){

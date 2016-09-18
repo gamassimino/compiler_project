@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Visitor.ASTVisitor;
 
-public class FieldDecl{
+public class FieldDecl extends AST{
   private Type type;
   private List<IdName> list_id;
 

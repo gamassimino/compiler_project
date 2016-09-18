@@ -17,6 +17,10 @@ public class Not extends Expression{
     return expr;
   }
 
+  public Type getType(){
+    return new Type("Not");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

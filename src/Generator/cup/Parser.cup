@@ -3,33 +3,8 @@ package CodeGenerated;
 import ASTClass.*;
 import java.util.*;
 import java_cup.runtime.*;
-import Visitor.PrintAST;
-
-parser code {:
-  public static void main(String args[]) throws Exception {
-    ComplexSymbolFactory sf = new ComplexSymbolFactory();
-    if (args.length==0){
-      Program p = (Program)new Parser(new Scanner(System.in,sf),sf).parse().value;
-      for (ClassDecl cl : p.getClassList()) {
-        PrintAST pr = new PrintAST();
-        System.out.println(pr.visit(cl));
-     }
-   }
-    else{
-      Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-        PrintAST pr = new PrintAST();
-      // for (ClassDecl cl : p.getClassList()) {
-      //   PrintAST pr = new PrintAST();
-      //   System.out.println(cl.accept(pr));
-      // }
-        System.out.println(p.accept(pr));
-    }
-  }
-
-  public void syntax_error(Symbol sym){
-    // Mute legacy Error Printing
-  }
-:}
+import Visitor.*;
+import TableOfHash.Hash;
 
 terminal String BOOL, INTEGER, FLOAT;
 terminal BREAK, CONTINUE;

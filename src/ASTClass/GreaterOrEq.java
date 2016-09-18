@@ -23,6 +23,10 @@ public class GreaterOrEq extends Expression{
     right = a_right;
   }
 
+  public Type getType(){
+    return new Type("GreaterOrEq");
+  }
+
   public Expression getRight(){
     return right;
   }

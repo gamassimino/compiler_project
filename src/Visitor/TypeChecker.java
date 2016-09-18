@@ -1,96 +1,117 @@
 package Visitor;
 
 import ASTClass.*;
-import TableOfHash;
+import TableOfHash.Hash;
 import java.util.ArrayList;
 import java_cup.runtime.*;
 
-public class TypeChecker implements ASTVisitor<void>{
-
+public class TypeChecker implements ASTVisitor<String>{
+  Hash hash;
+  
   public TypeChecker(){
+    hash = new Hash();
   }
 
   @Override
-  public void visit(AddAssignment stmt){
+  public String visit(AddAssignment stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
+    //visitar
+    return "";
+  }
+
+  public String visit(And stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
     //visitar
+    return "";
   }
 
-  public void visit(And stmt){
+  public String visit(Assignment stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
     //visitar
+    return "";
   }
 
-  public void visit(Assignment stmt){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
-    //visitar
-  }
-
-  public void visit(Block expr){
+  public String visit(Block expr){
     hash.createLevel();
 
-    for (FieldDecl field_decl : expr.getExpressions()) {
-      field_decl().accept(this);
+    for (FieldDecl field_decl : expr.getFieldDecl()) {
+      field_decl.accept(this);
     }
 
-    for (Statement statement : expr.getExpressions()) {
-      statement().accept(this);
+    for (Statement statement : expr.getStatements()) {
+      statement.accept(this);
     }
 
     hash.destroyLevel();
+    return "";
   }
 
-  public void visit(Body expr){
+  public String visit(Body expr){
     expr.getBlock().accept(this);
     //elBody
+    return "";
   }
 
-  public void visit(BreakStmt expr){
-    if(pr.getExpression() != null)
+  public String visit(BreakStmt expr){
+    if(expr.getExpression() != null)
       expr.getExpression().accept(this);
     //nada
+    return "";
   }
 
-  public void visit(ClassDecl expr){
+  public String visit(ClassDecl expr){
     hash.createLevel();
 
-    for (FieldDecl field_decl_list : expr.getFieldDecl()) {
-      field_decl().accept(this);
+    for (FieldDecl field_decl : expr.getFieldDecl()) {
+      field_decl.accept(this);
     }
 
     for (MethodDecl statement : expr.getMethodDecl()) {
-      statement().accept(this);
+      statement.accept(this);
     }
 
     hash.destroyLevel();
+    return "";
   }
 
-  public void visit(ContinueStmt expr){
+  public String visit(ContinueStmt expr){
     //nada
+    return "";
   }
 
-  public void visit(Divided expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
+  public String visit(Divided expr){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
     //visitar
+    return "";
   }
 
-  public void visit(EqualTo expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
+  public String visit(EqualTo expr){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
     //visitar
+    return "";
   }
 
-  public void visit(FieldDecl stmt){
+  public String visit(FieldDecl stmt){
     hash.insertInLevel(stmt);
     // continue visit ?
     //insertar
+    return "";
   }
 
-  public void visit(ForStmt stmt){
+  public String visit(ForStmt stmt){
     hash.createLevel();
 
     stmt.getCondition().accept(this);
@@ -98,26 +119,34 @@ public class TypeChecker implements ASTVisitor<void>{
     stmt.getStatement().accept(this);
 
     hash.destroyLevel();
+    return "";
   }
 
-  public void visit(Greater stmt){
+  public String visit(Greater stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
     //visitar
+    return "";
   }
 
-  public void visit(GreaterOrEq stmt){
+  public String visit(GreaterOrEq stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
     //visitar
+    return "";
   }
 
-  public void visit(IdName stmt){
+  public String visit(IdName stmt){
     //referenciar 
     //nada
+    return "";
   }
 
-  public void visit(IfStmt stmt){
+  public String visit(IfStmt stmt){
     hash.createLevel();
 
 
@@ -130,139 +159,184 @@ public class TypeChecker implements ASTVisitor<void>{
 
       hash.destroyLevel();
     }
+    return "";
   }
 
-  public void visit(IntLiteral stmt){
+  public String visit(IntLiteral stmt){
     //nada
+    return "";
   }
 
-  public void visit(FloatLiteral stmt){
+  public String visit(FloatLiteral stmt){
     //nada
+    return "";
   }
 
-  public void visit(BoolLiteral stmt){
+  public String visit(BoolLiteral stmt){
     //nada
+    return "";
   }
 
-  public void visit(Less expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
+  public String visit(Less expr){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
     //visitar
+    return "";
   }
 
-  public void visit(LessOrEq expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
+  public String visit(LessOrEq expr){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
     //visitar
+    return "";
   }
 
-  public void visit(Literal stmt){
+  public String visit(Literal stmt){
     //nada
+    return "";
   }
 
-  public void visit(LocationExpr stmt){
+  public String visit(LocationExpr stmt){
     //visitar
+    return "";
   }
 
-  public void visit(LocationStmt stmt){
+  public String visit(LocationStmt stmt){
     //visitar
+    return "";
   }
 
-  public void visit(MethodCallStmt stmt){
+  public String visit(MethodCallStmt stmt){
     //nada
+    return "";
   }
 
-  public void visit(MethodCallExpr stmt){
+  public String visit(MethodCallExpr stmt){
     //nada
+    return "";
   }
 
-  public void visit(MethodDecl stmt){
+  public String visit(MethodDecl stmt){
     hash.createLevel();
     stmt.getParam().accept(this);
     stmt.getBody().accept(this);
     hash.destroyLevel();
     //nose
+    return "";
   }
 
-  public void visit(Minus stmt){
+  public String visit(Minus stmt){
     stmt.getLeft().accept(this);
-    if(stmt.getRight() !=)
-    stmt.getRight().accept(this);
+    if(stmt.getRight() != null){
+      stmt.getRight().accept(this);
+    }
+    else{
+      if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+        System.out.println("NO ES DEL MISMO TIPOO");
+    }
+    return "";
   }
 
-  public void visit(Navigation stmt){
+  public String visit(Navigation stmt){
     //nada
+    return "";
   }
 
-  public void visit(Not stmt){
+  public String visit(Not stmt){
     stmt.getExpr().accept(this);
+    return "";
   }
 
-  public void visit(NotEqualTo stmt){
+  public String visit(NotEqualTo stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
+    return "";
   }
 
-  public void visit(Or stmt){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
+  public String visit(Or stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    return "";
   }
 
-  public void visit(Expression expr){
+  public String visit(Expression expr){
     expr.accept(this);
+    return "";
   }
 
-  public void visit(Param stmt){
-    hash.searchInLavel(stmt);
+  public String visit(Param stmt){
+    hash.searchInLevel(stmt);
+    return "";
   }
 
-  public void visit(Percentage stmt){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
+  public String visit(Percentage stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
+    return "";
   }
 
-  public void visit(Plus stmt){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
+  public String visit(Plus stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
+    return "";
   }
 
-  public void visit(Program stmt){
-    for (ClassDecl class_decl : stmt.getClassDecl()) {
-      class.accept(this);
+  public String visit(Program stmt){
+    for (ClassDecl class_decl : stmt.getClassList()) {
+      class_decl.accept(this);
     }
     //nada
+    return "";
   }
 
-  public void visit(ReturnExpr stmt){
+  public String visit(ReturnExpr stmt){
     if (stmt.getExpression() != null)
       stmt.getExpression().accept(this);
+    return "";
   }
 
-  public void visit(ReturnStmt stmt){
+  public String visit(ReturnStmt stmt){
     if (stmt.getExpression() != null)
       stmt.getExpression().accept(this);
+    return "";
   }
 
-  public void visit(SubAssignment expr){
+  public String visit(SubAssignment expr){
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
+    return "";
   }
 
-  public void visit(Times expr){
+  public String visit(Times expr){
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+      System.out.println("NO ES DEL MISMO TIPOO");
+    return "";
   }
 
-  public void visit(Type stmt){
+  public String visit(Type stmt){
     //nada
+    return "";
   }
 
-  public void visit(WhileStmt stmt){
+  public String visit(WhileStmt stmt){
     hash.createLevel();
 
-    stmt.getCondition.accept(this);
-    stmt.getStatement.accept(this);
+    stmt.getCondition().accept(this);
+    stmt.getStatement().accept(this);
 
     hash.destroyLevel();
+    return "";
   }
 }

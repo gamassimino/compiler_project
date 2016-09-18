@@ -27,6 +27,10 @@ public class Plus extends Expression{
     return right;
   }
 
+  public Type getType(){
+    return new Type("Plus");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

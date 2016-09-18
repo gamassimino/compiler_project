@@ -23,6 +23,9 @@ public class EqualTo extends Expression{
     right = a_right;
   }
 
+  public Type getType(){
+    return new Type("EqualTo");
+  }
   public Expression getRight(){
     return right;
   }

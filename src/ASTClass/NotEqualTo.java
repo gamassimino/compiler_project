@@ -27,6 +27,10 @@ public class NotEqualTo extends Expression{
     return right;
   }
 
+  public Type getType(){
+    return new Type("NotEqualTo");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

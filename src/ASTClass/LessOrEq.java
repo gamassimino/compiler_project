@@ -23,6 +23,10 @@ public class LessOrEq extends Expression{
     right = a_right;
   }
 
+  public Type getType(){
+    return new Type("LessOrEq");
+  }
+
   public Expression getRight(){
     return right;
   }

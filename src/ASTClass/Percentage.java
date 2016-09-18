@@ -27,6 +27,10 @@ public class Percentage extends Expression{
     return right;
   }
 
+  public Type getType(){
+    return new Type("Percentage");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

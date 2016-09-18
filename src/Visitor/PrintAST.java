@@ -54,7 +54,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(ContinueStmt expr){
-    return "continue "+expr.getExpression().accept(this);
+    return "continue ";
   }
 
   public String visit(Divided expr){

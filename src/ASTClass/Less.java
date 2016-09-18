@@ -23,6 +23,10 @@ public class Less extends Expression{
     right = a_right;
   }
 
+  public Type getType(){
+    return new Type("Less");
+  }
+
   public Expression getRight(){
     return right;
   }

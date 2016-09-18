@@ -31,6 +31,10 @@ public class ReturnExpr extends Expression {
     }
   }
 
+  public Type getType(){
+    return new Type("ReturnExpr");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

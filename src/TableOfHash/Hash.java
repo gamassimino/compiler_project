@@ -1,24 +1,29 @@
-package TablOfHash;
+package TableOfHash;
 
-import java.uti.LinkedList;
+import java.util.LinkedList;
+import ASTClass.AST;
 
 public class Hash{
   public final LinkedList<LinkedList<AST>> stack;
 
+  public Hash(){
+    stack = new LinkedList<LinkedList<AST>>();
+  }
+
   public LinkedList<AST> currentLevel(){
-    return stack.get(stack.size());
+    return stack.get(stack.size()-1);
   }
 
   public void destroyLevel(){
-    return stack.remove();
+    stack.remove();
   }
 
   public void createLevel(){
-    return stack.add(new LinkedList<AST>());
+    stack.add(new LinkedList<AST>());
   }
 
-  public void inserInLevel(AST item){
-    return stack.get(stack.size()).add(item);
+  public void insertInLevel(AST item){
+    stack.get(stack.size()-1).add(item);
   }
 
   public void searchInLevel(AST item){

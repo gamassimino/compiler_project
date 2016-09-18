@@ -33,6 +33,10 @@ public class LocationExpr extends Expression {
     return list;
   }
 
+  public Type getType(){
+    return new Type("LocationExpr");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

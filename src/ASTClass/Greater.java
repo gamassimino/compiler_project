@@ -23,6 +23,10 @@ public class Greater extends Expression{
     right = a_right;
   }
 
+  public Type getType(){
+    return new Type("Greater");
+  }
+
   public Expression getRight(){
     return right;
   }

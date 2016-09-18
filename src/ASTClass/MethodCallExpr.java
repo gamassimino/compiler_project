@@ -53,6 +53,10 @@ public class MethodCallExpr extends Expression{
     return navigation;
   }
 
+  public Type getType(){
+    return new Type("MethodCallExpr");
+  }
+
   public List<Expression> getExpressions(){
     return (expression == null) ? new ArrayList<Expression>() : expression;
   }

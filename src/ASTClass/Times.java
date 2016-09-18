@@ -27,6 +27,10 @@ public class Times extends Expression{
     return right;
   }
 
+  public Type getType(){
+    return new Type("Times");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

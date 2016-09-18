@@ -27,6 +27,10 @@ public class Or extends Expression{
     return right;
   }
 
+  public Type getType(){
+    return new Type("Or");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

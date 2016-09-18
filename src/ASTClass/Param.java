@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Visitor.ASTVisitor;
 
-public class Param{
+public class Param extends AST{
 
   private List<Pair<Type, IdName>> list;
 

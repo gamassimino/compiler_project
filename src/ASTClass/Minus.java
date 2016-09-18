@@ -28,6 +28,10 @@ public class Minus extends Expression{
     right = a_right;
   }
 
+  public Type getType(){
+    return new Type("Minus");
+  }
+
   public Expression getRight(){
     return right;
   }
