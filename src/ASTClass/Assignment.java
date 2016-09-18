@@ -30,4 +30,9 @@ public class Assignment extends Statement{
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }
+
+  @Override
+  public String toString(){
+    return left.toString()+" = "+right.toString();
+  }
 }

@@ -36,11 +36,12 @@ public class PrintAST implements ASTVisitor<String>{
 
   public String visit(Block expr){
     String flag = "";
-    for (Statement statement : expr.getStatements()) {
-      flag += statement.accept(this);
-    }
     for (FieldDecl field_decl : expr.getFieldDecl()) {
       flag += field_decl.accept(this);
+    }
+
+    for (Statement statement : expr.getStatements()) {
+      flag += statement.accept(this)+";\n";
     }
     return flag;
   }
@@ -107,11 +108,12 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(IfStmt stmt){
-    String flag = "if "+stmt.getCondition().accept(this)+"{"+stmt.getIfBlock().accept(this)+"}";
+    String flag = "  if ("+stmt.getCondition().accept(this)+"){\n    "
+      +stmt.getIfBlock().accept(this)+"}\n";
     if (stmt.getElseBlock() == null)
       return flag;
     else
-      return flag+"else{"+stmt.getElseBlock().accept(this)+"}";
+      return flag+"  else{\n  "+stmt.getElseBlock().accept(this)+"  }\n";
   }
 
   public String visit(IntLiteral stmt){

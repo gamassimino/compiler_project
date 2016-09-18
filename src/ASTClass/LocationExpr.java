@@ -36,4 +36,9 @@ public class LocationExpr extends Expression {
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }
+
+  @Override
+  public String toString(){
+    return id.toString();
+  }
 }

@@ -1,15 +1,17 @@
 //testing a program with a complex method
 class plumTest54{
-  void method(integer number){
+  integer method(){
     integer number2, number3;
     number2 = 5;
-    number3 = -7;
+    number2 -= 6;
+    number2 = 7;
+    // number3 = -7;
     if (number > number2){
-      number2 = number;
+      number2 -= number;
     }
     else{
       if (number < number3){
-        number3 = number;
+        number3 += number;
       }
     }
     // integer i;

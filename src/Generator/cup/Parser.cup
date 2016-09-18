@@ -89,9 +89,8 @@ precedence left NOT;
 precedence left ELSE;
 
 precedence left RPAREN;
-precedence left ID;
-precedence left POINT;
 precedence left LPAREN;
+precedence left LBRACKET;
 
 start with program;
 
@@ -178,7 +177,7 @@ list_statement ::= statement:s {: ArrayList<Statement> list = new ArrayList<Stat
                                   list.add(s);
                                   RESULT = list;
                                :}
-                 | list_statement:l_s statement:s {: l_s.add(s); :};
+                 | list_statement:l_s statement:s {: l_s.add(s); RESULT = l_s;:};
 
 // ### Types ###
 type ::= INTEGER:i {: RESULT = new Type(i); :}
