@@ -8,24 +8,32 @@ import java_cup.runtime.*;
 public class TypeChecker implements ASTVisitor<void>{
 
   public TypeChecker(){
-    new
-
   }
+
   @Override
   public void visit(AddAssignment stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(And stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(Assignment stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(Block expr){
     hash.createLevel();
+    for (Statement statement : expr.getExpressions()) {
+      
+    }
     hash.destroyLevel();
   }
 
@@ -48,10 +56,14 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Divided expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(EqualTo expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
@@ -65,15 +77,19 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Greater stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(GreaterOrEq stmt){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(IdName stmt){
-    //referenciar
+    //referenciar 
     //nada
   }
 
@@ -95,10 +111,14 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Less expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
   public void visit(LessOrEq expr){
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
     //visitar
   }
 
