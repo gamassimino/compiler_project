@@ -22,18 +22,6 @@ public class PrintAST implements ASTVisitor<String>{
     return stmt.getLeft().accept(this)+" = "+stmt.getRight().accept(this);
   }
 
-  public String visit(AssignOpType stmt){
-    return stmt.toString();
-  }
-
-  public String visit(BinOpExpr expr){
-    return expr.getLeftOperand().accept(this)+expr.getOperator().accept(this)+expr.getRightOperand().accept(this);
-  }
-
-  public String visit(BinOpType expr){
-    return expr.toString();
-  }
-
   public String visit(Block expr){
     String flag = "";
     for (FieldDecl field_decl : expr.getFieldDecl()) {
@@ -211,10 +199,6 @@ public class PrintAST implements ASTVisitor<String>{
       if(--size>0) flag += ", ";
     }
     return flag;
-  }
-
-  public String visit(ParamList stmt){
-    return stmt.toString();
   }
 
   public String visit(Percentage stmt){

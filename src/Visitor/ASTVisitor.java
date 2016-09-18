@@ -8,10 +8,6 @@ public interface ASTVisitor<T> {
   public T visit(AddAssignment stmt);
   public T visit(And stmt);
   public T visit(Assignment stmt);
-  public T visit(AssignOpType stmt);
-  // public T visit(AST stmt);
-  public T visit(BinOpExpr expr);
-  public T visit(BinOpType expr);
   public T visit(Block expr);
   public T visit(Body expr);
   public T visit(BreakStmt expr);
@@ -43,7 +39,6 @@ public interface ASTVisitor<T> {
   public T visit(NotEqualTo stmt);
   public T visit(Or stmt);
   public T visit(Param stmt);
-  public T visit(ParamList stmt);
   public T visit(Percentage stmt);
   public T visit(Plus stmt);
   public T visit(Program stmt);
