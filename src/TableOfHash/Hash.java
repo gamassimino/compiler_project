@@ -21,4 +21,8 @@ public class Hash{
     return stack.get(stack.size()).add(item);
   }
 
+  public void searchInLevel(AST item){
+
+  }
+
 }
