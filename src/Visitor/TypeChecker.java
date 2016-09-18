@@ -48,7 +48,7 @@ public class TypeChecker implements ASTVisitor<void>{
   public void visit(ClassDecl expr){
     hash.createLevel();
     hash.destroyLevel();
-    
+
   }
 
   public void visit(ContinueStmt expr){
@@ -147,7 +147,8 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Minus stmt){
-    //visitar
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
   }
 
   public void visit(Navigation stmt){
@@ -155,47 +156,59 @@ public class TypeChecker implements ASTVisitor<void>{
   }
 
   public void visit(Not stmt){
-    //visitar
+    stmt.getExpr().accept(this);
   }
 
   public void visit(NotEqualTo stmt){
-    //visitar
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
   }
 
   public void visit(Or stmt){
-    //visitar
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
   }
 
   public void visit(Expression expr){
-    //visitar
+    expr.accept(this);
   }
 
   public void visit(Param stmt){
-    //referenciar
+    hash.searchInLavel(stmt);
   }
 
   public void visit(Percentage stmt){
-    //visitar
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
   }
 
   public void visit(Plus stmt){
-    //visitar
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
   }
 
   public void visit(Program stmt){
     //nada
   }
 
-  public void visit(Return stmt){
-    //visitar
+  public void visit(ReturnExpr stmt){
+    if (stmt.getExpression() != null)
+      stmt.getExpression().accept(this);
+  }
+
+  public void visit(ReturnStmt stmt){
+    if (stmt.getExpression() != null)
+      stmt.getExpression().accept(this);
   }
 
   public void visit(SubAssignment expr){
-    //visitar
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
   }
 
   public void visit(Times expr){
-    //visitar
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
   }
 
   public void visit(Type stmt){
