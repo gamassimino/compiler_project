@@ -195,8 +195,8 @@ public class PrintAST implements ASTVisitor<String>{
     int size = stmt.getParam().size();
     String flag = "";
     for (Pair<Type, IdName> param : stmt.getParam()) {
-      flag += param.getFst().toString()+" "+param.getSnd().toString();
-      if(--size>0) flag += ", ";
+      flag = param.getFst().toString()+" "+param.getSnd().toString()+flag;
+      if(--size>0) flag = ", "+flag;
     }
     return flag;
   }
