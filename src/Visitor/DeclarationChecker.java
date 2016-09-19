@@ -137,6 +137,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(IdName stmt){
     AST founded = hash.searchInLevel(stmt.toString());
     if(founded != null)
+      stmt.setType(founded.getType());
+    else
       System.out.println("the identifier"+stmt.toString()+"isn't declared");
     //referenciar
     //nada
@@ -228,8 +230,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
   // the body create a level and destroy it
   public String visit(MethodDecl stmt){
+    hash.createLevel();
     stmt.getParam().accept(this);
     stmt.getBody().accept(this);
+    hash.destroyLevel();
     //nose
     return "";
   }
@@ -274,8 +278,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
   // need the new implementation of FieldDecl
   public String visit(Param stmt){
-    for (<Pair<Type, IdName> param : stmt.getParam() ) {
-      hash.insertInLevel(new FieldDecl(param.fst(), param.snd()))
+    for (<Pair<Type, IdName> param : stmt.getParam()) {
+      IdName id = param.snd();
+      id.setType(param.fst());
+      hash.insertInLevel(new FieldDecl(param.fst(), id));
     }
     // search the param ?
     // declare a new identifie on the table ?
@@ -345,4 +351,5 @@ public class DeclarationChecker implements ASTVisitor<String>{
     }
     return "";
   }
+
 }
