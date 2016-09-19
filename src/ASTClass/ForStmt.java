@@ -53,6 +53,10 @@ public class ForStmt extends Statement {
     return rtn;
   }
 
+  public String className(){
+    return "ForStmt";
+  }
+  
   public <T> T accept(ASTVisitor<T> v) {
     return v.visit(this);
   }

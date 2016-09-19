@@ -36,6 +36,10 @@ public class WhileStmt extends Statement {
     return rtn;
   }
 
+  public String className(){
+    return "WhileStmt";
+  }
+  
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

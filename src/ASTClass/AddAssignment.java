@@ -35,6 +35,10 @@ public class AddAssignment extends Statement{
     return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
   }
 
+  public String className(){
+    return "AddAssignment";
+  }
+
   @Override
   public String toString(){
     return left.toString()+" += "+right.toString();

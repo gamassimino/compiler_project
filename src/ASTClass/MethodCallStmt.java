@@ -56,6 +56,10 @@ public class MethodCallStmt extends Statement{
     return (expression == null) ? new ArrayList<Expression>() : expression;
   }
 
+  public String className(){
+    return "MethodCallStmt";
+  }
+  
   // @Override
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
