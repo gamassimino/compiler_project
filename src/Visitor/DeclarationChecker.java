@@ -135,7 +135,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IdName stmt){
-    if(!hash.searchInLevel(stmt))
+    AST founded = hash.searchInLevel(stmt.toString());
+    if(founded != null)
       System.out.println("the identifier"+stmt.toString()+"isn't declared");
     //referenciar
     //nada
