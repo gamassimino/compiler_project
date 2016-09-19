@@ -31,6 +31,10 @@ public class SubAssignment  extends Statement{
    return v.visit(this);
   }
 
+  public String className(){
+    return "SubAssignment";
+  }
+  
   @Override
   public String toString(){
     return left.toString()+" -= "+right.toString();

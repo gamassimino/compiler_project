@@ -38,6 +38,10 @@ public class LocationStmt extends Statement {
    return v.visit(this);
   }
 
+  public String className(){
+    return "LocationStmt";
+  }
+  
   @Override
   public String toString(){
     return id.toString();

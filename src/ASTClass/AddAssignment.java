@@ -31,6 +31,10 @@ public class AddAssignment extends Statement{
    return v.visit(this);
   }
 
+  public String className(){
+    return "AddAssignment";
+  }
+
   @Override
   public String toString(){
     return left.toString()+" += "+right.toString();

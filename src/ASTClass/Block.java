@@ -43,6 +43,10 @@ public class Block extends Statement {
     return (fields_decl == null) ? new ArrayList<FieldDecl>() : fields_decl;
   }
 
+  public String className(){
+    return "Block";
+  }
+
   @Override
   public String toString() {
     String rtn = "";

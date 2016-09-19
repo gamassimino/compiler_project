@@ -54,6 +54,10 @@ public class IfStmt extends Statement {
     return rtn;
   }
 
+  public String className(){
+    return "IfStmt";
+  }
+  
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

@@ -31,6 +31,10 @@ public class ReturnStmt extends Statement {
     }
   }
 
+  public String className(){
+    return "ReturnStmt";
+  }
+  
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

@@ -31,6 +31,10 @@ public class BreakStmt extends Statement {
     }
   }
 
+  public String className(){
+    return "BreakStmt";
+  }
+  
   public <T> T accept(ASTVisitor<T> v) {
     return v.visit(this);
   }
