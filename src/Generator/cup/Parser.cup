@@ -104,12 +104,13 @@ class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKE
 
 // ### Field Declaration ###
 field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                                      list.add(f_d);
-                                      RESULT = list;
-                                   :}
+                                      for (ArrayList<FieldDecl> list_f_d: f_d) {list.add(list_f_d);}
+                                      RESULT = list; :}
                   | field_decl_list:f_d_l field_decl:f_d {: f_d_l.add(f_d); RESULT = f_d_l; :};
 
-field_decl ::= type:t id_list:i_l SEMI {: RESULT = new FieldDecl(t, i_l) ;:};
+field_decl ::= type:t id_list:i_l SEMI {: list = new ArrayList<FieldDecl>();
+                                          for (IdName i : i_l) {list.add(new FieldDecl(t,i));}
+                                          RESULT = list; :};
 
 // ### Identifier ###
 id_list ::= id_name:i_n {: ArrayList<IdName> list = new ArrayList<IdName>();

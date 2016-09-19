@@ -184,7 +184,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(Less expr){
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
-    
+
     //visitar
     return "";
   }
