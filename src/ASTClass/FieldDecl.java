@@ -6,15 +6,20 @@ import Visitor.ASTVisitor;
 
 public class FieldDecl extends AST{
   private Type type;
-  private IdName list_id;
+  private IdName id;
 
-  public FieldDecl(Type a_type, IdName a_list_id){
+  public FieldDeclExpr(Type a_type, IdName a_id){
     type = a_type;
-    list_id = a_list_id;
+    id = a_id;
+  }  
+
+  public FieldDeclExpr(IdName a_id){
+    type = null;
+    id = a_id;
   }
 
-  public void setListId(IdName a_list_id){
-    list_id = a_list_id;
+  public void setId(IdName a_id){
+    list_id = a_id;
   }
 
   public void setType(Type a_type){
@@ -25,8 +30,8 @@ public class FieldDecl extends AST{
     return type;
   }
 
-  public List<IdName> getListId(){
-    return (list_id == null) ? new ArrayList<IdName>() : list_id;
+  public getId(){
+    return id;
   }
 
   public <T> T accept(ASTVisitor<T> v) {

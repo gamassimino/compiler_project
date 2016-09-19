@@ -6,9 +6,9 @@ import java.util.List;
 
 public class Block extends Statement {
   private List<Statement> statements;
-  private List<FieldDecl> fields_decl;
+  private List<List<FieldDecl>> fields_decl;
 
-  public Block(ArrayList<FieldDecl> f, ArrayList<Statement> s){
+  public Block(ArrayList<List<FieldDecl>> f, ArrayList<Statement> s){
     fields_decl = f;
     statements = s;
   }
@@ -17,7 +17,7 @@ public class Block extends Statement {
       statements = (List<Statement>)list;
       fields_decl = null;
     }else{
-      fields_decl = (List<FieldDecl>)list;
+      fields_decl = (List<List<FieldDecl>>)list;
       statements = null;
     }
   }
@@ -39,8 +39,8 @@ public class Block extends Statement {
     this.fields_decl.add(f);
   }
 
-  public List<FieldDecl> getFieldDecl() {
-    return (fields_decl == null) ? new ArrayList<FieldDecl>() : fields_decl;
+  public List<List<FieldDecl>> getFieldDecl() {
+    return (fields_decl == null) ? new ArrayList<List<FieldDecl>>() : fields_decl;
   }
 
   public String className(){
@@ -55,8 +55,10 @@ public class Block extends Statement {
       rtn += s.toString() + '\n';
     }
 
-    for (FieldDecl f: fields_decl) {
-      rtn += f.toString() + '\n';
+    for (List<FieldDecl> f: fields_decl) {
+      for (FieldDecl field: fields_decl) {
+        rtn += field.toString() + '\n';
+      }
     }
 
     if (rtn.length() > 0) return rtn.substring(0, rtn.length() - 1); // remove last new line char
