@@ -31,6 +31,9 @@ public class And extends Expression{
     return new Type("And");
   }
 
+  public boolean supportOp(){
+    return (left.getType().toString()=="integer")||(left.getType().toString()=="float")||(left.getType().toString()=="boolean");
+  }
 
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);

@@ -14,6 +14,8 @@ public abstract class Expression extends AST {
 		this.type = t;
 	}
 
+  public abstract boolean supportOp(){}
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

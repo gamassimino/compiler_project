@@ -29,6 +29,10 @@ public class Program extends AST {
     class_list.add(cl);
   }
 
+  public boolean supportOp(){
+    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

@@ -31,6 +31,10 @@ public class AddAssignment extends Statement{
    return v.visit(this);
   }
 
+  public boolean supportOp(){
+    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+  }
+
   @Override
   public String toString(){
     return left.toString()+" += "+right.toString();

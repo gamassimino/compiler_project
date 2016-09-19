@@ -32,6 +32,10 @@ public class Minus extends Expression{
     return new Type("Minus");
   }
 
+  public boolean supportOp(){
+    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+  }
+
   public Expression getRight(){
     return right;
   }

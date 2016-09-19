@@ -31,6 +31,10 @@ public class Plus extends Expression{
     return new Type("Plus");
   }
 
+  public boolean supportOp(){
+    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

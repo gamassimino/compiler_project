@@ -31,6 +31,10 @@ public class Divided extends Expression{
     return new Type("Divided");
   }
 
+  public boolean supportOp(){
+    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }

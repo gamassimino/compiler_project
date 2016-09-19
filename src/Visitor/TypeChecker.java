@@ -16,26 +16,49 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(AddAssignment stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(And stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    //visitar
-    return "";
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
+      System.out.println("DON'T ARE THE SAME TYPE");
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Assignment stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Block expr){
@@ -87,21 +110,35 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(Divided expr){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
-    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(EqualTo expr){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
-    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(FieldDecl stmt){
@@ -125,19 +162,33 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(Greater stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(GreaterOrEq stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(IdName stmt){
@@ -174,21 +225,35 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(Less expr){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
-    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(LessOrEq expr){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
-    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    //visitar
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Literal stmt){
@@ -231,10 +296,20 @@ public class TypeChecker implements ASTVisitor<String>{
       stmt.getRight().accept(this);
     }
     else{
-      if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+      stmt.getLeft().accept(this);
+      stmt.getRight().accept(this);
+      if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
         System.out.println("DON'T ARE THE SAME TYPE");
+        return "";
+      }
+      else{
+        if(!stmt.supportOp())
+          System.out.println("No soporta");
+          return "";
+        else
+          return "";
+      }
     }
-    return "";
   }
 
   public String visit(Navigation stmt){
@@ -244,25 +319,43 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(Not stmt){
     stmt.getExpr().accept(this);
-    if (stmt.getExpr().getType().toString() != "boolean")
-      System.out.println("WRONG TYPE");
-    return "";
+    if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }el
+          e return "";
   }
 
   public String visit(NotEqualTo stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Or stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Expression expr){
@@ -278,17 +371,33 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(Percentage stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Plus stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString())
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Program stmt){
@@ -312,19 +421,35 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(SubAssignment expr){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
-    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Times expr){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
-    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString())
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
-    return "";
+      return "";
+    }
+    else{
+      if(!stmt.supportOp()){
+        System.out.println("No soporta");
+        return "";
+      }else
+        return "";
+    }
   }
 
   public String visit(Type stmt){

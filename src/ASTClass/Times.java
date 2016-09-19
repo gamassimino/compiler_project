@@ -31,6 +31,10 @@ public class Times extends Expression{
     return new Type("Times");
   }
 
+  public boolean supportOp(){
+    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+  }
+
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
   }
