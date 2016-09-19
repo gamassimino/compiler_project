@@ -110,14 +110,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(Divided expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
       return "";
     }
     else{
-      if(!stmt.supportOp()){
+      if(!expr.supportOp()){
         System.out.println("No soporta");
         return "";
       }else
@@ -126,14 +126,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(EqualTo expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
       return "";
     }
     else{
-      if(!stmt.supportOp()){
+      if(!expr.supportOp()){
         System.out.println("No soporta");
         return "";
       }else
@@ -225,14 +225,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(Less expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
       return "";
     }
     else{
-      if(!stmt.supportOp()){
+      if(!expr.supportOp()){
         System.out.println("No soporta");
         return "";
       }else
@@ -241,14 +241,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(LessOrEq expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
       return "";
     }
     else{
-      if(!stmt.supportOp()){
+      if(!expr.supportOp()){
         System.out.println("No soporta");
         return "";
       }else
@@ -303,9 +303,10 @@ public class TypeChecker implements ASTVisitor<String>{
         return "";
       }
       else{
-        if(!stmt.supportOp())
+        if(!stmt.supportOp()){
           System.out.println("No soporta");
           return "";
+        }
         else
           return "";
       }
@@ -322,8 +323,8 @@ public class TypeChecker implements ASTVisitor<String>{
     if(!stmt.supportOp()){
         System.out.println("No soporta");
         return "";
-      }el
-          e return "";
+      }else
+        return "";
   }
 
   public String visit(NotEqualTo stmt){
@@ -421,14 +422,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(SubAssignment expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
       return "";
     }
     else{
-      if(!stmt.supportOp()){
+      if(!expr.supportOp()){
         System.out.println("No soporta");
         return "";
       }else
@@ -437,14 +438,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(Times expr){
-    stmt.getLeft().accept(this);
-    stmt.getRight().accept(this);
-    if(stmt.getLeft().getType().toString() != stmt.getRight().getType().toString()){
+    expr.getLeft().accept(this);
+    expr.getRight().accept(this);
+    if(expr.getLeft().getType().toString() != expr.getRight().getType().toString()){
       System.out.println("DON'T ARE THE SAME TYPE");
       return "";
     }
     else{
-      if(!stmt.supportOp()){
+      if(!expr.supportOp()){
         System.out.println("No soporta");
         return "";
       }else
