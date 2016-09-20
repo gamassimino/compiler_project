@@ -3,6 +3,7 @@ package Visitor;
 import ASTClass.*;
 import TableOfHash.Hash;
 import java.util.ArrayList;
+import java.util.List;
 import java_cup.runtime.*;
 
 public class DeclarationChecker implements ASTVisitor<String>{
@@ -37,8 +38,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(Block expr){
     hash.createLevel();
 
-    for (FieldDecl field_decl : expr.getFieldDecl()) {
-      field_decl.accept(this);
+    for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
+      for (FieldDecl field : fields_decl) {
+        field.accept(this);
+      }
     }
 
     for (Statement statement : expr.getStatements()) {
@@ -65,8 +68,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(ClassDecl expr){
     hash.createLevel();
 
-    for (FieldDecl field_decl : expr.getFieldDecl()) {
-      field_decl.accept(this);
+    for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
+      for (FieldDecl field : fields_decl) {
+        field.accept(this);
+      }
     }
 
     for (MethodDecl statement : expr.getMethodDecl()) {
@@ -135,7 +140,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IdName stmt){
-    AST founded = hash.searchInLevel(stmt.toString());
+    FieldDecl founded = (FieldDecl)hash.searchInLevel(stmt.toString());
     if(founded != null)
       stmt.setType(founded.getType());
     else
@@ -146,12 +151,12 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IfStmt stmt){
-    if(stmt.getBlock().className() == "Block")
-      stmt.getBlock().accept(this);
+    if(stmt.getIfBlock().className() == "Block")
+      stmt.getIfBlock().accept(this);
     else{
       hash.createLevel();
 
-      stmt.getBlock().accept(this);
+      stmt.getIfBlock().accept(this);
 
       hash.destroyLevel();
     }
@@ -278,10 +283,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
   // need the new implementation of FieldDecl
   public String visit(Param stmt){
-    for (<Pair<Type, IdName> param : stmt.getParam()) {
-      IdName id = param.snd();
-      id.setType(param.fst());
-      hash.insertInLevel(new FieldDecl(param.fst(), id));
+    for (Pair<Type, IdName> param : stmt.getParam()) {
+      IdName id = param.getSnd();
+      id.setType(param.getFst());
+      hash.insertInLevel(new FieldDecl(param.getFst(), id));
     }
     // search the param ?
     // declare a new identifie on the table ?

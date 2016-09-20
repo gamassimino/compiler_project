@@ -4,7 +4,10 @@ package ASTClass;
 
 public abstract class Statement extends AST {
 
-	// public <T> T accept(ASTVisitor<T> v) {
+  public String className(){
+    return "";
+  }
+  // public <T> T accept(ASTVisitor<T> v) {
  //   return v.visit(this);
  //  }
 }

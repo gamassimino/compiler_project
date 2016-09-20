@@ -8,18 +8,18 @@ public class FieldDecl extends AST{
   private Type type;
   private IdName id;
 
-  public FieldDeclExpr(Type a_type, IdName a_id){
+public FieldDecl(Type a_type, IdName a_id){
     type = a_type;
     id = a_id;
-  }  
+  }
 
-  public FieldDeclExpr(IdName a_id){
+public FieldDecl(IdName a_id){
     type = null;
     id = a_id;
   }
 
   public void setId(IdName a_id){
-    list_id = a_id;
+    id = a_id;
   }
 
   public void setType(Type a_type){
@@ -30,7 +30,7 @@ public class FieldDecl extends AST{
     return type;
   }
 
-  public getId(){
+public IdName getId(){
     return id;
   }
 

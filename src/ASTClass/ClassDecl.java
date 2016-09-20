@@ -1,6 +1,7 @@
 package ASTClass;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import Visitor.ASTVisitor;
 
@@ -48,11 +49,13 @@ public class ClassDecl extends AST{
   }
 
   public List<List<FieldDecl>> getFieldDecl(){
-    return (field_decl == null) ? new ArrayList<ArrayList<FieldDecl>>() : field_decl;
+    if(field_decl == null)
+      return new ArrayList<List<FieldDecl>>();
+    return field_decl;
   }
 
   public List<MethodDecl> getMethodDecl(){
-    return (method_decl == null) ? new ArrayList<MethodDecl>() : method_decl;
+    return (method_decl == null)? new ArrayList<MethodDecl>() : method_decl;
   }
 
   public IdName getIdName(){

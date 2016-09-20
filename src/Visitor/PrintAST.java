@@ -2,6 +2,7 @@ package Visitor;
 
 import ASTClass.*;
 import java.util.ArrayList;
+import java.util.List;
 import java_cup.runtime.*;
 
 public class PrintAST implements ASTVisitor<String>{
@@ -24,8 +25,10 @@ public class PrintAST implements ASTVisitor<String>{
 
   public String visit(Block expr){
     String flag = "";
-    for (FieldDecl field_decl : expr.getFieldDecl()) {
-      flag += field_decl.accept(this);
+    for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
+      for (FieldDecl field : fields_decl ) {
+        flag += field.accept(this);
+      }
     }
 
     for (Statement statement : expr.getStatements()) {
@@ -44,8 +47,10 @@ public class PrintAST implements ASTVisitor<String>{
 
   public String visit(ClassDecl expr){
     String flag =  "class "+expr.getIdName().accept(this)+"{\n";
-    for (FieldDecl field_decl : expr.getFieldDecl()) {
-      flag += field_decl.accept(this);
+    for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
+      for (FieldDecl field : fields_decl ) {
+        flag += field.accept(this);
+      }
     }
     for (MethodDecl method_decl : expr.getMethodDecl()) {
       flag += method_decl.accept(this);
@@ -66,14 +71,10 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(FieldDecl stmt){
-    int size = stmt.getListId().size();
     String flag = "  "+stmt.getType().accept(this)+" ";
-    for (IdName id : stmt.getListId()) {
-      flag += id.accept(this);
-      if (id.getSize() != null)
-        flag += "["+id.getSize().toString()+"]";
-      if(--size>0) flag += ", ";
-    }
+    flag += stmt.getId().accept(this);
+    // if (stmt.getId().getSize() != null)
+    //   flag += "["+stmt.getId().getSize().toString()+"]";
     return flag+=";\n";
   }
 
