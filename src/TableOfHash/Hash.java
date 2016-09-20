@@ -16,7 +16,7 @@ public class Hash{
   }
 
   public void destroyLevel(){
-    stack.remove();
+    stack.removeLast();
   }
 
   public void createLevel(){
@@ -24,7 +24,7 @@ public class Hash{
   }
 
   public void insertInLevel(AST item){
-    stack.get(stack.size()-1).add(item);
+    stack.getLast().add(item);
   }
 
   // this method return true if the item is

@@ -222,6 +222,9 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(LocationStmt stmt){
+    stmt.getId().accept(this);
+    if(stmt.getList() != null)
+      stmt.getList().accept(this);
     // i don't know what put here
     //visitar
     return "";
