@@ -140,11 +140,13 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IdName stmt){
-    FieldDecl founded = (FieldDecl)hash.searchInLevel(stmt.toString());
-    if(founded != null)
+    FieldDecl founded = (FieldDecl)hash.searchInTable(stmt.toString());
+    if(founded != null){
+      System.out.println("Identifier "+stmt.toString()+" founded");
       stmt.setType(founded.getType());
+    }
     else
-      System.out.println("the identifier"+stmt.toString()+"isn't declared");
+      System.out.println("Identifier "+stmt.toString()+" not founded");
     //referenciar
     //nada
     return "";
@@ -210,6 +212,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(LocationExpr stmt){
+    stmt.getId().accept(this);
+    if(stmt.getList() != null)
+      stmt.getList().accept(this);
+
     // i don't know what put here
     //visitar
     return "";
