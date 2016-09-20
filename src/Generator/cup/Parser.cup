@@ -92,7 +92,7 @@ expr ::= location_expr:lo {: RESULT = lo; :}
        | NOT expr:e {: RESULT = new Not(e) ; :}
        | LPAREN expr:exp RPAREN {: RESULT = exp; :};
 
-// ### Program ###
+// ### Program ###  
 program ::= class_decl:cl {: RESULT = new Program(cl); :}
           | program:p class_decl:cl {: p.addClass(cl); RESULT = p; :};
 

@@ -73,8 +73,8 @@ public class PrintAST implements ASTVisitor<String>{
   public String visit(FieldDecl stmt){
     String flag = "  "+stmt.getType().accept(this)+" ";
     flag += stmt.getId().accept(this);
-    if (stmt.getId().getSize() != null)
-      flag += "["+stmt.getId().getSize().toString()+"]";
+    // if (stmt.getId().getSize() != null)
+    //   flag += "["+stmt.getId().getSize().toString()+"]";
     return flag+=";\n";
   }
 

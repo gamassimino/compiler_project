@@ -51,6 +51,7 @@ public class ClassDecl extends AST{
   public List<List<FieldDecl>> getFieldDecl(){
     if(field_decl == null)
       return new ArrayList<List<FieldDecl>>();
+
     return field_decl;
   }
 
