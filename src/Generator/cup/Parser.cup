@@ -35,7 +35,7 @@ non terminal LocationStmt location_stmt;
 non terminal MethodCallExpr method_call_expr;
 non terminal MethodCallStmt method_call_stmt;
 non terminal Program program;
-non terminal FieldDecl field_decl;
+non terminal List<FieldDecl> field_decl;
 non terminal MethodDecl method_decl;
 non terminal ClassDecl class_decl;
 non terminal Type type;
@@ -47,9 +47,9 @@ non terminal Statement optional_else;
 non terminal Navigation navigation;
 non terminal ArrayList<Expression> method_expr;
 non terminal Statement lambda;
-non terminal ArrayList<IdName> id_list;
+non terminal ArrayList<FieldDecl> id_list;
 non terminal IdName id_name;
-non terminal ArrayList<FieldDecl> field_decl_list;
+non terminal List<List<FieldDecl>> field_decl_list;
 non terminal Navigation location_aux;
 non terminal ArrayList<Statement> list_statement;
 non terminal ArrayList<MethodDecl> method_decl_list;
@@ -104,20 +104,20 @@ class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKE
 
 // ### Field Declaration ###
 
-field_decl_list ::= field_decl:f_d {: ArrayList<ArrayList<FieldDecl>> list = new ArrayList<ArrayList<FieldDecl>>();
+field_decl_list ::= field_decl:f_d {: List<List<FieldDecl>> list = new ArrayList<List<FieldDecl>>();
                                       list.add(f_d);
                                       RESULT = list;
                                    :}
                   | field_decl_list:f_d_l field_decl:f_d {: f_d_l.add(f_d); RESULT = f_d_l; :};
 
-field_decl ::= type:t id_list:i_l SEMI {: for ( FieldDecl field: i_l){ i_l.setType(t);} RESULT = i_l ;:};
+field_decl ::= type:t id_list:i_l SEMI {: for (FieldDecl field: i_l){ field.setType(t);} RESULT = i_l ;:};
 
 // ### Identifier ###
 id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                      list.add(new field(i_n));
+                      list.add(new FieldDecl(i_n));
                       RESULT = list;
                     :}
-          | id_list:i_l COMMA id_name:i_n {: i_l.add(new field(i_n)); RESULT = i_l; :};
+          | id_list:i_l COMMA id_name:i_n {: i_l.add(new FieldDecl(i_n)); RESULT = i_l; :};
 
 
 // This is never watched

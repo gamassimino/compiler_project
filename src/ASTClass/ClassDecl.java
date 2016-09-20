@@ -48,9 +48,9 @@ public class ClassDecl extends AST{
     field_decl = a_field_decl;
   }
 
-  public LinkedList<LinkedList<FieldDecl>> getFieldDecl(){
+  public List<List<FieldDecl>> getFieldDecl(){
     if(field_decl == null)
-      return new LinkedList<LinkedList<FieldDecl>>(new LinkedList<FieldDecl>());
+      return new ArrayList<List<FieldDecl>>();
     return field_decl;
   }
 

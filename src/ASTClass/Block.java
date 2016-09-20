@@ -8,7 +8,7 @@ public class Block extends Statement {
   private List<Statement> statements;
   private List<List<FieldDecl>> fields_decl;
 
-  public Block(ArrayList<List<FieldDecl>> f, ArrayList<Statement> s){
+  public Block(List<List<FieldDecl>> f, List<Statement> s){
     fields_decl = f;
     statements = s;
   }
@@ -35,7 +35,7 @@ public class Block extends Statement {
     return (statements == null) ? new ArrayList<Statement>() : statements;
   }
 
-  public void addFieldDecl(FieldDecl f) {
+  public void addFieldDecl(List<FieldDecl> f) {
     this.fields_decl.add(f);
   }
 
@@ -56,7 +56,7 @@ public class Block extends Statement {
     }
 
     for (List<FieldDecl> f: fields_decl) {
-      for (FieldDecl field: fields_decl) {
+      for (FieldDecl field: f) {
         rtn += field.toString() + '\n';
       }
     }
