@@ -103,21 +103,21 @@ class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKE
              | CLASS ID:id LKEY RKEY {: RESULT = new ClassDecl(new IdName(id)) ;:};
 
 // ### Field Declaration ###
-field_decl_list ::= field_decl:f_d {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                                      for (ArrayList<FieldDecl> list_f_d: f_d) {list.add(list_f_d);}
-                                      RESULT = list; :}
+
+field_decl_list ::= field_decl:f_d {: ArrayList<ArrayList<FieldDecl>> list = new ArrayList<ArrayList<FieldDecl>>();
+                                      list.add(f_d);
+                                      RESULT = list;
+                                   :}
                   | field_decl_list:f_d_l field_decl:f_d {: f_d_l.add(f_d); RESULT = f_d_l; :};
 
-field_decl ::= type:t id_list:i_l SEMI {: list = new ArrayList<FieldDecl>();
-                                          for (IdName i : i_l) {list.add(new FieldDecl(t,i));}
-                                          RESULT = list; :};
+field_decl ::= type:t id_list:i_l SEMI {: for ( FieldDecl field: i_l){ i_l.setType(t);} RESULT = i_l ;:};
 
 // ### Identifier ###
-id_list ::= id_name:i_n {: ArrayList<IdName> list = new ArrayList<IdName>();
-                      list.add(i_n);
+id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
+                      list.add(new field(i_n));
                       RESULT = list;
                     :}
-          | id_list:i_l COMMA id_name:i_n {: i_l.add(i_n); RESULT = i_l; :};
+          | id_list:i_l COMMA id_name:i_n {: i_l.add(new field(i_n)); RESULT = i_l; :};
 
 
 // This is never watched
