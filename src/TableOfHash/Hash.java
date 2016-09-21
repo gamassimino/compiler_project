@@ -12,7 +12,7 @@ public class Hash{
   }
 
   public LinkedList<AST> currentLevel(){
-    return stack.get(stack.size()-1);
+    return stack.getLast();
   }
 
   public void destroyLevel(){
@@ -33,8 +33,8 @@ public class Hash{
   // ast structure, if the item isn't on the table
   // then return false
   public AST searchInTable(String item){
-    for (LinkedList<AST> listAst : stack) {
-      for (AST ast : listAst) {
+    for (int i = stack.size()-1; i >= 0; i--) {
+      for (AST ast : stack.get(i)) {
         FieldDecl field = (FieldDecl)ast;
         if(field.getId().toString().equals(item))
           return ast;
@@ -48,10 +48,11 @@ public class Hash{
   // with the element on the table, modifying
   // ast structure, if the item isn't on the table
   // then return false
-  public AST searchInTableT(String item, Integer level){
-    LinkedList<AST> listAst = stack.get(level -1);
+  public AST searchInLastLevel(String item){
+    LinkedList<AST> listAst = stack.getLast();
     for (AST ast : listAst) {
-      if(ast.toString() == item)
+      FieldDecl field = (FieldDecl)ast;
+      if(field.getId().toString().equals(item))
         return ast;
     }
     return null;

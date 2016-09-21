@@ -102,7 +102,12 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(FieldDecl stmt){
-    hash.insertInLevel(stmt);
+    if(hash.searchInLastLevel(stmt.getId().toString()) == null){
+      hash.insertInLevel(stmt);
+      System.out.println("IDENTIFIER NO REPEATED");
+    }else{
+      System.out.println("THE IDENTIFIER IS ALLREADY DECLARED");
+    }
     // continue visit ?
     //insertar
     return "";
