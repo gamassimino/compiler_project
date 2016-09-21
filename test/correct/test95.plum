@@ -1,0 +1,9 @@
+//testing semantic for and operator
+class plumTest92{
+  //and not suport diferents type
+  integer method_one(){
+    boolean x;
+    integer y;
+    x = x && y;
+  }
+}

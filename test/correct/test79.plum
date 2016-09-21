@@ -1,0 +1,9 @@
+//testing semantic for minus operator
+class plumTest79{
+  //minus not suport diferents type
+  integer method_one(){
+    integer x;
+    float y;
+    x = x - y;
+  }
+}

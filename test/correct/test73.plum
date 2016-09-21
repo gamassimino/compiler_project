@@ -1,0 +1,10 @@
+//testing semantic for lessOrEqual operator
+class plumTest73{
+  //lessOrEqual not suport diferents type
+  integer method_one(){
+    integer x;
+    float y;
+    boolean z;
+    z = (x <= y);
+  }
+}

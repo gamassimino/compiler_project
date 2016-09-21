@@ -1,0 +1,9 @@
+//testing semantic for divide operator
+class plumTest62{
+  //worng divide(diferents types)
+  integer method_three(){
+    integer x;
+    float y;
+    x = x/y;
+  }
+}

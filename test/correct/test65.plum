@@ -1,0 +1,10 @@
+//testing semantic for equalTo operator
+class plumTest65{
+  //worng equalTo(diferents types)
+  integer method_three(){
+    integer x;
+    float y;
+    boolean z;
+    z = (x == y);
+  }
+}

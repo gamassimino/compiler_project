@@ -1,0 +1,9 @@
+//testing semantic for or operator
+class plumTest98{
+  //or not suport diferents type
+  integer method_one(){
+    boolean x;
+    integer y;
+    x = x || y;
+  }
+}

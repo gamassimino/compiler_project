@@ -1,0 +1,9 @@
+//testing semantic for autoincrement operator
+class plumTest56{
+  //worng autoincrement(diferents types)
+  integer method_three(){
+    integer x;
+    float y;
+    x += y;
+  }
+}
