@@ -2,7 +2,7 @@ package ASTClass;
 
 import Visitor.ASTVisitor;
 
-public class MethodDecl{
+public class MethodDecl extends AST{
   private IdName id;
   private Param param;
   private Body body;

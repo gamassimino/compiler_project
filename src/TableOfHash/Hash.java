@@ -3,6 +3,7 @@ package TableOfHash;
 import java.util.LinkedList;
 import ASTClass.AST;
 import ASTClass.FieldDecl;
+import ASTClass.MethodDecl;
 
 public class Hash{
   private LinkedList<LinkedList<AST>> stack;
@@ -27,17 +28,70 @@ public class Hash{
     stack.getLast().add(item);
   }
 
+  /**
+  *
+  * this are methods for search in the table the FieldDecl
+  * where the Id is equal to item
+  *
+  **/
+
   // this method return true if the item is
   // allready in the table and bind the item
   // with the element on the table, modifying
   // ast structure, if the item isn't on the table
   // then return false
-  public AST searchInTable(String item){
+  public AST searchInTableFD(String item){
     for (int i = stack.size()-1; i >= 0; i--) {
       for (AST ast : stack.get(i)) {
+        if(ast.getClass().toString().equals("class ASTClass.FieldDecl")){
+          FieldDecl field = (FieldDecl)ast;
+          if(field.getId().toString().equals(item))
+            return ast;
+        }
+      }
+    }
+    return null;
+  }
+
+
+  // this method return true if the item is
+  // allready in the table and bind the item
+  // with the element on the table, modifying
+  // ast structure, if the item isn't on the table
+  // then return false
+  public AST searchInLastLevelFD(String item){
+    LinkedList<AST> listAst = stack.getLast();
+    for (AST ast : listAst) {
+      if(ast.getClass().toString().equals("class ASTClass.FieldDecl")){
         FieldDecl field = (FieldDecl)ast;
         if(field.getId().toString().equals(item))
           return ast;
+      }
+    }
+    return null;
+  }
+
+
+  /**
+  *
+  * this are methods for search in the table the MethodDecl
+  * where the Id is equal to item
+  *
+  **/
+
+  // this method return true if the item is
+  // allready in the table and bind the item
+  // with the element on the table, modifying
+  // ast structure, if the item isn't on the table
+  // then return false
+  public AST searchInTableMD(String item){
+    for (int i = stack.size()-1; i >= 0; i--) {
+      for (AST ast : stack.get(i)) {
+        if(ast.getClass().toString().equals("class ASTClass.MethodDecl")){
+          MethodDecl method = (MethodDecl)ast;
+          if(method.getIdName().toString().equals(item))
+            return ast;
+        }
       }
     }
     return null;
@@ -48,12 +102,14 @@ public class Hash{
   // with the element on the table, modifying
   // ast structure, if the item isn't on the table
   // then return false
-  public AST searchInLastLevel(String item){
+  public AST searchInLastLevelMD(String item){
     LinkedList<AST> listAst = stack.getLast();
     for (AST ast : listAst) {
-      FieldDecl field = (FieldDecl)ast;
-      if(field.getId().toString().equals(item))
-        return ast;
+      if(ast.getClass().toString().equals("class ASTClass.MethodDecl")){
+        MethodDecl method = (MethodDecl)ast;
+        if(method.getIdName().toString().equals(item))
+          return ast;
+      }
     }
     return null;
   }
