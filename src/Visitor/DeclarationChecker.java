@@ -104,7 +104,12 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(FieldDecl stmt){
-    hash.insertInLevel(stmt);
+    if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
+      hash.insertInLevel(stmt);
+      // System.out.println("IDENTIFIER NO REPEATED");
+    }else{
+      // System.out.println("THE IDENTIFIER IS ALLREADY DECLARED");
+    }
     // continue visit ?
     //insertar
     return "";
@@ -140,14 +145,14 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IdName stmt){
-    FieldDecl founded = (FieldDecl)hash.searchInTable(stmt.toString());
+    FieldDecl founded = (FieldDecl)hash.searchInTableFD(stmt.toString());
     if(founded != null){
-      System.out.println("Identifier "+stmt.toString()+" founded");
+      // System.out.println("Identifier "+stmt.toString()+" founded");
       stmt.setType(founded.getType());
     }
     else
       System.out.println("Identifier "+stmt.toString()+" not founded");
-    //referenciar
+    // referenciar
     //nada
     return "";
   }
@@ -219,18 +224,37 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(LocationStmt stmt){
+    stmt.getId().accept(this);
+    if(stmt.getList() != null)
+      stmt.getList().accept(this);
     // i don't know what put here
     //visitar
     return "";
   }
 
   public String visit(MethodCallStmt stmt){
+   MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
+    if(founded != null){
+      // System.out.println("Method "+stmt.getIdName().toString()+" founded");
+      stmt.setIdName(founded.getIdName());
+      // stmt.setType(founded.getType());
+    }
+    else
+      System.out.println("Method "+stmt.getIdName().toString()+" not founded");
     // i don't know what put here
     //nada
     return "";
   }
 
   public String visit(MethodCallExpr stmt){
+   MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
+    if(founded != null){
+      // System.out.println("Method "+stmt.getIdName().toString()+" founded");
+      stmt.setIdName(founded.getIdName());
+      // stmt.setType(founded.getType());
+    }
+    else
+      System.out.println("Method "+stmt.getIdName().toString()+" not founded");
     // i don't know what put here
     //nada
     return "";
@@ -238,10 +262,16 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
   // the body create a level and destroy it
   public String visit(MethodDecl stmt){
-    hash.createLevel();
-    stmt.getParam().accept(this);
-    stmt.getBody().accept(this);
-    hash.destroyLevel();
+    if(hash.searchInLastLevelMD(stmt.getIdName().toString()) == null){
+      hash.insertInLevel(stmt);
+      hash.createLevel();
+      stmt.getParam().accept(this);
+      stmt.getBody().accept(this);
+      hash.destroyLevel();
+    }else{
+      System.out.println("THIS METHOD IS ALLREADY DECLARED");
+    }
+
     //nose
     return "";
   }
