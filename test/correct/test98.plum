@@ -3,7 +3,7 @@ class plumTest98{
   //or not suport diferents type
   integer method_one(){
     boolean x;
-    integer y;
+    float y;
     x = x || y;
   }
 }

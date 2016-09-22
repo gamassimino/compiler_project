@@ -1,0 +1,8 @@
+//testing semantic of 'while'
+class plumTest104{
+  void method(){
+    boolean x;
+    while (x){
+    }
+  }
+}

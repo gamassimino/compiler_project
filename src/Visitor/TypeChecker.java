@@ -175,25 +175,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(IfStmt stmt){
-    if(stmt.getIfBlock().className() == "Block")
-      stmt.getIfBlock().accept(this);
-    else{
-      hash.createLevel();
-
-      stmt.getIfBlock().accept(this);
-
-      hash.destroyLevel();
+    stmt.getCondition().accept(this);
+    LocationExpr condition = (LocationExpr)stmt.getCondition();
+    if (!condition.getId().getType().toString().equals("boolean")) {
+      System.out.println("the 'if' condition must be boolean");
     }
-    if(stmt.getElseBlock() != null){
-      if(stmt.getElseBlock().className() == "Block")
-        stmt.getElseBlock().accept(this);
-      else{
-        hash.createLevel();
-
-        stmt.getElseBlock().accept(this);
-
-        hash.destroyLevel();
-      }
+    stmt.getIfBlock().accept(this);
+    if (stmt.getElseBlock() != null) {
+      stmt.getElseBlock().accept(this);
     }
     return "";
   }
@@ -300,6 +289,9 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(Not stmt){
     stmt.getExpr().accept(this);
+    LocationExpr expr = (LocationExpr)stmt.getExpr();
+    if (!expr.getId().getType().toString().equals("boolean"))
+      System.out.println("this operator only suport booleans");
     return "";
   }
 
@@ -418,6 +410,10 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(WhileStmt stmt){
     stmt.getCondition().accept(this);
+    LocationExpr condition = (LocationExpr)stmt.getCondition();
+    if (!condition.getId().getType().toString().equals("boolean")) {
+      System.out.println("the 'while' condition must be boolean");
+    }
     if(stmt.getStatement().className() == "Block")
       stmt.getStatement().accept(this);
     else{

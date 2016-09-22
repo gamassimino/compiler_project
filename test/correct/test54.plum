@@ -2,16 +2,15 @@
 class plumTest54{
   integer method(){
     integer number2, number3;
-    number2 = 5;
-    number2 -= 6;
-    number2 = 7;
-    // number3 = -7;
-    if (number > number2){
-      number2 -= number;
+    number2;
+    number2;
+    number2;
+    if (number3 > number2){
+      number2 -= number3;
     }
     else{
-      if (number < number3){
-        number3 += number;
+      if (number2 < number3){
+        number3 += number2;
       }
     }
     // integer i;

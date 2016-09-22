@@ -1,0 +1,8 @@
+//testing semantic of 'if'
+class plumTest102{
+  void method(){
+    integer x;
+    if (x){
+    }
+  }
+}

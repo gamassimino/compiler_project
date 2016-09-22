@@ -30,8 +30,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(Assignment stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    FieldDecl left = (FieldDecl)hash.searchInTable(stmt.getLeft().toString());
-    FieldDecl right = (FieldDecl)hash.searchInTable(stmt.getRight().toString());
+    FieldDecl left = (FieldDecl)hash.searchInTableFD(stmt.getLeft().toString());
+    FieldDecl right = (FieldDecl)hash.searchInTableFD(stmt.getRight().toString());
     if (left != null && right != null){
       if (!left.getType().toString().equals(right.getType().toString()))
         System.out.println(left.getId().toString()+" aren't the same type "+right.getId().toString());
@@ -158,6 +158,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IfStmt stmt){
+    stmt.getCondition().accept(this);
     if(stmt.getIfBlock().className() == "Block")
       stmt.getIfBlock().accept(this);
     else{
