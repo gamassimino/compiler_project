@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import ASTClass.AST;
 import ASTClass.FieldDecl;
 import ASTClass.MethodDecl;
+import ASTClass.ClassDecl;
 
 public class Hash{
   private LinkedList<LinkedList<AST>> stack;
@@ -108,6 +109,31 @@ public class Hash{
       if(ast.getClass().toString().equals("class ASTClass.MethodDecl")){
         MethodDecl method = (MethodDecl)ast;
         if(method.getIdName().toString().equals(item))
+          return ast;
+      }
+    }
+    return null;
+  }
+
+
+  /**
+  *
+  * this are methods for search in the table the ClassDecl
+  * where the Id is equal to item
+  *
+  **/
+
+  // this method return true if the item is
+  // allready in the table and bind the item
+  // with the element on the table, modifying
+  // ast structure, if the item isn't on the table
+  // then return false
+  public AST searchInLastLevelCD(String item){
+    LinkedList<AST> listAst = stack.getLast();
+    for (AST ast : listAst) {
+      if(ast.getClass().toString().equals("class ASTClass.ClassDecl")){
+        ClassDecl class_decl = (ClassDecl)ast;
+        if(class_decl.getIdName().toString().equals(item))
           return ast;
       }
     }
