@@ -41,7 +41,7 @@ public class LocationStmt extends Statement {
   public String className(){
     return "LocationStmt";
   }
-  
+
   @Override
   public String toString(){
     return id.toString();

@@ -14,6 +14,7 @@ public class MethodDecl extends AST{
     id = an_id;
     param = a_param;
     body = a_body;
+    id.setType(a_type);
   }
 
   public MethodDecl(Type a_type, IdName an_id, Body a_body){
@@ -21,6 +22,7 @@ public class MethodDecl extends AST{
     id = an_id;
     body = a_body;
     param = null;
+    id.setType(a_type);
   }
 
   public void setType(Type a_type){
