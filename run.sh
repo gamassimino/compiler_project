@@ -21,7 +21,7 @@ GREEN='\033[0;32m'
 	printf "\n"
 	printf "\n"
 
-for i in {1..99}
+for i in {1..110}
 do
 	printf "${GREEN}Running test nº${i}${NC}\n"
 	printf "${RED}"

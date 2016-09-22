@@ -34,7 +34,7 @@ public class LocationExpr extends Expression {
   }
 
   public Type getType(){
-    return new Type("LocationExpr");
+    return id.getType();
   }
 
   public <T> T accept(ASTVisitor<T> v) {

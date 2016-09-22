@@ -271,7 +271,7 @@ public class TypeChecker implements ASTVisitor<String>{
           if(!list_param_call.get(i).getType().toString().equals(param_of_decl.getFst().toString()))
             System.out.print("el tipo "+param_of_decl.getFst().toString()+" no machea con el tipo "+list_param_call.get(i).getType().toString()+" usado en la invocacion del metodo "+stmt.getIdName().toString());
         i++;
-        } 
+        }
       }
     }
     return "";
@@ -289,7 +289,7 @@ public class TypeChecker implements ASTVisitor<String>{
           if(!list_param_call.get(i).getType().toString().equals(param_of_decl.getFst().toString()))
             System.out.print("el tipo "+param_of_decl.getFst().toString()+" no machea con el tipo "+list_param_call.get(i).getType().toString()+" usado en la invocacion del metodo "+stmt.getIdName().toString());
         i++;
-        } 
+        }
       }
     }
     return "";
@@ -301,8 +301,21 @@ public class TypeChecker implements ASTVisitor<String>{
       hash.createLevel();
       stmt.getParam().accept(this);
       stmt.getBody().accept(this);
-      hash.destroyLevel();
-    //nose
+      Block block = stmt.getBody().getBlock();
+      for (Statement s: block.getStatements()) {
+        if(s.getClass().toString().equals("class ASTClass.ReturnStmt")){
+          ReturnStmt st = (ReturnStmt)s;
+          if (stmt.getType().toString().equals("void")){
+            if (st.getExpression() != null)
+              System.out.println("the method musn't return nothing");
+          }
+          else{
+            if (!stmt.getType().toString().equals(st.getExpression().getType().toString()))
+              System.out.println("the type of the method and the return value are diferents");
+          }
+        }
+      }
+    hash.destroyLevel();
     return "";
   }
 
