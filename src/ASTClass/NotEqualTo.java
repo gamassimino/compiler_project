@@ -28,7 +28,7 @@ public class NotEqualTo extends Expression{
   }
 
   public Type getType(){
-    return new Type("NotEqualTo");
+    return new Type("boolean");
   }
 
   public boolean supportOp(){

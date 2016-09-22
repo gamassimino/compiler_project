@@ -24,7 +24,7 @@ public class Greater extends Expression{
   }
 
   public Type getType(){
-    return new Type("Greater");
+    return new Type("boolean");
   }
 
   public Expression getRight(){

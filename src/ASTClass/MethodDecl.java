@@ -1,6 +1,7 @@
 package ASTClass;
 
 import Visitor.ASTVisitor;
+import java.util.ArrayList;
 
 public class MethodDecl extends AST{
   private IdName id;
@@ -47,7 +48,7 @@ public class MethodDecl extends AST{
   }
 
   public Param getParam(){
-    return param;
+    return (param == null) ? new Param() : param;
   }
 
   public Body getBody(){

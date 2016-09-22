@@ -24,7 +24,7 @@ public class GreaterOrEq extends Expression{
   }
 
   public Type getType(){
-    return new Type("GreaterOrEq");
+    return new Type("boolean");
   }
 
   public Expression getRight(){

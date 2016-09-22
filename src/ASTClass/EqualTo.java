@@ -24,7 +24,7 @@ public class EqualTo extends Expression{
   }
 
   public Type getType(){
-    return new Type("EqualTo");
+    return new Type("boolean");
   }
   public Expression getRight(){
     return right;

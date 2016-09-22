@@ -28,7 +28,7 @@ public class And extends Expression{
   }
 
   public Type getType(){
-    return new Type("And");
+    return new Type("boolean");
   }
 
   public boolean supportOp(){

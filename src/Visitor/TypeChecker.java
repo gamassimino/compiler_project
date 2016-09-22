@@ -4,6 +4,7 @@ import ASTClass.*;
 import TableOfHash.Hash;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 import java_cup.runtime.*;
 
 public class TypeChecker implements ASTVisitor<String>{
@@ -175,14 +176,25 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(IfStmt stmt){
-    stmt.getCondition().accept(this);
-    LocationExpr condition = (LocationExpr)stmt.getCondition();
-    if (!condition.getId().getType().toString().equals("boolean")) {
-      System.out.println("the 'if' condition must be boolean");
+    if(stmt.getIfBlock().className() == "Block")
+      stmt.getIfBlock().accept(this);
+    else{
+      hash.createLevel();
+
+      stmt.getIfBlock().accept(this);
+
+      hash.destroyLevel();
     }
-    stmt.getIfBlock().accept(this);
-    if (stmt.getElseBlock() != null) {
-      stmt.getElseBlock().accept(this);
+    if(stmt.getElseBlock() != null){
+      if(stmt.getElseBlock().className() == "Block")
+        stmt.getElseBlock().accept(this);
+      else{
+        hash.createLevel();
+
+        stmt.getElseBlock().accept(this);
+
+        hash.destroyLevel();
+      }
     }
     return "";
   }
@@ -248,23 +260,48 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(MethodCallStmt stmt){
-    // i don't know what put here
-    //nada
+    MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
+    int i = 0;
+    List<Expression> list_param_call = stmt.getExpressions();
+    if(founded.getParam().getParam().size() != stmt.getExpressions().size())
+      System.out.print("cantidad de parametros incorrecto");
+    else{
+      if (founded.getParam().getParam().size() > 0) {
+        for (Pair<Type, IdName> param_of_decl : founded.getParam().getParam()) {
+          if(!list_param_call.get(i).getType().toString().equals(param_of_decl.getFst().toString()))
+            System.out.print("el tipo "+param_of_decl.getFst().toString()+" no machea con el tipo "+list_param_call.get(i).getType().toString()+" usado en la invocacion del metodo "+stmt.getIdName().toString());
+        i++;
+        } 
+      }
+    }
     return "";
   }
 
   public String visit(MethodCallExpr stmt){
-    // i don't know what put here
-    //nada
+    MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
+    int i = 0;
+    List<Expression> list_param_call = stmt.getExpressions();
+    if(founded.getParam().getParam().size() != stmt.getExpressions().size())
+      System.out.print("cantidad de parametros incorrecto");
+    else{
+      if (founded.getParam().getParam().size() > 0) {
+        for (Pair<Type, IdName> param_of_decl : founded.getParam().getParam()) {
+          if(!list_param_call.get(i).getType().toString().equals(param_of_decl.getFst().toString()))
+            System.out.print("el tipo "+param_of_decl.getFst().toString()+" no machea con el tipo "+list_param_call.get(i).getType().toString()+" usado en la invocacion del metodo "+stmt.getIdName().toString());
+        i++;
+        } 
+      }
+    }
     return "";
   }
 
   // the body create a level and destroy it
   public String visit(MethodDecl stmt){
-    hash.createLevel();
-    stmt.getParam().accept(this);
-    stmt.getBody().accept(this);
-    hash.destroyLevel();
+      hash.insertInLevel(stmt);
+      hash.createLevel();
+      stmt.getParam().accept(this);
+      stmt.getBody().accept(this);
+      hash.destroyLevel();
     //nose
     return "";
   }
@@ -289,9 +326,6 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(Not stmt){
     stmt.getExpr().accept(this);
-    LocationExpr expr = (LocationExpr)stmt.getExpr();
-    if (!expr.getId().getType().toString().equals("boolean"))
-      System.out.println("this operator only suport booleans");
     return "";
   }
 
@@ -410,10 +444,6 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(WhileStmt stmt){
     stmt.getCondition().accept(this);
-    LocationExpr condition = (LocationExpr)stmt.getCondition();
-    if (!condition.getId().getType().toString().equals("boolean")) {
-      System.out.println("the 'while' condition must be boolean");
-    }
     if(stmt.getStatement().className() == "Block")
       stmt.getStatement().accept(this);
     else{

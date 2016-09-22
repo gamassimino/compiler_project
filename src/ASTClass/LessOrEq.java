@@ -24,7 +24,7 @@ public class LessOrEq extends Expression{
   }
 
   public Type getType(){
-    return new Type("LessOrEq");
+    return new Type("boolean");
   }
 
   public Expression getRight(){

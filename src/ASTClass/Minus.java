@@ -29,7 +29,9 @@ public class Minus extends Expression{
   }
 
   public Type getType(){
-    return new Type("Minus");
+    if (right == null)
+      return  left.getType();
+    return left.getType().toString().equals(right.getType().toString())? left.getType(): new Type("WrongType.Exception");
   }
 
   public boolean supportOp(){

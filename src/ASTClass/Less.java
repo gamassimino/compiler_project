@@ -24,7 +24,7 @@ public class Less extends Expression{
   }
 
   public Type getType(){
-    return new Type("Less");
+    return new Type("boolean");
   }
 
   public Expression getRight(){

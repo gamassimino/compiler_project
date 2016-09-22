@@ -28,7 +28,7 @@ public class Or extends Expression{
   }
 
   public Type getType(){
-    return new Type("Or");
+    return new Type("boolean");
   }
 
   public boolean supportOp(){

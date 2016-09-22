@@ -28,7 +28,7 @@ public class Times extends Expression{
   }
 
   public Type getType(){
-    return new Type("Times");
+    return left.getType().toString().equals(right.getType().toString())? left.getType(): new Type("WrongType.Exception");
   }
 
   public boolean supportOp(){

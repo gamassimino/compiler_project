@@ -12,6 +12,10 @@ public class Param extends AST{
     this.list = a_list;
   }
 
+  public Param(){
+    this.list =null;
+  }
+
   public Param(Type a_type, IdName an_id){
     list = new ArrayList<Pair<Type, IdName>>();
     list.add(new Pair<Type, IdName>(a_type, an_id));

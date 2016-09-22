@@ -28,7 +28,7 @@ public class Divided extends Expression{
   }
 
   public Type getType(){
-    return new Type("Divided");
+    return left.getType().toString().equals(right.getType().toString())? left.getType(): new Type("WrongType.Exception");
   }
 
   public boolean supportOp(){
