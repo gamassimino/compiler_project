@@ -16,17 +16,18 @@ public class Main{
     Error errors = new Error();
     DeclarationChecker declarationChecker = new DeclarationChecker(errors);
     MainChecker mainChecker = new MainChecker();
-    TypeChecker typeChecker = new TypeChecker();
+    TypeChecker typeChecker = new TypeChecker(errors);
     CycleChecker cycleChecker = new CycleChecker();
     ReturnChecker returnChecker = new ReturnChecker();
 
     p.accept(declarationChecker);
-    p.accept(cycleChecker);
-    p.accept(returnChecker);
-    System.out.println(p.accept(typeChecker));
+    p.accept(typeChecker);
+    for (int i = errors.getErrors().size() -1 ;i>=0 ; i-- ) {
+      System.out.println(errors.getErrors().get(i));
+    }
+    // p.accept(cycleChecker);
+    // p.accept(returnChecker);
+    // System.out.println(p.accept(typeChecker));
   }
 
-  public void syntax_error(Symbol sym){
-    // Mute legacy Error Printing
-  }
 }
