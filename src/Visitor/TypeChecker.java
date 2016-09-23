@@ -113,11 +113,9 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(EqualTo expr){
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
-    Type left = getTypeExpression(expr.getLeft());
-    Type right = getTypeExpression(expr.getRight());
-    if (!expr.supportOp())
-      System.out.println("this operator only suport booleans");
-    if (!left.toString().equals(right.toString()))
+    LocationExpr left = (LocationExpr)expr.getLeft();
+    LocationExpr right = (LocationExpr)expr.getRight();
+    if (!left.getId().getType().toString().equals(right.getId().getType().toString()))
       System.out.println("aren't the same type");
     return "";
   }
@@ -312,8 +310,12 @@ public class TypeChecker implements ASTVisitor<String>{
               System.out.println("the method musn't return nothing");
           }
           else{
-            if (!stmt.getType().toString().equals(st.getExpression().getType().toString()))
-              System.out.println("the type of the method and the return value are diferents");
+            if (st.getExpression() == null)
+              System.out.println("method must return some");
+            else{
+              if (!stmt.getType().toString().equals(st.getExpression().getType().toString()))
+                System.out.println("the type of the method and the return value are diferents");
+            }
           }
         }
       }
@@ -357,12 +359,10 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(NotEqualTo stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    Type left = getTypeExpression(stmt.getLeft());
-    Type right = getTypeExpression(stmt.getRight());
-    if (!stmt.supportOp())
-      System.out.println("this operator only suport booleans");
-    if (!left.toString().equals(right.toString()))
-      System.out.println("aren't the same type");
+    LocationExpr left = (LocationExpr)stmt.getLeft();
+    LocationExpr right = (LocationExpr)stmt.getRight();
+    if (left.getId().getType().toString().equals(right.getId().getType().toString()))
+      System.out.println("are the same type");
     return "";
   }
 
