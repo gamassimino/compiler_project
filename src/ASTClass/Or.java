@@ -6,7 +6,9 @@ public class Or extends Expression{
   private Expression left;
   private Expression right;
 
-  public Or(Expression a_left, Expression a_right){
+  public Or(Expression a_left, Expression a_right, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     left = a_left;
     right = a_right;
   }

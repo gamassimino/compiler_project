@@ -3,23 +3,23 @@ package ASTClass;
 import Visitor.ASTVisitor;
 
 public abstract class AST {
-	private int lineNumber;
-	private int colNumber;
+	protected Integer line;
+	protected Integer column;
 	
-	public int getLineNumber() {
-		return lineNumber;
+	public Integer getLine() {
+		return line;
 	}
 	
-	public void setLineNumber(int ln) {
-		lineNumber = ln;
+	public void setLine(Integer ln) {
+		line = ln;
 	}
 	
-	public int getColumnNumber() {
-		return colNumber;
+	public Integer getColumn() {
+		return column;
 	}
 	
-	public void setColumnNumber(int cn) {
-		colNumber = cn;
+	public void setColumn(Integer cn) {
+		column = cn;
 	}
 	
 	public abstract <T> T accept(ASTVisitor<T> v);

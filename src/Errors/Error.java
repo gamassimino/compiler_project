@@ -13,44 +13,28 @@ public class Error{
     return list;
   }
 
-  public void error1(String id){
-    list.add("Identifier: "+id+" is not declared");
+  public void error1(String stmt, String id, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+" "+stmt+": "+id+" is not declared");
   }
 
-  public void error2(String id){
-    list.add("Identifier: "+id+" is allready declared");
+  public void error2(String stmt,String id, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+" "+stmt+": "+id+" is allready declared");
   }
 
-  public void error3(String id){
-    list.add("Method: "+id+" is not declared");
+  public void error3(String operator, String expec, String found, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": expecting "+expec+" but found "+found);
   }
 
-  public void error4(String id){
-    list.add("Method: "+id+" is allready declared");
+  public void error4(String operator, String suport, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": not suport "+suport);
   }
 
-  public void error5(String id){
-    list.add("Class: "+id+" is not declared");
+  public void error5(String operator, String expec, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": "+expec);
   }
 
-  public void error6(String id){
-    list.add("Class: "+id+" is allready declared");
-  }
-
-  public void terror1(String operator, String expec, String found){
-    list.add(operator+": expecting "+expec+" but found "+found);
-  }
-
-  public void terror2(String operator, String suport){
-    list.add(operator+": not suport "+suport);
-  }
-
-  public void terror3(String operator, String expec){
-    list.add(operator+": "+expec);
-  }
-
-  public void terror4(String operator, String suport){
-    list.add(operator+": only suport "+suport);
+  public void error6(String operator, String suport, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": only suport "+suport);
   }
 
 }

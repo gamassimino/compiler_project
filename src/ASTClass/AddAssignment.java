@@ -6,9 +6,13 @@ public class AddAssignment extends Statement{
   private Expression left;
   private Expression right;
 
-  public AddAssignment(Expression a_left, Expression a_right){
+  public AddAssignment(Expression a_left, Expression a_right, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     left = a_left;
     right = a_right;
+    line = a_line;
+    column = a_column;
   }
 
   public void setLeft(Expression a_left){

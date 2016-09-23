@@ -7,14 +7,18 @@ public class LocationStmt extends Statement {
   private IdName id;
   private Navigation list;
 
-  public LocationStmt(IdName an_id){
+  public LocationStmt(IdName an_id, Integer a_line, Integer a_column){
     id = an_id;
     list = null;
+    line = a_line;
+    column = a_column;
   }
 
-  public LocationStmt(IdName an_id, Navigation a_list){
+  public LocationStmt(IdName an_id, Navigation a_list, Integer a_line, Integer a_column){
     id = an_id;
     list = a_list;
+    line = a_line;
+    column = a_column;
   }
 
   public void setId(IdName id){

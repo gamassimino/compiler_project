@@ -165,15 +165,15 @@ public class MainChecker implements ASTVisitor<String>{
         if(class_decl.getIdName().toString().equals("main")){
           class_decl.accept(this);
           if(hash.searchInTableMD("main") == null)
-            errors.error3("main");
+            errors.error1("Method", "main", stmt.getLine(), stmt.getColumn());
             // System.out.println("Metodo Main no definido");
         }
       }else
-        errors.error6(class_decl.getIdName().toString());
+        errors.error2("Class", class_decl.getIdName().toString(), stmt.getLine(), stmt.getColumn());
         // System.out.println("Clase Repetida");
     }
     if(hash.searchInLastLevelCD("main") == null)
-      errors.error5("main");
+      errors.error1("Class", "main", stmt.getLine(), stmt.getColumn());
       // System.out.println("Clase Main no definida");
     hash.destroyLevel();
     return "";

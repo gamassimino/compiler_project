@@ -6,9 +6,11 @@ public class WhileStmt extends Statement {
   private Expression condition;
   private Statement statement;
 
-  public WhileStmt(Expression cond, Statement a_statement) {
+  public WhileStmt(Expression cond, Statement a_statement, Integer a_line, Integer a_column) {
     this.condition = cond;
     this.statement = a_statement;
+    line = a_line;
+    column = a_column;
   }
 
   public Expression getCondition() {

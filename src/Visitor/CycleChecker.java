@@ -47,7 +47,7 @@ public class CycleChecker implements ASTVisitor<String>{
 
   public String visit(BreakStmt expr){
     if (cycle == 0)
-      error.terror3("BreakStmt","found Break outside of cicle");
+      error.error5("BreakStmt","found Break outside of cicle", expr.getLine(), expr.getColumn());
     return "";
   }
 
@@ -62,7 +62,7 @@ public class CycleChecker implements ASTVisitor<String>{
 
   public String visit(ContinueStmt expr){
     if (cycle == 0)
-      error.terror3("ContinueStmt","found Continue outside of cicle");
+      error.error5("ContinueStmt","found Continue outside of cicle", expr.getLine(), expr.getColumn());
     return "";
   }
 

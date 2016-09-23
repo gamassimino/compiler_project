@@ -41,6 +41,7 @@ public interface ASTVisitor<T> {
   public T visit(Plus stmt);
   public T visit(Program stmt);
   public T visit(ReturnStmt stmt);
+  public T visit(ReturnExpr stmt);
   public T visit(SubAssignment stmt);
   public T visit(Times stmt);
   public T visit(Type stmt);

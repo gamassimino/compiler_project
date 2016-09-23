@@ -5,11 +5,15 @@ import Visitor.ASTVisitor;
 public class ReturnExpr extends Expression {
   private Expression expression; // the return expression
 
-  public ReturnExpr(Expression e) {
+  public ReturnExpr(Expression e, Integer a_line, Integer a_column) {
+    line = a_line;
+    column = a_column;
     this.expression = e;
   }
 
-  public ReturnExpr() {
+  public ReturnExpr(Integer a_line, Integer a_column) {
+    line = a_line;
+    column = a_column;
     this.expression = null;
   }
 

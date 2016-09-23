@@ -6,7 +6,9 @@ public class EqualTo extends Expression{
   private Expression left;
   private Expression right;
 
-  public EqualTo(Expression a_left, Expression a_right){
+  public EqualTo(Expression a_left, Expression a_right, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     left = a_left;
     right = a_right;
   }

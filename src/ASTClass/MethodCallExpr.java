@@ -9,25 +9,33 @@ public class MethodCallExpr extends Expression{
   private Navigation navigation;
   private List<Expression> expression;
 
-  public MethodCallExpr(IdName an_id, Navigation a_navigation, ArrayList<Expression> an_expression){
+  public MethodCallExpr(IdName an_id, Navigation a_navigation, ArrayList<Expression> an_expression, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     id = an_id;
     navigation = a_navigation;
     expression = an_expression;
   }
 
-  public MethodCallExpr(IdName an_id, Navigation a_navigation){
+  public MethodCallExpr(IdName an_id, Navigation a_navigation, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     id = an_id;
     navigation = a_navigation;
     expression = null;
   }
 
-  public MethodCallExpr(IdName an_id, ArrayList<Expression> an_expression){
+  public MethodCallExpr(IdName an_id, ArrayList<Expression> an_expression, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     id = an_id;
     expression = an_expression;
     navigation = null;
   }
 
-  public MethodCallExpr(IdName an_id){
+  public MethodCallExpr(IdName an_id, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     id = an_id;
     expression = null;
     navigation = null;

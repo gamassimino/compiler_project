@@ -98,7 +98,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
       hash.insertInLevel(stmt);
     }else{
-      errors.error2(stmt.getId().toString());
+      errors.error2("Identifier", stmt.getId().toString(),stmt.getId().getLine(),stmt.getId().getColumn());
     }
     return "";
   }
@@ -138,7 +138,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
       stmt.setType(founded.getType());
     }
     else
-      errors.error1(stmt.toString());
+      errors.error1("Identifier", stmt.toString(),stmt.getLine(),stmt.getColumn());
     return "";
   }
 
@@ -211,7 +211,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
       stmt.setIdName(founded.getIdName());
     }
     else
-      errors.error3(stmt.getIdName().toString());
+      errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -221,7 +221,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
       stmt.setIdName(founded.getIdName());
     }
     else
-      errors.error3(stmt.getIdName().toString());
+      errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -234,7 +234,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
       stmt.getBody().accept(this);
       hash.destroyLevel();
     }else
-      errors.error4(stmt.getIdName().toString());
+      errors.error2("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -275,7 +275,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
     for (Pair<Type, IdName> param : stmt.getParam()) {
       IdName id = param.getSnd();
       id.setType(param.getFst());
-      hash.insertInLevel(new FieldDecl(param.getFst(), id));
+      hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
     }
     // search the param ?
     // declare a new identifie on the table ?

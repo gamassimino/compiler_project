@@ -214,6 +214,10 @@ public class PrintAST implements ASTVisitor<String>{
     return "  return "+stmt.getExpression().accept(this)+";";
   }
 
+  public String visit(ReturnExpr stmt){
+    return "  return "+stmt.getExpression().accept(this)+";";
+  }
+
   public String visit(SubAssignment expr){
     return expr.getLeft().accept(this)+" -= "+expr.getRight().accept(this);
   }

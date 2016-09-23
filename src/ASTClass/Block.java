@@ -8,11 +8,15 @@ public class Block extends Statement {
   private List<Statement> statements;
   private List<List<FieldDecl>> fields_decl;
 
-public Block(List<List<FieldDecl>> f, List<Statement> s){
+  public Block(List<List<FieldDecl>> f, List<Statement> s ,Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     fields_decl = f;
     statements = s;
   }
-  public Block(Object list, Boolean is_statement){
+  public Block(Object list, Boolean is_statement, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     if (is_statement) {
       statements = (List<Statement>)list;
       fields_decl = null;
@@ -22,7 +26,16 @@ public Block(List<List<FieldDecl>> f, List<Statement> s){
     }
   }
 
+  public Block(Integer a_line, Integer a_column) {
+    line = a_line;
+    column = a_column;
+    fields_decl = null;
+    statements = null;
+  }
+
   public Block() {
+    line = null;
+    column = null;
     fields_decl = null;
     statements = null;
   }

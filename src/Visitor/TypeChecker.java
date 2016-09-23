@@ -24,9 +24,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("AddAssignment","boolean");
+      error.error4("AddAssignment","boolean", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("AddAssignment",left.toString(),right.toString());
+      error.error3("AddAssignment",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -36,9 +36,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("And","integers or floats");
+      error.error4("And","integers or floats", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("And",left.toString(),right.toString());
+      error.error3("And",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -48,9 +48,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("Assignment","");
+      error.error4("Assignment","", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Assignment",left.toString(),right.toString());
+      error.error3("Assignment",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -107,9 +107,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(expr.getLeft());
     Type right = getTypeExpression(expr.getRight());
     if (!expr.supportOp())
-      error.terror2("Divided","boolean");
+      error.error4("Divided","boolean", expr.getLine(), expr.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Divided",left.toString(),right.toString());
+      error.error3("Divided",left.toString(),right.toString(), expr.getLine(), expr.getColumn());
     return "";
   }
 
@@ -119,9 +119,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(expr.getLeft());
     Type right = getTypeExpression(expr.getRight());
     if (!expr.supportOp())
-      error.terror4("EqualTo","integers, floats, booleans");
+      error.error6("EqualTo","integers, floats, booleans", expr.getLine(), expr.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("EqualTo",left.toString(),right.toString());
+      error.error3("EqualTo",left.toString(),right.toString(), expr.getLine(), expr.getColumn());
     return "";
   }
 
@@ -147,7 +147,7 @@ public class TypeChecker implements ASTVisitor<String>{
     System.out.println();
     if (!stmt.getCondition().getType().toString().equals("integer")
       || !stmt.getStep().getType().toString().equals("integer"))
-      error.terror3("ForStmt","condition and step must be integer");
+      error.error5("ForStmt","condition and step must be integer", stmt.getLine(), stmt.getColumn());
     hash.destroyLevel();
     return "";
   }
@@ -158,9 +158,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("Greater","boolean");
+      error.error4("Greater","boolean", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Greater",left.toString(),right.toString());
+      error.error3("Greater",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -170,18 +170,18 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("GreaterOrEq","boolean");
+      error.error4("GreaterOrEq","boolean", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("GreaterOrEq",left.toString(),right.toString());
+      error.error3("GreaterOrEq",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
   public String visit(IdName stmt){
     if (stmt.getSize() != null){
       if (!stmt.getType().toString().equals("integer"))
-        error.terror3("IdName","the arrays must be of integers");
+        error.error5("IdName","the arrays must be of integers", stmt.getLine(), stmt.getColumn());
       if (stmt.getSize().getValue() <= 0)
-        error.terror3("IdName","array size must be greater than zero");
+        error.error5("IdName","array size must be greater than zero", stmt.getLine(), stmt.getColumn());
     }
     return "";
   }
@@ -231,9 +231,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(expr.getLeft());
     Type right = getTypeExpression(expr.getRight());
     if (!expr.supportOp())
-      error.terror2("Less","boolean");
+      error.error4("Less","boolean", expr.getLine(), expr.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Less",left.toString(),right.toString());
+      error.error3("Less",left.toString(),right.toString(), expr.getLine(), expr.getColumn());
     return "";
   }
 
@@ -243,9 +243,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(expr.getLeft());
     Type right = getTypeExpression(expr.getRight());
     if (!expr.supportOp())
-      error.terror2("LessOrEq","boolean");
+      error.error4("LessOrEq","boolean", expr.getLine(), expr.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("LessOrEq",left.toString(),right.toString());
+      error.error3("LessOrEq",left.toString(),right.toString(), expr.getLine(), expr.getColumn());
     return "";
   }
 
@@ -269,12 +269,12 @@ public class TypeChecker implements ASTVisitor<String>{
     int i = 0;
     List<Expression> list_param_call = stmt.getExpressions();
     if(founded.getParam().getParam().size() != stmt.getExpressions().size())
-      error.terror3("MethodCallStmt","wrong number of params");
+      error.error5("MethodCallStmt","wrong number of params", stmt.getLine(), stmt.getColumn());
     else{
       if (founded.getParam().getParam().size() > 0) {
         for (Pair<Type, IdName> param_of_decl : founded.getParam().getParam()) {
           if(!list_param_call.get(i).getType().toString().equals(param_of_decl.getFst().toString()))
-            error.terror1("MethodCallStmt",param_of_decl.getFst().toString(),list_param_call.get(i).getType().toString());
+            error.error3("MethodCallStmt",param_of_decl.getFst().toString(),list_param_call.get(i).getType().toString(), stmt.getLine(), stmt.getColumn());
         i++;
         }
       }
@@ -287,12 +287,12 @@ public class TypeChecker implements ASTVisitor<String>{
     int i = 0;
     List<Expression> list_param_call = stmt.getExpressions();
     if(founded.getParam().getParam().size() != stmt.getExpressions().size())
-      error.terror3("MethodCallStmt","wrong number of params");
+      error.error5("MethodCallStmt","wrong number of params", stmt.getLine(), stmt.getColumn());
     else{
       if (founded.getParam().getParam().size() > 0) {
         for (Pair<Type, IdName> param_of_decl : founded.getParam().getParam()) {
           if(!list_param_call.get(i).getType().toString().equals(param_of_decl.getFst().toString()))
-            error.terror1("MethodCallStmt",param_of_decl.getFst().toString(),list_param_call.get(i).getType().toString());
+            error.error3("MethodCallStmt",param_of_decl.getFst().toString(),list_param_call.get(i).getType().toString(), stmt.getLine(), stmt.getColumn());
         i++;
         }
       }
@@ -312,14 +312,14 @@ public class TypeChecker implements ASTVisitor<String>{
           ReturnStmt st = (ReturnStmt)s;
           if (stmt.getType().toString().equals("void")){
             if (st.getExpression() != null)
-              error.terror3("MethodDecl","the method musn't return nothing");
+              error.error5("MethodDecl","the method musn't return a expression", stmt.getLine(), stmt.getColumn());
           }
           else{
             if (st.getExpression() == null)
-              error.terror3("MethodDecl","method must return some");
+              error.error5("MethodDecl","method must return a expression", stmt.getLine(), stmt.getColumn());
             else{
               if (!stmt.getType().toString().equals(st.getExpression().getType().toString()))
-                error.terror3("MethodDecl","the type of the method and the return value are diferents");
+                error.error5("MethodDecl","the type of the method and the return value are diferents", stmt.getLine(), stmt.getColumn());
             }
           }
         }
@@ -335,21 +335,21 @@ public class TypeChecker implements ASTVisitor<String>{
       Type left = getTypeExpression(stmt.getLeft());
       Type right = getTypeExpression(stmt.getRight());
       if (!stmt.supportOp())
-      error.terror2("Minus","boolean");
+      error.error4("Minus","boolean", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Minus",left.toString(),right.toString());
+      error.error3("Minus",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     }else {
       stmt.getLeft().accept(this);
       Type left = getTypeExpression(stmt.getLeft());
       if (!stmt.supportOp())
-        error.terror2("Minus","boolean");
+        error.error4("Minus","boolean", stmt.getLine(), stmt.getColumn());
     }
     return "";
   }
 
   public String visit(Navigation stmt){
     if (stmt.getNavigation()!=null)
-      error.terror3("Navigation","you can only use one navigation");
+      error.error5("Navigation","you can only use one navigation", stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -357,7 +357,7 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getExpr().accept(this);
     Type left = getTypeExpression(stmt.getExpr());
     if (!stmt.supportOp())
-      error.terror3("Not","this operator only support booleans");
+      error.error5("Not","this operator only support booleans", stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -367,9 +367,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror4("NotEqualTo","integers, floats, booleans");
+      error.error6("NotEqualTo","integers, floats, booleans", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("NotEqualTo",left.toString(),right.toString());
+      error.error3("NotEqualTo",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -379,9 +379,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("Or","integers or floats");
+      error.error4("Or","integers or floats", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Or",left.toString(),right.toString());
+      error.error3("Or",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -389,7 +389,7 @@ public class TypeChecker implements ASTVisitor<String>{
     for (Pair<Type, IdName> param : stmt.getParam()) {
       IdName id = param.getSnd();
       id.setType(param.getFst());
-      hash.insertInLevel(new FieldDecl(param.getFst(), id));
+      hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
     }
     return "";
   }
@@ -400,9 +400,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("Percentage","boolean");
+      error.error4("Percentage","boolean", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Percentage",left.toString(),right.toString());
+      error.error3("Percentage",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -412,9 +412,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("Plus","boolean");
+      error.error4("Plus","boolean", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Plus",left.toString(),right.toString());
+      error.error3("Plus",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -444,9 +444,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(stmt.getLeft());
     Type right = getTypeExpression(stmt.getRight());
     if (!stmt.supportOp())
-      error.terror2("SubAssignment","boolean");
+      error.error4("SubAssignment","boolean", stmt.getLine(), stmt.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("SubAssignment",left.toString(),right.toString());
+      error.error3("SubAssignment",left.toString(),right.toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -456,9 +456,9 @@ public class TypeChecker implements ASTVisitor<String>{
     Type left = getTypeExpression(expr.getLeft());
     Type right = getTypeExpression(expr.getRight());
     if (!expr.supportOp())
-      error.terror2("Times","boolean");
+      error.error4("Times","boolean", expr.getLine(), expr.getColumn());
     if (!left.toString().equals(right.toString()))
-      error.terror1("Times",left.toString(),right.toString());
+      error.error3("Times",left.toString(),right.toString(), expr.getLine(), expr.getColumn());
     return "";
   }
 

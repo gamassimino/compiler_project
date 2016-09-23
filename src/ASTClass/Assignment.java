@@ -6,7 +6,9 @@ public class Assignment extends Statement{
   private Expression left;
   private Expression right;
 
-  public Assignment(Expression a_left, Expression a_right){
+  public Assignment(Expression a_left, Expression a_right, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     left = a_left;
     right = a_right;
   }

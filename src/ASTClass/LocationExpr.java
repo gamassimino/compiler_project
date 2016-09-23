@@ -7,12 +7,16 @@ public class LocationExpr extends Expression {
 	private IdName id;
   private Navigation list;
 
-  public LocationExpr(IdName an_id){
+  public LocationExpr(IdName an_id, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     id = an_id;
     list = null;
   }
 
-  public LocationExpr(IdName an_id, Navigation a_list){
+  public LocationExpr(IdName an_id, Navigation a_list, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     id = an_id;
     list = a_list;
   }

@@ -75,32 +75,32 @@ expr ::= location_expr:lo {: RESULT = lo; :}
        | NUMBER_I:in {: RESULT = in; :}
        | NUMBER_F:fl  {: RESULT = fl; :}
        | BOOLEAN_VALUE:bool {: RESULT = bool; :}
-       | expr:l PLUS expr:r {: RESULT = new Plus(l, r); :}
-       | expr:l MINUS expr:r {: RESULT = new Minus(l, r); :}
-       | expr:l TIMES expr:r {: RESULT = new Times(l, r); :}
-       | expr:l DIVIDED expr:r {: RESULT = new Divided(l, r); :}
-       | expr:l PERCENTAGE expr:r {: RESULT = new Percentage(l, r); :}
-       | expr:l LESS expr:r {: RESULT = new Less(l, r); :}
-       | expr:l GREATER expr:r {: RESULT = new Greater(l, r); :}
-       | expr:l LESSOREQ expr:r {: RESULT = new LessOrEq(l, r); :}
-       | expr:l GREATEROREQ expr:r {: RESULT = new GreaterOrEq(l, r); :}
-       | expr:l EQUALTO expr:r {: RESULT = new EqualTo(l, r); :}
-       | expr:l NOTEQUALTO expr:r {: RESULT = new NotEqualTo(l, r); :}
-       | expr:l AND expr:r {: RESULT = new And(l, r); :}
-       | expr:l OR expr:r {: RESULT = new Or(l, r); :}
-       | MINUS expr:e {: RESULT = new Minus(e); :}
-       | NOT expr:e {: RESULT = new Not(e) ; :}
+       | expr:l PLUS expr:r {: RESULT = new Plus(l, r, lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l MINUS expr:r {: RESULT = new Minus(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l TIMES expr:r {: RESULT = new Times(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l DIVIDED expr:r {: RESULT = new Divided(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l PERCENTAGE expr:r {: RESULT = new Percentage(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l LESS expr:r {: RESULT = new Less(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l GREATER expr:r {: RESULT = new Greater(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l LESSOREQ expr:r {: RESULT = new LessOrEq(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l GREATEROREQ expr:r {: RESULT = new GreaterOrEq(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l EQUALTO expr:r {: RESULT = new EqualTo(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l NOTEQUALTO expr:r {: RESULT = new NotEqualTo(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l AND expr:r {: RESULT = new And(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | expr:l OR expr:r {: RESULT = new Or(l, r,lxleft.getLine(),lxleft.getColumn()); :}
+       | MINUS expr:e {: RESULT = new Minus(e,exleft.getLine(),exleft.getColumn()); :}
+       | NOT expr:e {: RESULT = new Not(e,exleft.getLine(),exleft.getColumn()) ; :}
        | LPAREN expr:exp RPAREN {: RESULT = exp; :};
 
 // ### Program ###
-program ::= class_decl:cl {: RESULT = new Program(cl); :}
+program ::= class_decl:cl {: RESULT = new Program(cl,clxleft.getLine(),clxleft.getColumn()); :}
           | program:p class_decl:cl {: p.addClass(cl); RESULT = p; :};
 
 // ### Class Declaration ###
-class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(new IdName(id), f_d_l, m_d_l) ;:}
-             | CLASS ID:id LKEY field_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(new IdName(id), f_d_l, true) ;:}
-             | CLASS ID:id LKEY method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(new IdName(id), m_d_l, false) ;:}
-             | CLASS ID:id LKEY RKEY {: RESULT = new ClassDecl(new IdName(id)) ;:};
+class_decl ::= CLASS ID:id LKEY field_decl_list:f_d_l method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(new IdName(id, idxleft.getLine(),idxleft.getColumn()), f_d_l, m_d_l,f_d_lxleft.getLine(),f_d_lxleft.getColumn()) ;:}
+             | CLASS ID:id LKEY field_decl_list:f_d_l RKEY {: RESULT = new ClassDecl(new IdName(id,idxleft.getLine(),idxleft.getColumn()), f_d_l, true,f_d_lxleft.getLine(),f_d_lxleft.getColumn()) ;:}
+             | CLASS ID:id LKEY method_decl_list:m_d_l RKEY {: RESULT = new ClassDecl(new IdName(id,idxleft.getLine(),idxleft.getColumn()), m_d_l, false,m_d_lxleft.getLine(),m_d_lxleft.getColumn()) ;:}
+             | CLASS ID:id LKEY RKEY {: RESULT = new ClassDecl(new IdName(id,idxleft.getLine(),idxleft.getColumn())) ;:};
 
 // ### Field Declaration ###
 
@@ -114,14 +114,14 @@ field_decl ::= type:t id_list:i_l SEMI {: for (FieldDecl field: i_l){ field.setT
 
 // ### Identifier ###
 id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();
-                      list.add(new FieldDecl(i_n));
+                      list.add(new FieldDecl(i_n,i_nxleft.getLine(),i_nxleft.getColumn()));
                       RESULT = list;
                     :}
-          | id_list:i_l COMMA id_name:i_n {: i_l.add(new FieldDecl(i_n)); RESULT = i_l; :};
+          | id_list:i_l COMMA id_name:i_n {: i_l.add(new FieldDecl(i_n,i_lxleft.getLine(),i_lxleft.getColumn())); RESULT = i_l; :};
 
 // This is never watched
-id_name ::= ID:id {: RESULT = new IdName(id) ;:}
-          | ID:id LBRACKET NUMBER_I:s RBRACKET {: RESULT = new IdName(id, s) ;:};
+id_name ::= ID:id {: RESULT = new IdName(id,idxleft.getLine(),idxleft.getColumn()) ;:}
+          | ID:id LBRACKET NUMBER_I:s RBRACKET {: RESULT = new IdName(id, s,idxleft.getLine(),idxleft.getColumn()) ;:};
 
 // ### Method Declaration ###
 method_decl_list ::= method_decl:m_d {: ArrayList<MethodDecl> list = new ArrayList<MethodDecl>();
@@ -130,21 +130,21 @@ method_decl_list ::= method_decl:m_d {: ArrayList<MethodDecl> list = new ArrayLi
                                      :}
                    | method_decl_list:m_d_l method_decl:m_d {: m_d_l.add(m_d); RESULT = m_d_l; :};
 
-method_decl ::= type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id), p, b) ;:}
-              | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id), new Param(null), b) ;:};
+method_decl ::= type:t ID:id LPAREN param:p RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id,idxleft.getLine(),idxleft.getColumn()), p, b,txleft.getLine(),txleft.getColumn()) ;:}
+              | type:t ID:id LPAREN RPAREN body:b {: RESULT = new MethodDecl(t, new IdName(id,idxleft.getLine(),idxleft.getColumn()), new Param(null), b,txleft.getLine(),txleft.getColumn()) ;:};
 
 // ### Parameters ###
-param ::= type:t ID:id {: RESULT = new Param(t, new IdName(id)) ;:}
-        | type:t ID:id COMMA param:p {: p.addParam(t, new IdName(id));  RESULT = p; :}; // REFACTOR CLASS PARAM
+param ::= type:t ID:id {: RESULT = new Param(t, new IdName(id,idxleft.getLine(),idxleft.getColumn())) ;:}
+        | type:t ID:id COMMA param:p {: p.addParam(t, new IdName(id,idxleft.getLine(),idxleft.getColumn()));  RESULT = p; :}; // REFACTOR CLASS PARAM
 
 // ### Body ###
-body ::=  block:bl {: RESULT = new Body(bl) ;:}
+body ::=  block:bl {: RESULT = new Body(bl,blxleft.getLine(),blxleft.getColumn()) ;:}
         | EXTERN SEMI {: RESULT = new Body() ;:};
 
 // ### Block ###
-block ::= LKEY field_decl_list:f_d_l list_statement:l_s RKEY {: RESULT = new Block(f_d_l, l_s) ;:}
-        | LKEY field_decl_list:f_d_l RKEY {: RESULT = new Block(f_d_l, false) ;:}
-        | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s, true) ;:}
+block ::= LKEY field_decl_list:f_d_l list_statement:l_s RKEY {: RESULT = new Block(f_d_l, l_s,f_d_lxleft.getLine(),f_d_lxleft.getColumn()) ;:}
+        | LKEY field_decl_list:f_d_l RKEY {: RESULT = new Block(f_d_l, false,f_d_lxleft.getLine(),f_d_lxleft.getColumn()) ;:}
+        | LKEY list_statement:l_s RKEY {: RESULT = new Block(l_s, true,l_sxleft.getLine(),l_sxleft.getColumn()) ;:}
         | LKEY RKEY {: RESULT = new Block(); :};
 
 // ### List Statement ###
@@ -162,14 +162,14 @@ type ::= INTEGER:i {: RESULT = new Type(i); :}
        | VOID:v {: RESULT = new Type(v); :};
 
 // ### Statements ###
-statement ::= location_expr:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp); :}
-            | location_expr:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp); :}
-            | location_expr:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp); :}
+statement ::= location_expr:lo ASSIGNMENT expr:exp SEMI {: RESULT = new Assignment(lo, exp,loxleft.getLine(),loxleft.getColumn()); :}
+            | location_expr:lo ADDASSIGNMENT expr:exp SEMI {: RESULT = new AddAssignment(lo, exp,loxleft.getLine(),loxleft.getColumn()); :}
+            | location_expr:lo SUBASSIGNMENT expr:exp SEMI {: RESULT = new SubAssignment(lo, exp,loxleft.getLine(),loxleft.getColumn()); :}
             | method_call_stmt:m_c_s SEMI {: RESULT = m_c_s; :}
-            | FOR ID:id ASSIGNMENT expr:condition COMMA expr:step statement:s {: RESULT = new ForStmt(new IdName(id), condition, step, s); :}
-            | WHILE expr:exp statement:s {: RESULT = new WhileStmt(exp, s); :}
-            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new IfStmt(exp, s, o_e); :}
-            | RETURN expr:exp SEMI {: RESULT = new ReturnStmt(exp); :}
+            | FOR ID:id ASSIGNMENT expr:condition COMMA expr:step statement:s {: RESULT = new ForStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()), condition, step, s,idxleft.getLine(),idxleft.getColumn()); :}
+            | WHILE expr:exp statement:s {: RESULT = new WhileStmt(exp, s,expxleft.getLine(),expxleft.getColumn()); :}
+            | IF LPAREN expr:exp RPAREN statement:s optional_else:o_e {: RESULT = new IfStmt(exp, s, o_e,expxleft.getLine(),expxleft.getColumn()); :}
+            | RETURN expr:exp SEMI {: RESULT = new ReturnStmt(exp,expxleft.getLine(),expxleft.getColumn()); :}
             | RETURN SEMI {: RESULT = new ReturnStmt(); :}
             | BREAK SEMI {: RESULT = new BreakStmt(); :}
             | CONTINUE SEMI {: RESULT = new ContinueStmt(); :}
@@ -183,20 +183,20 @@ optional_else ::= ELSE statement:s {: RESULT =  s ;:}
                 | lambda:l {: RESULT = l; :} ;
 
 // ### Method Call ###
-method_call_stmt ::= ID:id navigation:na LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallStmt(new IdName(id), na, m_e) ;:}
-                   | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallStmt(new IdName(id), m_e) ;:}
-                   | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallStmt(new IdName(id), na) ;:}
-                   | ID:id LPAREN RPAREN {: RESULT = new MethodCallStmt(new IdName(id)) ;:};
+method_call_stmt ::= ID:id navigation:na LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()), na, m_e,naxleft.getLine(),naxleft.getColumn()) ;:}
+                   | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()), m_e,m_exleft.getLine(),m_exleft.getColumn()) ;:}
+                   | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()), na,naxleft.getLine(),naxleft.getColumn()) ;:}
+                   | ID:id LPAREN RPAREN {: RESULT = new MethodCallStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:};
 
-method_call_expr ::= ID:id navigation:na LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(new IdName(id), na, m_e) ;:}
-                   | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(new IdName(id), m_e) ;:}
-                   | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallExpr(new IdName(id), na) ;:}
-                   | ID:id LPAREN RPAREN {: RESULT = new MethodCallExpr(new IdName(id)) ;:};
+method_call_expr ::= ID:id navigation:na LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()), na, m_e,naxleft.getLine(),naxleft.getColumn()) ;:}
+                   | ID:id LPAREN method_expr:m_e RPAREN {: RESULT = new MethodCallExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()), m_e,m_exleft.getLine(),m_exleft.getColumn()) ;:}
+                   | ID:id navigation:na LPAREN RPAREN {: RESULT = new MethodCallExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()), na,naxleft.getLine(),naxleft.getColumn()) ;:}
+                   | ID:id LPAREN RPAREN {: RESULT = new MethodCallExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:};
 
 //                         REVIEW THE NAVIGATION
 // ### Navigation ###
-navigation ::= POINT ID:id {: RESULT = new Navigation( new IdName(id)) ;:}
-             | navigation:na POINT ID:id {: RESULT = new Navigation(na, new IdName(id));:};
+navigation ::= POINT ID:id {: RESULT = new Navigation( new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
+             | navigation:na POINT ID:id {: RESULT = new Navigation(na, new IdName(id,idxleft.getLine(),idxleft.getColumn()),naxleft.getLine(),naxleft.getColumn());:};
 
 //                          REVIEW THE METHOD EXPRESSION
 method_expr ::= expr:e {: ArrayList<Expression> list = new ArrayList<Expression>();
@@ -207,11 +207,11 @@ method_expr ::= expr:e {: ArrayList<Expression> list = new ArrayList<Expression>
 
 //                          HEREEE DONE !
 // ### Location ###
-location_expr ::= ID:id {: RESULT = new LocationExpr(new IdName(id)) ;:}
-                | ID:id location_aux:l_a {: RESULT = new LocationExpr(new IdName(id), l_a) ;:};
+location_expr ::= ID:id {: RESULT = new LocationExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
+                | ID:id location_aux:l_a {: RESULT = new LocationExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()), l_a,l_axleft.getLine(),l_axleft.getColumn()) ;:};
 // this never is used
-location_stmt ::= ID:id {: RESULT = new LocationStmt(new IdName(id)) ;:}
-                | ID:id location_aux:l_a {: RESULT = new LocationStmt(new IdName(id), l_a) ;:};
+location_stmt ::= ID:id {: RESULT = new LocationStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
+                | ID:id location_aux:l_a {: RESULT = new LocationStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()), l_a,l_axleft.getLine(),l_axleft.getColumn()) ;:};
 
 location_aux ::= navigation:n {:  RESULT = n; :}
-               | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new Navigation(na, exp); :};
+               | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new Navigation(na, exp,naxleft.getLine(),naxleft.getColumn()); :};

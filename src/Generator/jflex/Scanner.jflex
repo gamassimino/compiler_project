@@ -33,6 +33,18 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
     return sf.newSymbol(plaintext,code,new Location("",yyline+1, yycolumn +1,yychar), new Location("",yyline+1,yycolumn+yylength(),yychar),id);
   }
   private ComplexSymbolFactory sf;
+
+
+
+
+  private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
+  }
+  
+  private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+  }
+
 %}
 %eofval{
   return sf.newSymbol("EOF",sym.EOF);

@@ -6,6 +6,8 @@ public class IdName{
   private String id;
   private IntLiteral size;
   private Type type;
+  private Integer line;
+  private Integer column;
 
   public IdName(String an_id){
     id = an_id;
@@ -13,10 +15,26 @@ public class IdName{
     type = null;
   }
 
+  public IdName(String an_id, Integer a_line, Integer a_column){
+    id = an_id;
+    size = null;
+    type = null;
+    line = a_line;
+    column = a_column;
+  }
+
   public IdName(String an_id, IntLiteral a_size){
     id = an_id;
     size = a_size;
     type= null;
+  }
+
+  public IdName(String an_id, IntLiteral a_size, Integer a_line, Integer a_column){
+    id = an_id;
+    size = a_size;
+    type= null;
+    line = a_line;
+    column = a_column;
   }
 
   public IdName(String an_id, IntLiteral a_size, Type a_type){
@@ -39,6 +57,14 @@ public class IdName{
 
   public Type getType(){
     return type;
+  }
+
+  public Integer getLine(){
+    return line;
+  }
+
+  public Integer getColumn(){
+    return column;
   }
 
   public void setSize(IntLiteral a_size){

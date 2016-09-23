@@ -9,20 +9,24 @@ public class MethodDecl extends AST{
   private Body body;
   private Type type;
 
-  public MethodDecl(Type a_type, IdName an_id, Param a_param, Body a_body){
+  public MethodDecl(Type a_type, IdName an_id, Param a_param, Body a_body, Integer a_line, Integer a_column){
     type = a_type;
     id = an_id;
     param = a_param;
     body = a_body;
     id.setType(a_type);
+    line = a_line;
+    column = a_column;
   }
 
-  public MethodDecl(Type a_type, IdName an_id, Body a_body){
+  public MethodDecl(Type a_type, IdName an_id, Body a_body, Integer a_line, Integer a_column){
     type = a_type;
     id = an_id;
     body = a_body;
     param = null;
     id.setType(a_type);
+    line = a_line;
+    column = a_column;
   }
 
   public void setType(Type a_type){

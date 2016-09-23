@@ -9,27 +9,35 @@ public class MethodCallStmt extends Statement{
   private Navigation navigation;
   private List<Expression> expression;
 
-  public MethodCallStmt(IdName an_id, Navigation a_navigation, ArrayList<Expression> an_expression){
+  public MethodCallStmt(IdName an_id, Navigation a_navigation, ArrayList<Expression> an_expression, Integer a_line, Integer a_column){
     id = an_id;
     navigation = a_navigation;
     expression = an_expression;
+    line = a_line;
+    column = a_column;
   }
 
-  public MethodCallStmt(IdName an_id, Navigation a_navigation){
+  public MethodCallStmt(IdName an_id, Navigation a_navigation, Integer a_line, Integer a_column){
     id = an_id;
     navigation = a_navigation;
     expression = null;
+    line = a_line;
+    column = a_column;
   }
 
-  public MethodCallStmt(IdName an_id, ArrayList<Expression> an_expression){
+  public MethodCallStmt(IdName an_id, ArrayList<Expression> an_expression, Integer a_line, Integer a_column){
     id = an_id;
     expression = an_expression;
     navigation= null;
+    line = a_line;
+    column = a_column;
   }
-  public MethodCallStmt(IdName an_id){
+  public MethodCallStmt(IdName an_id, Integer a_line, Integer a_column){
     id = an_id;
     expression = null;
     navigation= null;
+    line = a_line;
+    column = a_column;
   }
 
   public void setIdName(IdName an_id){

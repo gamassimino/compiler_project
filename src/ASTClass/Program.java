@@ -8,13 +8,17 @@ public class Program extends AST {
 
   private List<ClassDecl> class_list;
 
-  public Program(){
+  public Program(Integer a_line, Integer a_column){
     class_list = new ArrayList<ClassDecl>();
+    line = a_line;
+    column = a_column;
   }
 
-  public Program(ClassDecl a_class){
+  public Program(ClassDecl a_class, Integer a_line, Integer a_column){
     class_list = new ArrayList<ClassDecl>();
     class_list.add(a_class);
+    line = a_line;
+    column = a_column;
   }
 
   public List<ClassDecl> getClassList(){

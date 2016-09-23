@@ -8,12 +8,16 @@ public class FieldDecl extends AST{
   private Type type;
   private IdName id;
 
-public FieldDecl(Type a_type, IdName a_id){
+  public FieldDecl(Type a_type, IdName a_id, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     type = a_type;
     id = a_id;
   }
 
-public FieldDecl(IdName a_id){
+  public FieldDecl(IdName a_id, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     type = null;
     id = a_id;
   }
@@ -30,7 +34,7 @@ public FieldDecl(IdName a_id){
     return type;
   }
 
-public IdName getId(){
+  public IdName getId(){
     return id;
   }
 

@@ -4,7 +4,14 @@ import Visitor.ASTVisitor;
 
 public class ContinueStmt extends Statement {
 
+  public ContinueStmt(Integer a_line, Integer a_column) {
+    line = a_line;
+    column = a_column;
+  }
+
   public ContinueStmt() {
+    line = null;
+    column = null;
   }
 
   @Override

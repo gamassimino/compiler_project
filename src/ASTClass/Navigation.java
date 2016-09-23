@@ -6,22 +6,30 @@ public class Navigation{
   private Navigation navigation;
   private IdName id;
   private Expression expr;
+  private Integer line;
+  private Integer column;
 
-  public Navigation(Navigation a_navigation, IdName an_id){
+  public Navigation(Navigation a_navigation, IdName an_id, Integer a_line, Integer a_column){
     navigation = a_navigation;
     id = an_id;
     expr = null;
+    line = a_line;
+    column = a_column;
   }
 
-  public Navigation(Navigation a_navigation, Expression an_expr){
+  public Navigation(Navigation a_navigation, Expression an_expr, Integer a_line, Integer a_column){
     navigation = a_navigation;
     expr = an_expr;
     id = null;
+    line = a_line;
+    column = a_column;
   }
 
-  public Navigation(IdName an_id){
+  public Navigation(IdName an_id, Integer a_line, Integer a_column){
     navigation = null;
     id = an_id;
+    line = a_line;
+    column = a_column;
   }
 
   public void setNavigation(Navigation a_navigation){
@@ -33,6 +41,14 @@ public class Navigation{
 
   public IdName getIdName(){
     return id;
+  }
+
+  public Integer getLine(){
+    return line;
+  }
+
+  public Integer getColumn(){
+    return column;
   }
 
   public Navigation getNavigation(){

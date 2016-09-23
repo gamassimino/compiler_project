@@ -5,7 +5,9 @@ import Visitor.ASTVisitor;
 public class Not extends Expression{
   private Expression expr;
 
-  public Not(Expression a_expr){
+  public Not(Expression a_expr, Integer a_line, Integer a_column){
+    line = a_line;
+    column = a_column;
     expr = a_expr;
   }
 

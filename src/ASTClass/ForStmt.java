@@ -8,11 +8,13 @@ public class ForStmt extends Statement {
   private Expression step;
   private Statement statement;
 
-  public ForStmt(IdName an_id, Expression cond, Expression a_step, Statement st) {
+  public ForStmt(IdName an_id, Expression cond, Expression a_step, Statement st, Integer a_line, Integer a_column) {
     this.id = an_id;
     this.condition = cond;
     this.step = a_step;
     this.statement = st;
+    line = a_line;
+    column = a_column;
   }
 
   public IdName getIdName() {
