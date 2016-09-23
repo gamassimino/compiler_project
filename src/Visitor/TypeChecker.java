@@ -355,15 +355,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(NotEqualTo stmt){
-    expr.getLeft().accept(this);
-    expr.getRight().accept(this);
-    Type left = getTypeExpression(expr.getLeft());
-    Type right = getTypeExpression(expr.getRight());
-    if (!expr.supportOp())
+    stmt.getLeft().accept(this);
+    stmt.getRight().accept(this);
+    Type left = getTypeExpression(stmt.getLeft());
+    Type right = getTypeExpression(stmt.getRight());
+    if (!stmt.supportOp())
       System.out.println("this operator only suport booleans");
     if (!left.toString().equals(right.toString()))
       System.out.println("aren't the same type");
-    return "";
     return "";
   }
 
