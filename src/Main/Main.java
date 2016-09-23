@@ -20,10 +20,10 @@ public class Main{
     CycleChecker cycleChecker = new CycleChecker();
     ReturnChecker returnChecker = new ReturnChecker();
 
-    p.accept(declarationChecker);
-    p.accept(typeChecker);
-    for (int i = errors.getErrors().size() -1 ;i>=0 ; i-- ) {
-      System.out.println(errors.getErrors().get(i));
+    // p.accept(declarationChecker);
+    // p.accept(typeChecker);
+    for (String error: errors.getErrors()) {
+      System.out.println(error);
     }
     // p.accept(cycleChecker);
     // p.accept(returnChecker);
