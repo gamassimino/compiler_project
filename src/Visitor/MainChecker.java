@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 import java_cup.runtime.*;
-
+import Errors.Error;
 public class MainChecker implements ASTVisitor<String>{
   Hash hash;
-
-  public MainChecker(){
+  Error errors;
+  public MainChecker(Error er){
     hash = new Hash();
+    errors = er;
   }
 
 
@@ -164,13 +165,16 @@ public class MainChecker implements ASTVisitor<String>{
         if(class_decl.getIdName().toString().equals("main")){
           class_decl.accept(this);
           if(hash.searchInTableMD("main") == null)
-            System.out.println("Metodo Main no definido");
+            errors.error3("main");
+            // System.out.println("Metodo Main no definido");
         }
       }else
-        System.out.println("Clase Repetida");
+        errors.error6(class_decl.getIdName().toString());
+        // System.out.println("Clase Repetida");
     }
     if(hash.searchInLastLevelCD("main") == null)
-      System.out.println("Clase Main no definida");
+      errors.error5("main");
+      // System.out.println("Clase Main no definida");
     hash.destroyLevel();
     return "";
   }

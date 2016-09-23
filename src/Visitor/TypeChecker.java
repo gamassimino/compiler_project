@@ -116,9 +116,11 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(EqualTo expr){
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
-    LocationExpr left = (LocationExpr)expr.getLeft();
-    LocationExpr right = (LocationExpr)expr.getRight();
-    if (!left.getId().getType().toString().equals(right.getId().getType().toString()))
+    Type left = getTypeExpression(expr.getLeft());
+    Type right = getTypeExpression(expr.getRight());
+    if (!expr.supportOp())
+      error.terror4("EqualTo","integers, floats, booleans");
+    if (!left.toString().equals(right.toString()))
       error.terror1("EqualTo",left.toString(),right.toString());
     return "";
   }
@@ -362,10 +364,12 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(NotEqualTo stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    LocationExpr left = (LocationExpr)stmt.getLeft();
-    LocationExpr right = (LocationExpr)stmt.getRight();
-    if (left.getId().getType().toString().equals(right.getId().getType().toString()))
-      error.terror1("NotEqualTo",left.getId().getType().toString(),right.getId().getType().toString());
+    Type left = getTypeExpression(stmt.getLeft());
+    Type right = getTypeExpression(stmt.getRight());
+    if (!stmt.supportOp())
+      error.terror4("NotEqualTo","integers, floats, booleans");
+    if (!left.toString().equals(right.toString()))
+      error.terror1("NotEqualTo",left.toString(),right.toString());
     return "";
   }
 

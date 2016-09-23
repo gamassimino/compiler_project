@@ -14,23 +14,31 @@ public class Error{
   }
 
   public void error1(String id){
-    list.add("the identifier "+id+" is not declared");
+    list.add("Identifier: "+id+" is not declared");
   }
 
   public void error2(String id){
-    list.add("the identifier "+id+" is allready declared");
+    list.add("Identifier: "+id+" is allready declared");
   }
 
   public void error3(String id){
-    list.add("the method "+id+" is not declared");
+    list.add("Method: "+id+" is not declared");
   }
 
   public void error4(String id){
-    list.add("the method "+id+" is allready declared");
+    list.add("Method: "+id+" is allready declared");
+  }
+
+  public void error5(String id){
+    list.add("Class: "+id+" is not declared");
+  }
+
+  public void error6(String id){
+    list.add("Class: "+id+" is allready declared");
   }
 
   public void terror1(String operator, String expec, String found){
-    list.add(operator+":expecting "+expec+" but found "+found);
+    list.add(operator+": expecting "+expec+" but found "+found);
   }
 
   public void terror2(String operator, String suport){
@@ -39,6 +47,10 @@ public class Error{
 
   public void terror3(String operator, String expec){
     list.add(operator+": "+expec);
+  }
+
+  public void terror4(String operator, String suport){
+    list.add(operator+": only suport "+suport);
   }
 
 }
