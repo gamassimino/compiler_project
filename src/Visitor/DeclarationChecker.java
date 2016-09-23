@@ -63,9 +63,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(BreakStmt expr){
-    if(expr.getExpression() != null)
-      expr.getExpression().accept(this);
-    //nada
     return "";
   }
 
