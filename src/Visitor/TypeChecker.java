@@ -342,8 +342,8 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(Navigation stmt){
-    // i don't know what put here
-    // nada
+    if (stmt.getNavigation()!=null)
+      System.out.println("you can only use one navigation");
     return "";
   }
 

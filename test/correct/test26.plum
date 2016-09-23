@@ -7,7 +7,7 @@ class plumTest26{
 
   boolean method_two(){
     boolean x;
-    x = this.method_one();
+    x = method_one();
     return x;
   }
 }

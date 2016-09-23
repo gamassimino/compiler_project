@@ -2,9 +2,6 @@
 class plumTest54{
   integer method(){
     integer number2, number3;
-    number2;
-    number2;
-    number2;
     if (number3 > number2){
       number2 -= number3;
     }
@@ -13,11 +10,5 @@ class plumTest54{
         number3 += number2;
       }
     }
-    // integer i;
-    // i = 0;
-    // while (i < 10){
-    //   number--;
-    //   i++;
-    // }
   }
 }

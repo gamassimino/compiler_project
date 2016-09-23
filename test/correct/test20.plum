@@ -7,7 +7,7 @@ class plumTest14{
 
   float method_two(){
     float x;
-    x = this.method_one();
+    x = method_one();
     return x;
   }
 }

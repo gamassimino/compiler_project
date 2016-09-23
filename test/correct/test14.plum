@@ -7,7 +7,7 @@ class plumTest14{
 
   integer method_two(){
     integer x;
-    x = this.method_one();
+    x = method_one();
     return x;
   }
 }

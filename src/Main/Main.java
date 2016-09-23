@@ -17,9 +17,9 @@ public class Main{
     TypeChecker typeChecker = new TypeChecker();
     CycleChecker cycleChecker = new CycleChecker();
 
-    // p.accept(declarationChecker);
+    p.accept(declarationChecker);
     p.accept(cycleChecker);
-    // System.out.println(p.accept(typeChecker));
+    System.out.println(p.accept(typeChecker));
   }
 
   public void syntax_error(Symbol sym){
