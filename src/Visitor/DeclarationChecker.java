@@ -206,11 +206,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
     return "";
   }
 
-  public String visit(Literal stmt){
-    //nada
-    return "";
-  }
-
   public String visit(LocationExpr stmt){
     stmt.getId().accept(this);
     if(stmt.getList() != null)
@@ -304,11 +299,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(Or stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    return "";
-  }
-
-  public String visit(Expression expr){
-    expr.accept(this);
     return "";
   }
 

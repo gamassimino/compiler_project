@@ -28,7 +28,11 @@ public class Percentage extends Expression{
   }
 
   public Type getType(){
-    return left.getType().toString().equals(right.getType().toString())? left.getType(): new Type("WrongType.Exception");
+    return left.getType().toString().equals(right.getType().toString())? left.getType(): new Type("Percentage.WrongType.Exception");
+  }
+
+  public boolean supportOp(){
+    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"));
   }
 
   public <T> T accept(ASTVisitor<T> v) {

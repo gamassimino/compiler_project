@@ -15,7 +15,6 @@ public interface ASTVisitor<T> {
   public T visit(ContinueStmt expr);
   public T visit(Divided expr);
   public T visit(EqualTo expr);
-  public T visit(Expression expr);
   public T visit(FieldDecl expr);
   public T visit(ForStmt stmt);
   public T visit(Greater stmt);
@@ -27,7 +26,6 @@ public interface ASTVisitor<T> {
   public T visit(FloatLiteral stmt);
   public T visit(Less stmt);
   public T visit(LessOrEq stmt);
-  public T visit(Literal stmt);
   public T visit(LocationExpr stmt);
   public T visit(LocationStmt stmt);
   public T visit(MethodCallStmt stmt);
@@ -43,7 +41,6 @@ public interface ASTVisitor<T> {
   public T visit(Plus stmt);
   public T visit(Program stmt);
   public T visit(ReturnStmt stmt);
-  // public T visit(Statement stmt);
   public T visit(SubAssignment stmt);
   public T visit(Times stmt);
   public T visit(Type stmt);

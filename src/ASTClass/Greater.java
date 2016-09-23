@@ -32,7 +32,7 @@ public class Greater extends Expression{
   }
 
   public boolean supportOp(){
-    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"));
   }
 
   public <T> T accept(ASTVisitor<T> v) {

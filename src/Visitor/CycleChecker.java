@@ -126,11 +126,6 @@ public class CycleChecker implements ASTVisitor<String>{
     return "";
   }
 
-  public String visit(Literal stmt){
-    //nada
-    return "";
-  }
-
   public String visit(LocationExpr stmt){
     return "";
   }
@@ -172,11 +167,6 @@ public class CycleChecker implements ASTVisitor<String>{
   }
 
   public String visit(Or stmt){
-    return "";
-  }
-
-  public String visit(Expression expr){
-    expr.accept(this);
     return "";
   }
 

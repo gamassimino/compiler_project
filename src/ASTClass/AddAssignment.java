@@ -32,7 +32,9 @@ public class AddAssignment extends Statement{
   }
 
   public boolean supportOp(){
-    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+    if (!left.getType().toString().equals(right.getType().toString()))
+      return false;
+    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"));
   }
 
   public String className(){

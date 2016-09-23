@@ -102,10 +102,6 @@ public class MainChecker implements ASTVisitor<String>{
     return "";
   }
 
-  public String visit(Literal stmt){
-    return "";
-  }
-
   public String visit(LocationExpr stmt){
     return "";
   }
@@ -144,10 +140,6 @@ public class MainChecker implements ASTVisitor<String>{
   }
 
   public String visit(Or stmt){
-    return "";
-  }
-
-  public String visit(Expression expr){
     return "";
   }
 

@@ -18,8 +18,13 @@ public class Not extends Expression{
   }
 
   public Type getType(){
-    return new Type("Not");
+    return new Type("boolean");
   }
+
+  public boolean supportOp(){
+    return expr.getType().toString().equals("boolean");
+  }
+
 
   public <T> T accept(ASTVisitor<T> v) {
    return v.visit(this);
