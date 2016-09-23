@@ -110,7 +110,7 @@ field_decl_list ::= field_decl:f_d {: List<List<FieldDecl>> list = new ArrayList
                                    :}
                   | field_decl_list:f_d_l field_decl:f_d {: f_d_l.add(f_d); RESULT = f_d_l; :};
 
-field_decl ::= type:t id_list:i_l SEMI {: for (FieldDecl field: i_l){ field.setType(t);} RESULT = i_l ;:};
+field_decl ::= type:t id_list:i_l SEMI {: for (FieldDecl field: i_l){ field.setType(t); field.getId().setType(t); } RESULT = i_l ;:};
 
 // ### Identifier ###
 id_list ::= id_name:i_n {: ArrayList<FieldDecl> list = new ArrayList<FieldDecl>();

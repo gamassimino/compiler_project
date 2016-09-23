@@ -65,7 +65,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 // "null" { return symbol("Null", sym.NULL); }
 
 // ### Numeric Values ###
-[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER_I, new IntLiteral(yytext())); }
+"-"[1-9]+[0-9]*|0|[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER_I, new IntLiteral(yytext())); }
 [0-9]+"."[0-9]+ { return symbol("Float Number",sym.NUMBER_F, new FloatLiteral(yytext())); }
 
 // ### Types ##

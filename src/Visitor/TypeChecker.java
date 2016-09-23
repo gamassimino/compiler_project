@@ -128,6 +128,7 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(FieldDecl stmt){
     hash.insertInLevel(stmt);
+    stmt.getId().accept(this);
     // continue visit ?
     //insertar
     return "";
@@ -179,6 +180,12 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(IdName stmt){
+    if (stmt.getSize() != null){
+      if (!stmt.getType().toString().equals("integer"))
+        System.out.println("the arrays must be of integers");
+      if (stmt.getSize().getValue() <= 0)
+        System.out.println("array size must be greater than zero");
+    }
     return "";
   }
 
