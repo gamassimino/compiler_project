@@ -54,7 +54,7 @@ public class MethodCallExpr extends Expression{
   }
 
   public Type getType(){
-    return new Type("MethodCallExpr");
+    return id.getType();
   }
 
   public List<Expression> getExpressions(){

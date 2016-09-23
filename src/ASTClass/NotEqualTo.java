@@ -32,7 +32,9 @@ public class NotEqualTo extends Expression{
   }
 
   public boolean supportOp(){
-    return (left.getType().toString()=="integer")||(left.getType().toString()=="float")||(left.getType().toString()=="boolean");
+    if (!left.getType().toString().equals(right.getType().toString()))
+      return false;
+    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"))||(left.getType().toString().equals("boolean"));
   }
 
   public <T> T accept(ASTVisitor<T> v) {

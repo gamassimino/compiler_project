@@ -32,7 +32,7 @@ public class And extends Expression{
   }
 
   public boolean supportOp(){
-    return (left.getType().toString()=="integer")||(left.getType().toString()=="float")||(left.getType().toString()=="boolean");
+    return left.getType().toString().equals("boolean");
   }
 
   public <T> T accept(ASTVisitor<T> v) {

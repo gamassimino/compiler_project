@@ -42,7 +42,7 @@ public class PrintAST implements ASTVisitor<String>{
   }
 
   public String visit(BreakStmt expr){
-    return "break "+expr.getExpression().accept(this);
+    return "break ";
   }
 
   public String visit(ClassDecl expr){
@@ -125,10 +125,6 @@ public class PrintAST implements ASTVisitor<String>{
     return expr.getLeft().accept(this)+" <= "+expr.getRight().accept(this);
   }
 
-  public String visit(Literal stmt){
-    return stmt.getType().accept(this);
-  }
-
   public String visit(LocationExpr stmt){
     return stmt.getId().accept(this);
   }
@@ -185,10 +181,6 @@ public class PrintAST implements ASTVisitor<String>{
 
   public String visit(Or stmt){
     return stmt.getLeft().accept(this)+" || "+stmt.getRight().accept(this);
-  }
-
-  public String visit(Expression expr){
-    return "";
   }
 
    // it's no needed right?

@@ -31,11 +31,11 @@ public class Minus extends Expression{
   public Type getType(){
     if (right == null)
       return  left.getType();
-    return left.getType().toString().equals(right.getType().toString())? left.getType(): new Type("WrongType.Exception");
+    return left.getType().toString().equals(right.getType().toString())? left.getType(): new Type("Minus.WrongType.Exception");
   }
 
   public boolean supportOp(){
-    return (left.getType().toString()=="integer")||(left.getType().toString()=="float");
+    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"));
   }
 
   public Expression getRight(){
