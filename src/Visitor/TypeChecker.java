@@ -113,9 +113,11 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(EqualTo expr){
     expr.getLeft().accept(this);
     expr.getRight().accept(this);
-    LocationExpr left = (LocationExpr)expr.getLeft();
-    LocationExpr right = (LocationExpr)expr.getRight();
-    if (!left.getId().getType().toString().equals(right.getId().getType().toString()))
+    Type left = getTypeExpression(expr.getLeft());
+    Type right = getTypeExpression(expr.getRight());
+    if (!expr.supportOp())
+      System.out.println("this operator only suport booleans");
+    if (!left.toString().equals(right.toString()))
       System.out.println("aren't the same type");
     return "";
   }
@@ -355,10 +357,12 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(NotEqualTo stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    LocationExpr left = (LocationExpr)stmt.getLeft();
-    LocationExpr right = (LocationExpr)stmt.getRight();
-    if (left.getId().getType().toString().equals(right.getId().getType().toString()))
-      System.out.println("are the same type");
+    Type left = getTypeExpression(stmt.getLeft());
+    Type right = getTypeExpression(stmt.getRight());
+    if (!stmt.supportOp())
+      System.out.println("this operator only suport booleans");
+    if (!left.toString().equals(right.toString()))
+      System.out.println("aren't the same type");
     return "";
   }
 
