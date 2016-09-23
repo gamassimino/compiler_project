@@ -16,9 +16,11 @@ public class Main{
     MainChecker mainChecker = new MainChecker();
     TypeChecker typeChecker = new TypeChecker();
     CycleChecker cycleChecker = new CycleChecker();
+    ReturnChecker returnChecker = new ReturnChecker();
 
     p.accept(declarationChecker);
     p.accept(cycleChecker);
+    p.accept(returnChecker);
     System.out.println(p.accept(typeChecker));
   }
 

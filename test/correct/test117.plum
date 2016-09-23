@@ -1,4 +1,6 @@
 //testing method type is void
 class plumTest117{
-  float x[10];
+  integer method(){
+    //missing return!
+  }
 }
