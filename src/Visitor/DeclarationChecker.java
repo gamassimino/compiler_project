@@ -5,12 +5,15 @@ import TableOfHash.Hash;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.*;
+import Errors.Error;
 
 public class DeclarationChecker implements ASTVisitor<String>{
   Hash hash;
+  Error errors;
 
-  public DeclarationChecker(){
+  public DeclarationChecker(Error er){
     hash = new Hash();
+    errors = er;
   }
 
   @Override
@@ -34,7 +37,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
     FieldDecl right = (FieldDecl)hash.searchInTableFD(stmt.getRight().toString());
     if (left != null && right != null){
       if (!left.getType().toString().equals(right.getType().toString()))
-        System.out.println(left.getId().toString()+" aren't the same type "+right.getId().toString());
+        errors.error1(left.getId().toString(), right.getId().toString(), "Assignment");
+        // System.out.println(left.getId().toString()+" aren't the same type "+right.getId().toString());
     }
     return "";
   }

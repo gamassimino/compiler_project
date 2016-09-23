@@ -7,12 +7,14 @@ import CodeGenerated.Parser;
 import CodeGenerated.Scanner;
 import Visitor.*;
 import TableOfHash.Hash;
+import Errors.Error;
 
 public class Main{
   public static void main(String args[]) throws Exception {
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-    DeclarationChecker declarationChecker = new DeclarationChecker();
+    Error errors = new Error();
+    DeclarationChecker declarationChecker = new DeclarationChecker(errors);
     MainChecker mainChecker = new MainChecker();
     TypeChecker typeChecker = new TypeChecker();
     CycleChecker cycleChecker = new CycleChecker();
