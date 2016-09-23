@@ -5,12 +5,15 @@ import TableOfHash.Hash;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.*;
+import Errors.Error;
 
 public class ReturnChecker implements ASTVisitor<String>{
   boolean return_flag;
+  Error error;
 
-  public ReturnChecker(){
+  public ReturnChecker(Error error){
     return_flag = false;
+    this.error = error;
   }
 
   @Override
@@ -144,7 +147,7 @@ public class ReturnChecker implements ASTVisitor<String>{
     return_flag = false;
     stmt.getBody().accept(this);
     if (!return_flag)
-      System.out.println("return is missing");
+      error.terror3("MethodDecl","return is missing");
     return "";
   }
 

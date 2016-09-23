@@ -5,12 +5,15 @@ import TableOfHash.Hash;
 import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.*;
+import Errors.Error;
 
 public class CycleChecker implements ASTVisitor<String>{
   Integer cycle;
+  Error error;
 
-  public CycleChecker(){
+  public CycleChecker(Error error){
     cycle = 0;
+    this.error = error;
   }
 
   @Override
@@ -44,7 +47,7 @@ public class CycleChecker implements ASTVisitor<String>{
 
   public String visit(BreakStmt expr){
     if (cycle == 0)
-      System.out.println("Break Fuera de ciclo");
+      error.terror3("BreakStmt","found Break outside of cicle");
     return "";
   }
 
@@ -59,7 +62,7 @@ public class CycleChecker implements ASTVisitor<String>{
 
   public String visit(ContinueStmt expr){
     if (cycle == 0)
-      System.out.println("Continue Fuera de ciclo");
+      error.terror3("ContinueStmt","found Continue outside of cicle");
     return "";
   }
 
