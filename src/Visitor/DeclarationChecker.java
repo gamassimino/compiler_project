@@ -26,20 +26,12 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(And stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    //visitar
     return "";
   }
 
   public String visit(Assignment stmt){
     stmt.getLeft().accept(this);
     stmt.getRight().accept(this);
-    FieldDecl left = (FieldDecl)hash.searchInTableFD(stmt.getLeft().toString());
-    FieldDecl right = (FieldDecl)hash.searchInTableFD(stmt.getRight().toString());
-    if (left != null && right != null){
-      if (!left.getType().toString().equals(right.getType().toString()))
-        errors.error1(left.getId().toString(), right.getId().toString(), "Assignment");
-        // System.out.println(left.getId().toString()+" aren't the same type "+right.getId().toString());
-    }
     return "";
   }
 
@@ -62,7 +54,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
   public String visit(Body expr){
     expr.getBlock().accept(this);
-    //elBody
     return "";
   }
 
@@ -88,7 +79,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(ContinueStmt expr){
-    //nada
     return "";
   }
 
@@ -107,12 +97,9 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(FieldDecl stmt){
     if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
       hash.insertInLevel(stmt);
-      // System.out.println("IDENTIFIER NO REPEATED");
     }else{
-      // System.out.println("THE IDENTIFIER IS ALLREADY DECLARED");
+      errors.error2(stmt.getId().toString());
     }
-    // continue visit ?
-    //insertar
     return "";
   }
 
@@ -148,13 +135,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(IdName stmt){
     FieldDecl founded = (FieldDecl)hash.searchInTableFD(stmt.toString());
     if(founded != null){
-      // System.out.println("Identifier "+stmt.toString()+" founded");
       stmt.setType(founded.getType());
     }
     else
-      System.out.println("Identifier "+stmt.toString()+" not founded");
-    // referenciar
-    //nada
+      errors.error1(stmt.toString());
     return "";
   }
 
@@ -184,17 +168,14 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IntLiteral stmt){
-    //nada
     return "";
   }
 
   public String visit(FloatLiteral stmt){
-    //nada
     return "";
   }
 
   public String visit(BoolLiteral stmt){
-    //nada
     return "";
   }
 
@@ -214,9 +195,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
     stmt.getId().accept(this);
     if(stmt.getList() != null)
       stmt.getList().accept(this);
-
-    // i don't know what put here
-    //visitar
     return "";
   }
 
@@ -224,36 +202,26 @@ public class DeclarationChecker implements ASTVisitor<String>{
     stmt.getId().accept(this);
     if(stmt.getList() != null)
       stmt.getList().accept(this);
-    // i don't know what put here
-    //visitar
     return "";
   }
 
   public String visit(MethodCallStmt stmt){
    MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
     if(founded != null){
-      // System.out.println("Method "+stmt.getIdName().toString()+" founded");
       stmt.setIdName(founded.getIdName());
-      // stmt.setType(founded.getType());
     }
     else
-      System.out.println("Method "+stmt.getIdName().toString()+" not founded");
-    // i don't know what put here
-    //nada
+      errors.error3(stmt.getIdName().toString());
     return "";
   }
 
   public String visit(MethodCallExpr stmt){
    MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
     if(founded != null){
-      // System.out.println("Method "+stmt.getIdName().toString()+" founded");
       stmt.setIdName(founded.getIdName());
-      // stmt.setType(founded.getType());
     }
     else
-      System.out.println("Method "+stmt.getIdName().toString()+" not founded");
-    // i don't know what put here
-    //nada
+      errors.error3(stmt.getIdName().toString());
     return "";
   }
 
@@ -265,11 +233,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
       stmt.getParam().accept(this);
       stmt.getBody().accept(this);
       hash.destroyLevel();
-    }else{
-      System.out.println("THIS METHOD IS ALLREADY DECLARED");
-    }
-
-    //nose
+    }else
+      errors.error4(stmt.getIdName().toString());
     return "";
   }
 
@@ -284,8 +249,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(Navigation stmt){
-    // i don't know what put here
-    // nada
+    stmt.getIdName().accept(this);
     return "";
   }
 
@@ -335,7 +299,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
     for (ClassDecl class_decl : stmt.getClassList()) {
       class_decl.accept(this);
     }
-    //nada
     return "";
   }
 
@@ -364,7 +327,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(Type stmt){
-    //nada
     return "";
   }
 
