@@ -1,0 +1,6 @@
+//testing a program with list of integer fields
+class plumTest2{
+  integer number;
+  integer number_two;
+  integer array_number [10];
+}

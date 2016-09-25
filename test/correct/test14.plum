@@ -1,0 +1,13 @@
+//testing a program with various methods
+//return a integer
+class plumTest14{
+  integer method_one(){
+    return 2;
+  }
+
+  integer method_two(){
+    integer x;
+    x = method_one();
+    return x;
+  }
+}

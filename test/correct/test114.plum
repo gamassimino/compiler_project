@@ -1,0 +1,4 @@
+//testing method type is void
+class plumTest114{
+  integer x[10];
+}

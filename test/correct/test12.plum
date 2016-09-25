@@ -1,0 +1,4 @@
+//testing a program with empty method that return an integer with diferents type of params
+class plumTest12{
+  integer method(integer param, float param_two, boolean param_three){}
+}

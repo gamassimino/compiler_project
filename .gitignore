@@ -1,14 +1,8 @@
 .project
 bin/*
-dist/Compiler.jar
-dist/JFlex.jar
-dist/java-cup-11b-runtime.jar
-lib/.DS_Store
-src/.DS_Store
-src/Example/.DS_Store
-src/Example/Scanner.java~
 
-tools/.DS_Store
-.DS_Store
-bin/.DS_Store
+dist/*r
 
+*/.DS_Store
+
+src/CodeGenerated/*

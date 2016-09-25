@@ -1,0 +1,9 @@
+//testing semantic for autoidecrement operator
+class plumTest60{
+  //wrong autoidecrement(not suport booleans)
+  integer method_four(){
+    integer x;
+    boolean y;
+    x -= y;
+  }
+}

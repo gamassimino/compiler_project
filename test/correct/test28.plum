@@ -1,0 +1,5 @@
+//testing a program with integer param
+//return void
+class plumTest28{
+  void method(integer param){}
+}

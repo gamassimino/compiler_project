@@ -1,0 +1,5 @@
+//testing a program with empty method
+//return void
+class plumTest27{
+  void method(){}
+}

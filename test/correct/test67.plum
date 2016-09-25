@@ -1,0 +1,10 @@
+//testing semantic for greater operator
+class plumTest67{
+  //greater not suport diferents type
+  integer method_one(){
+    integer x;
+    float y;
+    boolean z;
+    z = (x > y);
+  }
+}

@@ -1,0 +1,10 @@
+//testing binary boolean expression for integers
+class plumTest45{
+  boolean method(integer num1, integer num2){
+    return (num1 > num2);
+  }
+
+  boolean method2(integer num1, integer num2){
+    return (num1 >= num2);
+  }
+}

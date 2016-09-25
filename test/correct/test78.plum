@@ -1,0 +1,16 @@
+//testing semantic for minus operator
+class plumTest78{
+  //integer's minus
+  integer method_one(){
+    integer x;
+    integer y;
+    x = x -y;
+  }
+
+  //float's minus
+  integer method_two(){
+    float x;
+    float y;
+    x = x -y;
+  }
+}

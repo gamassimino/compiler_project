@@ -1,0 +1,6 @@
+//testing a method that take with param somethign of same type that this class
+class string{
+  string method(string s){
+    return s;
+  }
+}

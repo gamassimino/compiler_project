@@ -1,0 +1,7 @@
+class plumTest100{
+  boolean method_one(){
+    boolean x;
+    boolean y;
+    x = !(x&&y);
+  }
+}

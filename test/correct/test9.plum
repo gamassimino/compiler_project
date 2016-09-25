@@ -1,0 +1,4 @@
+//testing a program with empty method that return an integer with integer param
+class plumTest9{
+  integer method(integer param){}
+}

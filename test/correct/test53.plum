@@ -1,0 +1,10 @@
+//testing a program with several classes
+class plumTest53{
+  integer number;
+}
+class plum_test53{
+  float pi;
+}
+class plum_test_53{
+  boolean method(){}
+}

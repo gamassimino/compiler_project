@@ -1,0 +1,18 @@
+//testing semantic for less operator
+class plumTest75{
+  //integer's less
+  integer method_one(){
+    integer x;
+    integer y;
+    boolean z;
+    z = (x < y);
+  }
+
+  //float's less
+  integer method_two(){
+    float x;
+    float y;
+    boolean z;
+    z = (x < y);
+  }
+}

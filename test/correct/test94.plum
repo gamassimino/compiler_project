@@ -1,0 +1,8 @@
+//testing semantic for and operator
+class plumTest94{
+  integer method_one(){
+    boolean x;
+    boolean y;
+    x = x && y;
+  }
+}

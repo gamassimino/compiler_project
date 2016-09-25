@@ -1,0 +1,6 @@
+//testing method type is void
+class plumTest117{
+  integer method(){
+    //missing return!
+  }
+}

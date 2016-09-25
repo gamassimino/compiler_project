@@ -1,0 +1,9 @@
+//testing method type is void
+class plumTest111{
+  void method_one(){
+    integer x;
+    integer y;
+    for z = x, y{}
+    return ;
+  }
+}

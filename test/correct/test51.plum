@@ -1,0 +1,7 @@
+//testing a method that return something of same type of this class
+class string{
+  string method(){
+    string s;
+    return s;
+  }
+}

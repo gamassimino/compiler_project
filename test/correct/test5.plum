@@ -1,0 +1,10 @@
+//testing a program with list of differents type od fields
+class plumTest5{
+  integer number;
+  integer number_two;
+  integer array_number[10];
+  float fnumber;
+  float fnumber[20];
+  boolean fnumber;
+  boolean fnumber[20];
+}

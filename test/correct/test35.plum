@@ -1,0 +1,6 @@
+//testing a method that return false expression
+class plumTest35{
+	boolean metodo(){
+		return false;
+	}
+}

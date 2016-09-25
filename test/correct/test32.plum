@@ -1,0 +1,4 @@
+//testing a method with differents params but return void
+class plumTest32{
+  void method(integer param, float param_two, boolean param_three){}
+}

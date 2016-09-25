@@ -1,0 +1,10 @@
+//testing semantic for notEqualTo operator
+class plumTest81{
+  //integer notEqualTo float
+  integer method_one(){
+    integer x;
+    float y;
+    boolean z;
+    z = (x != y);
+  }
+}

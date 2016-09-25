@@ -1,0 +1,20 @@
+Ningu ́n identificador es declarado dos veces en un mismo bloque.
+Ningu ́n identificador es usado antes de ser declarado.
+Todo programa contiene la definici ́on de una clase y un m ́etodo en la misma clase llamado main. Este m ́etodo no tiene par ́ametros. Notar que la ejecuci ́on comienza con el m ́etodo main.
+El ⟨int literal⟩ en la declaraci ́on de un arreglo debe ser mayor a cero (es la longitud del arreglo).
+El nu ́mero y tipos de los argumentos en una invocaci ́on a un m ́etodo debe ser iguales al nu ́mero y tipos declarados en la definici ́on del m ́etodo (los par ́ametros formales y los reales deben ser iguales).
+Si la invocaci ́on a un m ́etodo es usada como una expresi ́on, el m ́etodo debe retornar un resultado.
+Una sentencia return solo tiene asociada una expresi ́on si el m ́etodo retorna un valor, si le m ́etodo no retorna un valor (es un m ́etodo void) entonces la sentencia return no debe tener asociada ninguna expresi ́on.
+8. La expresi ́on en una sentencia return debe ser igual al tipo de retorno declarado para el m ́etodo.
+9. Un ⟨id⟩ usado como una ⟨location⟩ debe estar declarado como un par ́ametro o como una variable
+local o global.
+ En toda locaci ́on de la forma ⟨id⟩[⟨expr⟩]
+(a) ⟨id⟩ debe ser una variable arreglo (array), y (b) el tipo de ⟨expr⟩ debe ser integer.
+La ⟨expr⟩ en una sentencia if o while debe ser bool.
+Los operandos de ⟨arith op⟩’s y ⟨rel op⟩’s deben ser de tipo integer o float.
+Los operandos de ⟨eq op⟩’s deben tener el mismo tipo (int, float o bool).
+Los operandos de ⟨cond op⟩’s y el operando de la negaci ́on (!) deben ser de tipo bool.
+La ⟨location⟩ y la ⟨expr⟩ en una asignaci ́on, ⟨location⟩ = ⟨expr⟩, deben tener el mismo tipo.
+La ⟨location⟩ y la ⟨expr⟩ en una asignaci ́on incremental o decremental, ⟨location⟩ += ⟨expr⟩ o ⟨location⟩ -= ⟨expr⟩, deben ser de tipo int o float.
+Las expresiones (⟨expr⟩) iniciales y finales de un for deben ser de tipo integer.
+Las sentencias break y continue solo pueden encontrarse en el cuerpo de un ciclo.

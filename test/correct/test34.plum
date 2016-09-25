@@ -1,0 +1,6 @@
+//testing a method that return an expression
+class plumTest34{
+	integer metodo(){
+		return 2+1;
+	}
+}

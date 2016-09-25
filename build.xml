@@ -1,6 +1,6 @@
 <project name="Compiler" default="jar" basedir=".">
-  <property name="cup"     location="cup"     />
-  <property name="jflex"   location="jflex"    />
+  <property name="cup"     location="src/Generator/cup"     />
+  <property name="jflex"   location="src/Generator/jflex"    />
   <property name="src"     location="src"     />
   <property name="classes" location="bin" />
   <property name="dist"    location="dist"    />
@@ -25,7 +25,7 @@
     <files includes="${lib}/java-cup-11b-runtime.jar" />
   </path>
   <target name="compile" depends="generate">
-    <javac srcdir="${src}" destdir="${classes}">
+    <javac includeantruntime="false" srcdir="${src}" destdir="${classes}">
       <classpath refid="libraries" />
     </javac>
   </target>
@@ -33,7 +33,7 @@
   <target name="jar" depends="compile">
     <jar jarfile="${dist}/Compiler.jar" basedir="${classes}">
      <manifest>
-       <attribute name="Main-Class" value="Example.Parser" />
+       <attribute name="Main-Class" value="Main.Main" />
        <attribute name="Class-Path" value="java-cup-11b-runtime.jar" />
      </manifest>
     </jar>
@@ -50,9 +50,9 @@
   </target>
 
   <target name="clean">
-    <delete file="${src}/Example/Scanner.java" />
-    <delete file="${src}/Example/Parser.java" />
-    <delete file="${src}/Example/sym.java" />
+    <delete file="${src}/CodeGenerated/Scanner.java" />
+    <delete file="${src}/CodeGenerated/Parser.java" />
+    <delete file="${src}/CodeGenerated/sym.java" />
     <delete dir="${classes}" />
     <delete dir="${dist}" />
   </target>

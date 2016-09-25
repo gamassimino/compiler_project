@@ -1,0 +1,14 @@
+//testing semantic for autodecrement operator
+class plumTest58{
+  //integer's autodecrement
+  integer method_one(){
+    integer x;
+    x -= x;
+  }
+
+  //float's autodecrement
+  integer method_two(){
+    float x;
+    x -= x;
+  }
+}

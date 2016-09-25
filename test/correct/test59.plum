@@ -1,0 +1,9 @@
+//testing semantic for autodecrement operator
+class plumTest59{
+  //worng autodecrement(diferents types)
+  integer method_three(){
+    integer x;
+    float y;
+    x -= y;
+  }
+}

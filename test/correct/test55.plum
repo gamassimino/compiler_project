@@ -1,0 +1,14 @@
+//testing semantic for autoincrement operator
+class plumTest55{
+  //integer's autoincrement
+  integer method_one(){
+    integer x;
+    x += x;
+  }
+
+  //float's autoincrement
+  integer method_two(){
+    float x;
+    x += x;
+  }
+}

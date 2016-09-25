@@ -1,0 +1,4 @@
+//testing a program with empty method that return a float
+class plumTest7{
+  float method(){}
+}

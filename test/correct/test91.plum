@@ -1,0 +1,16 @@
+//testing semantic for times operator
+class plumTest91{
+  //integer's times
+  integer method_one(){
+    integer x;
+    integer y;
+    x = x * y;
+  }
+
+  //float's times
+  integer method_two(){
+    float x;
+    float y;
+    x = x * y;
+  }
+}

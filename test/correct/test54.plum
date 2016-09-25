@@ -1,0 +1,14 @@
+//testing a program with a complex method
+class plumTest54{
+  integer method(){
+    integer number2, number3;
+    if (number3 > number2){
+      number2 -= number3;
+    }
+    else{
+      if (number2 < number3){
+        number3 += number2;
+      }
+    }
+  }
+}

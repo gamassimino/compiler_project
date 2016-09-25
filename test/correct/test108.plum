@@ -1,0 +1,7 @@
+//testing method type and return value are diferents
+class plumTest108{
+  integer method_one(){
+    float x;
+    return x;
+  }
+}
