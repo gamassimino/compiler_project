@@ -37,4 +37,27 @@ public class Error{
     list.add("In Line "+line+" Column "+column+ " "+operator+": only suport "+suport);
   }
 
+  public void error7(String operator, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": you can only use one navigation");
+  }
+
+  public void error8(String operator, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": wrong number of params");
+  }
+
+  public void error9(String operator, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": array size must be greater than zero");
+  }
+
+  public void error10(String operator, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": return is missing");
+  }
+
+  public void error11(String operator, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": found Break outside of cicle");
+  }
+
+  public void error12(String operator, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " "+operator+": found Continue outside of cicle");
+  }
 }

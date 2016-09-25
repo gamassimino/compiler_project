@@ -145,9 +145,14 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getStatement().accept(this);
     System.out.println();
     System.out.println();
-    if (!stmt.getCondition().getType().toString().equals("integer")
-      || !stmt.getStep().getType().toString().equals("integer"))
-      error.error5("ForStmt","condition and step must be integer", stmt.getLine(), stmt.getColumn());
+    if (!stmt.getCondition().getType().toString().equals("integer")){
+      String found = stmt.getCondition().getType().toString();
+      error.error3("ForStmt(condition)","integer",found,stmt.getLine(),stmt.getColumn());
+    }
+    if (!stmt.getStep().getType().toString().equals("integer")){
+      String found = stmt.getStep().getType().toString();
+      error.error3("ForStmt(step)","integer",found,stmt.getLine(),stmt.getColumn());
+    }
     hash.destroyLevel();
     return "";
   }
@@ -179,9 +184,9 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(IdName stmt){
     if (stmt.getSize() != null){
       if (!stmt.getType().toString().equals("integer"))
-        error.error5("IdName","the arrays must be of integers", stmt.getLine(), stmt.getColumn());
+        error.error6("IdName","integer",stmt.getLine(),stmt.getColumn());
       if (stmt.getSize().getValue() <= 0)
-        error.error5("IdName","array size must be greater than zero", stmt.getLine(), stmt.getColumn());
+        error.error9("IdName", stmt.getLine(), stmt.getColumn());
     }
     return "";
   }
@@ -269,7 +274,7 @@ public class TypeChecker implements ASTVisitor<String>{
     int i = 0;
     List<Expression> list_param_call = stmt.getExpressions();
     if(founded.getParam().getParam().size() != stmt.getExpressions().size())
-      error.error5("MethodCallStmt","wrong number of params", stmt.getLine(), stmt.getColumn());
+      error.error8("MethodCallStmt", stmt.getLine(), stmt.getColumn());
     else{
       if (founded.getParam().getParam().size() > 0) {
         for (Pair<Type, IdName> param_of_decl : founded.getParam().getParam()) {
@@ -287,7 +292,7 @@ public class TypeChecker implements ASTVisitor<String>{
     int i = 0;
     List<Expression> list_param_call = stmt.getExpressions();
     if(founded.getParam().getParam().size() != stmt.getExpressions().size())
-      error.error5("MethodCallStmt","wrong number of params", stmt.getLine(), stmt.getColumn());
+      error.error8("MethodCallStmt", stmt.getLine(), stmt.getColumn());
     else{
       if (founded.getParam().getParam().size() > 0) {
         for (Pair<Type, IdName> param_of_decl : founded.getParam().getParam()) {
@@ -311,15 +316,22 @@ public class TypeChecker implements ASTVisitor<String>{
         if(s.getClass().toString().equals("class ASTClass.ReturnStmt")){
           ReturnStmt st = (ReturnStmt)s;
           if (stmt.getType().toString().equals("void")){
-            if (st.getExpression() != null)
-              error.error5("MethodDecl","the method musn't return a expression", stmt.getLine(), stmt.getColumn());
+            if (st.getExpression() != null){
+              String found = st.getExpression().getType().toString();
+              error.error3("MethodDecl(return)",";",found, stmt.getLine(), stmt.getColumn());
+            }
           }
           else{
-            if (st.getExpression() == null)
-              error.error5("MethodDecl","method must return a expression", stmt.getLine(), stmt.getColumn());
+            if (st.getExpression() == null){
+              String expec = stmt.getType().toString();
+              error.error3("MethodDecl(return)",expec,";", stmt.getLine(), stmt.getColumn());
+            }
             else{
-              if (!stmt.getType().toString().equals(st.getExpression().getType().toString()))
-                error.error5("MethodDecl","the type of the method and the return value are diferents", stmt.getLine(), stmt.getColumn());
+              if (!stmt.getType().toString().equals(st.getExpression().getType().toString())){
+                String expec = stmt.getType().toString();
+                String found = st.getExpression().getType().toString();
+                error.error3("MethodDecl(return)",expec,found, stmt.getLine(), stmt.getColumn());
+              }
             }
           }
         }
@@ -349,7 +361,7 @@ public class TypeChecker implements ASTVisitor<String>{
 
   public String visit(Navigation stmt){
     if (stmt.getNavigation()!=null)
-      error.error5("Navigation","you can only use one navigation", stmt.getLine(), stmt.getColumn());
+      error.error7("Navigation", stmt.getLine(), stmt.getColumn());
     return "";
   }
 
@@ -357,7 +369,7 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getExpr().accept(this);
     Type left = getTypeExpression(stmt.getExpr());
     if (!stmt.supportOp())
-      error.error5("Not","this operator only support booleans", stmt.getLine(), stmt.getColumn());
+      error.error6("Not","boolean",stmt.getLine(),stmt.getColumn());
     return "";
   }
 

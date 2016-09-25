@@ -147,7 +147,7 @@ public class ReturnChecker implements ASTVisitor<String>{
     return_flag = false;
     stmt.getBody().accept(this);
     if (!return_flag)
-      error.error5("MethodDecl","return is missing", stmt.getLine(), stmt.getColumn());
+      error.error10("MethodDecl", stmt.getLine(), stmt.getColumn());
     return "";
   }
 
