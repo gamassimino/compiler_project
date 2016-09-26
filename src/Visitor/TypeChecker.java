@@ -402,6 +402,9 @@ public class TypeChecker implements ASTVisitor<String>{
       IdName id = param.getSnd();
       id.setType(param.getFst());
       hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
+      String param_type = param.getFst().toString();
+      if (!param_type.equals("integer") && !param_type.equals("float") && !param_type.equals("boolean"))
+        error.error3("Param","integer, float, boolean",param_type,stmt.getLine(),stmt.getColumn());
     }
     return "";
   }
