@@ -127,29 +127,22 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(IfStmt stmt){
     ifcc++;
     Sentence result;
-    result = new Sentence("LABEL", new ExpressionAlgo("beginIf"+ifcc), null, null);
-    sentence_list.add(result);
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("beginIf"+ifcc), null, null));
     ExpressionAlgo t0 = stmt.getCondition().accept(this);
     if(stmt.getElseBlock() != null){
-      result = new Sentence("JMPZ", t0, null, new ExpressionAlgo("beginElse"));
-      sentence_list.add(result);
+      sentence_list.add(new Sentence("JMPZ", t0, null, new ExpressionAlgo("beginElse")));
       stmt.getIfBlock().accept(this);
-      result = new Sentence("JMP", null, null, new ExpressionAlgo("endIf"));
-      sentence_list.add(result);
-      result = new Sentence("LABEL", new ExpressionAlgo("beginElse"+ifcc), null, null);
-      sentence_list.add(result);
+      sentence_list.add(new Sentence("JMP", null, null, new ExpressionAlgo("endIf")));
+      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("beginElse"+ifcc), null, null));
       stmt.getElseBlock().accept(this);
-      result = new Sentence("LABEL", new ExpressionAlgo("endElse"+ifcc), null, null);
-      sentence_list.add(result);
-      result = new Sentence("JMP", null, null, new ExpressionAlgo("endIf"));
-      sentence_list.add(result);
+      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("endElse"+ifcc), null, null));
+      sentence_list.add(new Sentence("JMP", null, null, new ExpressionAlgo("endIf")));
     }
     else{
-      result = new Sentence("JMPZ", t0, null, new ExpressionAlgo("endIf"));
-      sentence_list.add(result);
+      sentence_list.add(new Sentence("JMPZ", t0, null, new ExpressionAlgo("endIf")));
       stmt.getIfBlock().accept(this);
     }
-    result = new Sentence("LABEL", new ExpressionAlgo("endIf"+ifcc), null, null);
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("endIf"+ifcc), null, null));
     ifcc--;
     return null;
   }
@@ -326,32 +319,15 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
     ExpressionAlgo cond = stmt.getCondition().accept(this);
 
-    sentence_list.add(new Sentence("JMPZ", cond, null, ExpressionAlgo("EndWhile"+whilecc)));
+    sentence_list.add(new Sentence("JMPZ", cond, null, new ExpressionAlgo("EndWhile"+whilecc)));
 
     stmt.getStatement().accept(this);
-    
-    sentence_list.add(new Sentence("JMP", null, null, ExpressionAlgo("BeginWhile"+whilecc)));
-    
-    sentence_list.add(new Sentence("LABEL", ExpressionAlgo("EndWhile"+whilecc), null, null));
+
+    sentence_list.add(new Sentence("JMP", null, null, new ExpressionAlgo("BeginWhile"+whilecc)));
+
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("EndWhile"+whilecc), null, null));
 
     whilecc--;
     return null;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
