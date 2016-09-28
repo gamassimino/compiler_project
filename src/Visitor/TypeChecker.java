@@ -17,6 +17,9 @@ public class TypeChecker implements ASTVisitor<String>{
     this.error = error;
   }
 
+  public String visit(Expression stmt){
+    return "";
+  }
 
   public String visit(AddAssignment stmt){
     stmt.getLeft().accept(this);

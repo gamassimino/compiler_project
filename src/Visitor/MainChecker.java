@@ -15,6 +15,9 @@ public class MainChecker implements ASTVisitor<String>{
     errors = er;
   }
 
+  public String visit(Expression stmt){
+    return "";
+  }
 
   public String visit(AddAssignment stmt){
     return "";

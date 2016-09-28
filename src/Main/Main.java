@@ -8,6 +8,7 @@ import CodeGenerated.Scanner;
 import Visitor.*;
 import TableOfHash.Hash;
 import Errors.Error;
+import Assembly.Sentence;
 
 public class Main{
   public static void main(String args[]) throws Exception {
@@ -19,6 +20,8 @@ public class Main{
     TypeChecker typeChecker = new TypeChecker(errors);
     CycleChecker cycleChecker = new CycleChecker(errors);
     ReturnChecker returnChecker = new ReturnChecker(errors);
+    IntermediateCode intermediateCode = new IntermediateCode();
+
 
     p.accept(declarationChecker);
     p.accept(typeChecker);
@@ -28,6 +31,10 @@ public class Main{
     for (String error: errors.getErrors()) {
       System.out.println(error);
     }
+    // p.accept(intermediateCode);
+    // for (Sentence s : intermediateCode.getSentenceList()) {
+    //     System.out.println(s.toString());
+    // }
     // System.out.println(p.accept(typeChecker));
   }
 

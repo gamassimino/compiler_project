@@ -6,26 +6,30 @@ import java_cup.runtime.*;
 public class Sentence{
 
   String operation;
-  LocationExpr operator_one;
-  LocationExpr operator_two;
-  LocationExpr result;
+  Expression operator_one;
+  Expression operator_two;
+  Expression result;
 
-  public Sentence (String operation, LocationExpr operator_one, LocationExpr operator_two, LocationExpr result){
+  public Sentence (String operation, Expression operator_one, Expression operator_two, Expression result){
     this.operation = operation;
     this.operator_one = operator_one;
     this.operator_two = operator_two;
     this.result = result;
   }
 
-  public LocationExpr getOperatorOne(){
+  public Expression getOperatorOne(){
     return operator_one;
   }
 
-  public LocationExpr getOperatorTwo(){
+  public Expression getOperatorTwo(){
     return operator_two;
   }
 
-  public LocationExpr getResult(){
+  public Expression getResult(){
     return result;
+  }
+
+  public String toString(){
+    return operation+" "+operator_one.getType().toString()+" "+operator_two.getType().toString();
   }
 }

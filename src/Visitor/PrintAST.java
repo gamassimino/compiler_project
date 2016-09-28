@@ -10,6 +10,10 @@ public class PrintAST implements ASTVisitor<String>{
   public PrintAST(){
 
   }
+  public String visit(Expression stmt){
+    return "";
+  }
+
   @Override
   public String visit(AddAssignment stmt){
     return stmt.getLeft().accept(this)+" += "+stmt.getRight().accept(this);

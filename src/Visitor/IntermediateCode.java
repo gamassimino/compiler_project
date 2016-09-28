@@ -5,274 +5,264 @@ import java.util.LinkedList;
 import java_cup.runtime.*;
 import Assembly.Sentence;
 
-public class IntermediateCode implements ASTVisitor<LocationExpr>{
+public class IntermediateCode implements ASTVisitor<Expression>{
 
   LinkedList<Sentence> sentence_list;
 
-  public LocationExpr visit(AddAssignment stmt){
+  public LinkedList<Sentence> getSentenceList(){
+    return sentence_list;
+  }
+
+  public Expression visit(Expression stmt){
+    return null;
+  }
+
+  public Expression visit(AddAssignment stmt){
     sentence_list = new LinkedList<Sentence>();
     return null;
   }
 
-  public LocationExpr visit(And stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("And");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(And stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("And", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Assignment stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Assignment");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Assignment stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Assignment", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Block expr){
+  public Expression visit(Block expr){
     return null;
   }
 
-  public LocationExpr visit(Body expr){
+  public Expression visit(Body expr){
     return null;
   }
 
-  public LocationExpr visit(BreakStmt expr){
+  public Expression visit(BreakStmt expr){
     return null;
   }
 
-  public LocationExpr visit(ClassDecl expr){
+  public Expression visit(ClassDecl expr){
     return null;
   }
 
-  public LocationExpr visit(ContinueStmt expr){
+  public Expression visit(ContinueStmt expr){
     return null;
   }
 
-  public LocationExpr visit(Divided expr){
-    LocationExpr left = expr.getLeft().accept(this);
-    LocationExpr right = expr.getRight().accept(this);
-    IdName name = new IdName("Divided");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Divided expr){
+    Expression left = expr.getLeft().accept(this);
+    Expression right = expr.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Divided", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(EqualTo expr){
-    LocationExpr left = expr.getLeft().accept(this);
-    LocationExpr right = expr.getRight().accept(this);
-    IdName name = new IdName("EqualTo");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(EqualTo expr){
+    Expression left = expr.getLeft().accept(this);
+    Expression right = expr.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("EqualTo", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(FieldDecl expr){
+  public Expression visit(FieldDecl expr){
     return null;
   }
 
-  public LocationExpr visit(ForStmt stmt){
+  public Expression visit(ForStmt stmt){
     return null;
   }
 
-  public LocationExpr visit(Greater stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Greater");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Greater stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Greater", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(GreaterOrEq stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("GreaterOrEq");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(GreaterOrEq stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("GreaterOrEq", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(IdName stmt){
+  public Expression visit(IdName stmt){
     return null;
   }
 
-  public LocationExpr visit(IfStmt stmt){
+  public Expression visit(IfStmt stmt){
     return null;
   }
 
-  public LocationExpr visit(IntLiteral stmt){
-    IdName name = new IdName("IntLiteral");
-    LocationExpr t0 = new LocationExpr(name);
-    Sentence result = new Sentence("IntLiteral", null, null, t0);
-    sentence_list.add(result);
-    return t0;
+  public Expression visit(IntLiteral stmt){
+    // Expression t0 = new Expression(stmt.getType());
+    // Sentence result = new Sentence("IntLiteral", null, null, t0);
+    // sentence_list.add(result);
+    return stmt;
   }
 
-  public LocationExpr visit(BoolLiteral stmt){
-    IdName name = new IdName("BoolLiteral");
-    LocationExpr t0 = new LocationExpr(name);
-    Sentence result = new Sentence("BoolLiteral", null, null, t0);
-    sentence_list.add(result);
-    return t0;
+  public Expression visit(BoolLiteral stmt){
+    // Expression t0 = new Expression(stmt.getType());
+    // Sentence result = new Sentence("BoolLiteral", null, null, t0);
+    // sentence_list.add(result);
+    return stmt;
   }
 
-  public LocationExpr visit(FloatLiteral stmt){
-    IdName name = new IdName("FloatLiteral");
-    LocationExpr t0 = new LocationExpr(name);
-    Sentence result = new Sentence("FloatLiteral", null, null, t0);
-    sentence_list.add(result);
-    return t0;
+  public Expression visit(FloatLiteral stmt){
+    // Expression t0 = new Expression(stmt.getType());
+    // Sentence result = new Sentence("FloatLiteral", null, null, t0);
+    // sentence_list.add(result);
+    return stmt;
   }
 
-  public LocationExpr visit(Less stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Less");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Less stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Less", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(LessOrEq stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("LessOrEq");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(LessOrEq stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("LessOrEq", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(LocationExpr stmt){
+  public Expression visit(LocationExpr stmt){
     return null;
   }
 
-  public LocationExpr visit(LocationStmt stmt){
+  public Expression visit(LocationStmt stmt){
     return null;
   }
 
-  public LocationExpr visit(MethodCallStmt stmt){
+  public Expression visit(MethodCallStmt stmt){
     return null;
   }
 
-  public LocationExpr visit(MethodCallExpr stmt){
+  public Expression visit(MethodCallExpr stmt){
     return null;
   }
 
-  public LocationExpr visit(MethodDecl stmt){
+  public Expression visit(MethodDecl stmt){
     return null;
   }
 
-  public LocationExpr visit(Minus stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Minus");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Minus stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Minus", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Navigation stmt){
+  public Expression visit(Navigation stmt){
     return null;
   }
 
-  public LocationExpr visit(Not stmt){
+  public Expression visit(Not stmt){
     return null;
   }
 
-  public LocationExpr visit(NotEqualTo stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("NotEqualTo");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(NotEqualTo stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("NotEqualTo", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Or stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Or");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Or stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Or", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Param stmt){
+  public Expression visit(Param stmt){
     return null;
   }
 
-  public LocationExpr visit(Percentage stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Percentage");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Percentage stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Percentage", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Plus stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Plus");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Plus stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Plus", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Program stmt){
+  public Expression visit(Program stmt){
     return null;
   }
 
-  public LocationExpr visit(ReturnStmt stmt){
+  public Expression visit(ReturnStmt stmt){
     return null;
   }
 
-  public LocationExpr visit(ReturnExpr stmt){
+  public Expression visit(ReturnExpr stmt){
     return null;
   }
 
-  public LocationExpr visit(SubAssignment stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("SubAssignment");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(SubAssignment stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("SubAssignment", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Times stmt){
-    LocationExpr left = stmt.getLeft().accept(this);
-    LocationExpr right = stmt.getRight().accept(this);
-    IdName name = new IdName("Times");
-    LocationExpr t0 = new LocationExpr(name);
+  public Expression visit(Times stmt){
+    Expression left = stmt.getLeft().accept(this);
+    Expression right = stmt.getRight().accept(this);
+    Expression t0 = new Expression(left.getType());
     Sentence result = new Sentence("Times", left, right, t0);
     sentence_list.add(result);
     return t0;
   }
 
-  public LocationExpr visit(Type stmt){
+  public Expression visit(Type stmt){
     return null;
   }
 
-  public LocationExpr visit(WhileStmt stmt){
+  public Expression visit(WhileStmt stmt){
     return null;
   }
 }
