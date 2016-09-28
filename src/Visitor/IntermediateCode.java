@@ -61,7 +61,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(ClassDecl expr){
     for (MethodDecl method_decl : expr.getMethodDecl()) {
+      sentence_list.add(new Sentence("InitMethod"+method_decl.getIdName().toString(), null, null, null));
       method_decl.accept(this);
+      sentence_list.add(new Sentence("EndMethod"+method_decl.getIdName().toString(), null, null, null));
     }
     return null;
   }
@@ -93,6 +95,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(ForStmt stmt){
+    stmt.getStatement().visit(this);
     return null;
   }
 
@@ -120,6 +123,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(IfStmt stmt){
+    stmt.getIfBlock().accept(this);
+    if(stmt.getElseBlock() != null)
+      stmt.getElseBlock().accept(this);
     return null;
   }
 
@@ -173,9 +179,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(MethodDecl stmt){
-    // stmt.getType().accept(this);
-    // stmt.getIdName().accept(this);
-    // stmt.getParam().accept(this);
     stmt.getBody().accept(this);
     return null;
   }
@@ -194,7 +197,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(Not stmt){
-    return null;
+    ExpressionAlgo left = stmt.getExpr().accept(this);
+    ExpressionAlgo t0 = new ExpressionAlgo(stmt.getExpr().getType());
+    Sentence result = new Sentence("Not", left, null, t0);
+    return t0;
   }
 
   public ExpressionAlgo visit(NotEqualTo stmt){
@@ -239,7 +245,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(Program stmt){
     for (ClassDecl clas : stmt.getClassList()) {
+      sentence_list.add(new Sentence("InitClass"+clas.getIdName().toString(), null, null, null));
       clas.accept(this);
+      sentence_list.add(new Sentence("EndClass"+clas.getIdName().toString(), null, null, null));
     }
     return null;
   }
@@ -287,6 +295,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(WhileStmt stmt){
+    stmt.getStatement().accept(this);
     return null;
   }
 }

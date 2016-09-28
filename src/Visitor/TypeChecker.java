@@ -142,8 +142,6 @@ public class TypeChecker implements ASTVisitor<String>{
     stmt.getStep().accept(this);
     stmt.getStep();
     stmt.getStatement().accept(this);
-    System.out.println();
-    System.out.println();
     if (!stmt.getCondition().getType().toString().equals("integer")){
       String found = stmt.getCondition().getType().toString();
       error.error3("ForStmt(condition)","integer",found,stmt.getLine(),stmt.getColumn());
