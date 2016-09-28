@@ -6,8 +6,10 @@ import java_cup.runtime.*;
 import Assembly.Sentence;
 
 public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
-
-  LinkedList<Sentence> sentence_list;
+  private Integer ifcc
+  private Integer forcc
+  private Integer whilecc
+  private LinkedList<Sentence> sentence_list;
 
   public IntermediateCode(){
     sentence_list = new LinkedList<Sentence>();

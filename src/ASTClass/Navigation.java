@@ -9,6 +9,10 @@ public class Navigation{
   private Integer line;
   private Integer column;
 
+  /**
+  * the attribute expression is only the navigation is a method
+  */
+  
   public Navigation(Navigation a_navigation, IdName an_id, Integer a_line, Integer a_column){
     navigation = a_navigation;
     id = an_id;
