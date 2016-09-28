@@ -1,9 +1,9 @@
 //testing a program with empty class
 class plumTest1{
-  void method(){
+  boolean method(){
     boolean x;
     x = true && true;
-    return ;
+    return x;
   }
 }
 

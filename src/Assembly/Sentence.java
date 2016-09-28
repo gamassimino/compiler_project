@@ -31,9 +31,9 @@ public class Sentence{
 
   public String toString(){
     String flag = operation;
-    flag += (operator_one.getExpression() != null) ? operator_one.getExpression() : "nil";
-    flag += (operator_two.getExpression() != null) ? operator_two.getExpression() : "nil";
-    flag += (result.getExpression() != null) ? result.getExpression() : "nil";
+    flag += (operator_one != null) ? " "+operator_one.getExpression() : " null";
+    flag += (operator_two != null) ? " "+operator_two.getExpression() : " null";
+    flag += (result != null) ? " "+result.getExpression() : " null";
     return flag;
   }
 }

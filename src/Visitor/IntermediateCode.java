@@ -28,8 +28,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(And stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
-    BoolLiteral result_value = new BoolLiteral(left.getExpression()+"&&"+right.getExpression());
-    ExpressionAlgo t0 = new ExpressionAlgo(result_value);
+    ExpressionAlgo t0 = new ExpressionAlgo(stmt.getLeft().getType());
     Sentence result = new Sentence("And", left, right, t0);
     sentence_list.add(result);
     return t0;
@@ -246,14 +245,20 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(ReturnStmt stmt){
-    Sentence result = new Sentence("ReturnStmt", null, null, null);
+    Sentence result;
+    if (stmt.getExpression() == null)
+     result = new Sentence("ReturnStmt", null, null, null);
+    else{
+      ExpressionAlgo return_value = new ExpressionAlgo(stmt.getExpression());
+      result = new Sentence("ReturnStmt", null, null, return_value);
+    }
     sentence_list.add(result);
     return null;
   }
 
   public ExpressionAlgo visit(ReturnExpr stmt){
     // if (stmt.getExpression() != null)
-      ExpressionAlgo t0 = new ExpressionAlgo(stmt.getExpression());
+    ExpressionAlgo t0 = new ExpressionAlgo(stmt.getExpression());
     Sentence result = new Sentence("ReturnExpr", null, null, t0);
     sentence_list.add(result);
     return null;
