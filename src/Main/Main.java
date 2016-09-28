@@ -33,6 +33,7 @@ public class Main{
     }
 
     p.accept(intermediateCode);
+    System.out.println(intermediateCode.getSentenceList().size());
     for (Sentence s : intermediateCode.getSentenceList()) {
         System.out.println(s.toString());
     }

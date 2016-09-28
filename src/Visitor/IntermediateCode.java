@@ -6,9 +6,9 @@ import java_cup.runtime.*;
 import Assembly.Sentence;
 
 public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
-  private Integer ifcc
-  private Integer forcc
-  private Integer whilecc
+  private Integer ifcc = 0;
+  private Integer forcc;
+  private Integer whilecc;
   private LinkedList<Sentence> sentence_list;
 
   public IntermediateCode(){
@@ -97,7 +97,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(ForStmt stmt){
-    stmt.getStatement().visit(this);
+    stmt.getStatement().accept(this);
     return null;
   }
 
@@ -125,9 +125,32 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(IfStmt stmt){
-    stmt.getIfBlock().accept(this);
-    if(stmt.getElseBlock() != null)
+    ifcc++;
+    Sentence result;
+    result = new Sentence("LABEL", new ExpressionAlgo("beginIf"+ifcc), null, null);
+    sentence_list.add(result);
+    ExpressionAlgo t0 = stmt.getCondition().accept(this);
+    if(stmt.getElseBlock() != null){
+      result = new Sentence("JMPZ", t0, null, new ExpressionAlgo("beginElse"));
+      sentence_list.add(result);
+      stmt.getIfBlock().accept(this);
+      result = new Sentence("JMP", null, null, new ExpressionAlgo("endIf"));
+      sentence_list.add(result);
+      result = new Sentence("LABEL", new ExpressionAlgo("beginElse"+ifcc), null, null);
+      sentence_list.add(result);
       stmt.getElseBlock().accept(this);
+      result = new Sentence("LABEL", new ExpressionAlgo("endElse"+ifcc), null, null);
+      sentence_list.add(result);
+      result = new Sentence("JMP", null, null, new ExpressionAlgo("endIf"));
+      sentence_list.add(result);
+    }
+    else{
+      result = new Sentence("JMPZ", t0, null, new ExpressionAlgo("endIf"));
+      sentence_list.add(result);
+      stmt.getIfBlock().accept(this);
+    }
+    result = new Sentence("LABEL", new ExpressionAlgo("endIf"+ifcc), null, null);
+    ifcc--;
     return null;
   }
 

@@ -6,6 +6,12 @@ public class ExpressionAlgo{
   protected Type type;
   protected Integer line;
   protected Integer column;
+  protected String name;
+
+  public ExpressionAlgo(String name){
+    this.name = name;
+    this.type = new Type("Label");
+  }
 
   public ExpressionAlgo(Expression expr, Type type){
     this.type = type;

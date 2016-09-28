@@ -3,6 +3,9 @@ class plumTest1{
   boolean method(){
     boolean x;
     x = true && true;
+    if (true){
+      boolean y;
+    }
     return x;
   }
 }
