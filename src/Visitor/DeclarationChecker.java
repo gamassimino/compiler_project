@@ -16,10 +16,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
     errors = er;
   }
 
-  public String visit(Expression stmt){
-    return "";
-  }
-
   @Override
   public String visit(AddAssignment stmt){
     stmt.getLeft().accept(this);

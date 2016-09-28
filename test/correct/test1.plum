@@ -1,14 +1,14 @@
 //testing a program with empty class
 class plumTest1{
   void method(){
-    integer x;
-    x = 2+3;
+    boolean x;
+    x = true && true;
     return ;
   }
 }
 
 class main{
   void main(){
-
+    return;
   }
 }

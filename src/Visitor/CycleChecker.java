@@ -16,10 +16,6 @@ public class CycleChecker implements ASTVisitor<String>{
     this.error = error;
   }
 
-  public String visit(Expression stmt){
-    return "";
-  }
-
   @Override
   public String visit(AddAssignment stmt){
     return "";

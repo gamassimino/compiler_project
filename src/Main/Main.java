@@ -31,10 +31,11 @@ public class Main{
     for (String error: errors.getErrors()) {
       System.out.println(error);
     }
-    // p.accept(intermediateCode);
-    // for (Sentence s : intermediateCode.getSentenceList()) {
-    //     System.out.println(s.toString());
-    // }
+
+    p.accept(intermediateCode);
+    for (Sentence s : intermediateCode.getSentenceList()) {
+        System.out.println(s.toString());
+    }
     // System.out.println(p.accept(typeChecker));
   }
 

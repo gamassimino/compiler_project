@@ -6,30 +6,34 @@ import java_cup.runtime.*;
 public class Sentence{
 
   String operation;
-  Expression operator_one;
-  Expression operator_two;
-  Expression result;
+  ExpressionAlgo operator_one;
+  ExpressionAlgo operator_two;
+  ExpressionAlgo result;
 
-  public Sentence (String operation, Expression operator_one, Expression operator_two, Expression result){
+  public Sentence (String operation, ExpressionAlgo operator_one, ExpressionAlgo operator_two, ExpressionAlgo result){
     this.operation = operation;
     this.operator_one = operator_one;
     this.operator_two = operator_two;
     this.result = result;
   }
 
-  public Expression getOperatorOne(){
+  public ExpressionAlgo getOperatorOne(){
     return operator_one;
   }
 
-  public Expression getOperatorTwo(){
+  public ExpressionAlgo getOperatorTwo(){
     return operator_two;
   }
 
-  public Expression getResult(){
+  public ExpressionAlgo getResult(){
     return result;
   }
 
   public String toString(){
-    return operation+" "+operator_one.getType().toString()+" "+operator_two.getType().toString();
+    String flag = operation;
+    flag += (operator_one.getExpression() != null) ? operator_one.getExpression() : "nil";
+    flag += (operator_two.getExpression() != null) ? operator_two.getExpression() : "nil";
+    flag += (result.getExpression() != null) ? result.getExpression() : "nil";
+    return flag;
   }
 }

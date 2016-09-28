@@ -17,13 +17,13 @@ public class BreakStmt extends Statement {
 
   @Override
   public String toString() {
-    return "break ;";
+    return "return ;";
   }
 
   public String className(){
-    return "BreakStmt";
+    return "ReturnStmt";
   }
-  
+
   public <T> T accept(ASTVisitor<T> v) {
     return v.visit(this);
   }
