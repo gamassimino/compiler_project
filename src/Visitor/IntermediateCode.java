@@ -79,7 +79,8 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(Body expr){
-    expr.getBlock().accept(this);
+    if (expr.getBlock() != null)
+      expr.getBlock().accept(this);
     return null;
   }
 
@@ -329,9 +330,15 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(Minus stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
-    ExpressionAlgo right = stmt.getRight().accept(this);
+    ExpressionAlgo right;
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
-    sentence_list.add(new Sentence("SUB", left, right, t0));
+    if (stmt.getRight() != null){
+      right = stmt.getRight().accept(this);
+      sentence_list.add(new Sentence("SUB", left, right, t0));
+    }
+    else{
+      sentence_list.add(new Sentence("MUL", left, new ExpressionAlgo("-1"), t0));
+    }
     return t0;
   }
 
@@ -463,13 +470,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(Instance stmt){
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("BeginWhile"+whilecc), null, null));
-    ExpressionAlgo cond = stmt.getCondition().accept(this);
-    sentence_list.add(new Sentence("JMPZ", cond, null, new ExpressionAlgo("EndWhile"+whilecc)));
-    stmt.getStatement().accept(this);
-    sentence_list.add(new Sentence("JMP", null, null, new ExpressionAlgo("BeginWhile"+whilecc)));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("EndWhile"+whilecc), null, null));
-    whilecc--;
     return null;
   }
 }
