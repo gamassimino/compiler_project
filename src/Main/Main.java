@@ -32,18 +32,14 @@ public class Main{
       p.accept(cycleChecker);
     if(errors.getErrors().size() == 0)
       p.accept(returnChecker);
-    // if(errors.getErrors().size() == 0)
-    //   p.accept(intermediateCode);
     for (String error: errors.getErrors()) {
       System.out.println(error);
     }
 
     p.accept(intermediateCode);
-    System.out.println(intermediateCode.getSentenceList().size());
     for (Sentence s : intermediateCode.getSentenceList()) {
         System.out.println(s.toString());
     }
-    // System.out.println(p.accept(typeChecker));
   }
 
 }
