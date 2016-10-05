@@ -1,8 +1,8 @@
 //testing semantic for or operator
 class plumTest97{
   integer method_one(){
-    boolean x;
-    boolean y;
+    bool x;
+    bool y;
     x = x || y;
   }
 }

@@ -2,7 +2,7 @@
 class plumTest92{
   //and not suport diferents type
   integer method_one(){
-    boolean x;
+    bool x;
     integer y;
     x = x && y;
   }

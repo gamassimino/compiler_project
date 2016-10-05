@@ -1,7 +1,7 @@
 //testing semantic of 'if'
 class plumTest101{
   void method(){
-    boolean x;
+    bool x;
     if (x){
     }
   }

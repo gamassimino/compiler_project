@@ -1,5 +1,5 @@
-//testing a program with boolean param
+//testing a program with bool param
 //return void
 class plumTest30{
-  void method(boolean param){}
+  void method(bool param){}
 }

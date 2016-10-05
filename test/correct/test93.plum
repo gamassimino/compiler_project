@@ -1,9 +1,9 @@
 //testing semantic for times operator
 class plumTest93{
-  //times not suport booleans
+  //times not suport bools
   integer method_one(){
     integer x;
-    boolean y;
+    bool y;
     x = x * y;
   }
 }

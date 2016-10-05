@@ -1,5 +1,5 @@
 //testing an empty method with differents param
-//return a boolean
+//return a bool
 class plumTest25{
-  boolean method(integer param, float param_two, boolean param_three){}
+  bool method(integer param, float param_two, bool param_three){}
 }

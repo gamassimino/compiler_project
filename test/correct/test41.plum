@@ -1,6 +1,6 @@
 //testing a return value as logic expression
 class plumTest41{
-	boolean nombre(){
+	bool nombre(){
 		return (2||3);
 	}
 }

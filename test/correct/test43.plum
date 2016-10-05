@@ -1,12 +1,12 @@
 //testing the navigation of the methods
 class pim{
-  boolean pam;
-  boolean que;
+  bool pam;
+  bool que;
 }
 class plumTest43{
 
-	boolean method(){
-    // boolean pim,pum,pam,que,esto,lo,otro;
+	bool method(){
+    // bool pim,pum,pam,que,esto,lo,otro;
     pim pum;
     return pum.pam.que;
 		// return pim;
