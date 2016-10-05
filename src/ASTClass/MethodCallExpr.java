@@ -62,7 +62,10 @@ public class MethodCallExpr extends Expression{
   }
 
   public Type getType(){
-    return id.getType();
+    if (navigation == null)
+      return id.getType();
+    else
+      return navigation.getIdName().getType();
   }
 
   public List<Expression> getExpressions(){

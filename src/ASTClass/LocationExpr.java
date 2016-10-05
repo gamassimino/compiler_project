@@ -42,7 +42,10 @@ public class LocationExpr extends Expression {
   }
 
   public Type getType(){
-    return id.getType();
+    if (list == null)
+      return id.getType();
+    else
+      return list.getIdName().getType();
   }
 
   public <T> T accept(ASTVisitor<T> v) {

@@ -29,6 +29,13 @@ public class LocationStmt extends Statement {
     return id;
   }
 
+  public Type getType(){
+    if (list == null)
+      return id.getType();
+    else
+      return list.getIdName().getType();
+  }
+
   public void setList(Navigation list){
     this.list = list;
   }
