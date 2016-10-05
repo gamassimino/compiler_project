@@ -234,4 +234,8 @@ public class PrintAST implements ASTVisitor<String>{
   public String visit(WhileStmt stmt){
     return "while ("+stmt.getCondition().accept(this)+")"+stmt.getStatement().accept(this);
   }
+
+  public String visit(Instance stmt){
+    return "";
+  }
 }

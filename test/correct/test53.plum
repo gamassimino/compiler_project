@@ -6,5 +6,5 @@ class plum_test53{
   float pi;
 }
 class plum_test_53{
-  boolean method(){}
+  bool method(){}
 }

@@ -1,6 +1,6 @@
 //testing a method that have composite expression as return value
 class plumTest40{
-	boolean expresion_multi(){
+	bool expresion_multi(){
 		return 2+3==true || 2.3<=342;
 	}
 }

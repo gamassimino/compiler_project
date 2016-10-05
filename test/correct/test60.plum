@@ -1,9 +1,9 @@
 //testing semantic for autoidecrement operator
 class plumTest60{
-  //wrong autoidecrement(not suport booleans)
+  //wrong autoidecrement(not suport bools)
   integer method_four(){
     integer x;
-    boolean y;
+    bool y;
     x -= y;
   }
 }

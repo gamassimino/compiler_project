@@ -46,4 +46,5 @@ public interface ASTVisitor<T> {
   public T visit(Times stmt);
   public T visit(Type stmt);
   public T visit(WhileStmt stmt);
+  public T visit(Instance stmt);
 }

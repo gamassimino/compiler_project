@@ -17,7 +17,7 @@ public class BoolLiteral extends Literal {
 
   @Override
   public Type getType() {
-    return new Type("boolean");
+    return new Type("bool");
   }
 
   public String getStringValue() {

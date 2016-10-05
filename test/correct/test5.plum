@@ -5,6 +5,6 @@ class plumTest5{
   integer array_number[10];
   float fnumber;
   float fnumber[20];
-  boolean fnumber;
-  boolean fnumber[20];
+  bool fnumber;
+  bool fnumber[20];
 }

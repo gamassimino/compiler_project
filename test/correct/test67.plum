@@ -4,7 +4,7 @@ class plumTest67{
   integer method_one(){
     integer x;
     float y;
-    boolean z;
+    bool z;
     z = (x > y);
   }
 }

@@ -1,13 +1,13 @@
 //testing an empty method with differents fields
-//return a boolean
+//return a bool
 class plumTest24{
-  boolean method(){
+  bool method(){
     integer number;
     integer number_two;
     integer array_number[10];
     float fnumber;
     float fnumber[20];
-    boolean fnumber;
-    boolean fnumber[20];
+    bool fnumber;
+    bool fnumber[20];
   }
 }

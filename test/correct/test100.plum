@@ -1,7 +1,7 @@
 class plumTest100{
-  boolean method_one(){
-    boolean x;
-    boolean y;
+  bool method_one(){
+    bool x;
+    bool y;
     x = !(x&&y);
   }
 }

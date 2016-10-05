@@ -4,7 +4,7 @@ import Visitor.ASTVisitor;
 
 public class IdName{
   private String id;
-  private IntLiteral size;
+  private Expression size;
   private Type type;
   private Integer line;
   private Integer column;
@@ -23,13 +23,13 @@ public class IdName{
     column = a_column;
   }
 
-  public IdName(String an_id, IntLiteral a_size){
+  public IdName(String an_id, Expression a_size){
     id = an_id;
     size = a_size;
     type= null;
   }
 
-  public IdName(String an_id, IntLiteral a_size, Integer a_line, Integer a_column){
+  public IdName(String an_id, Expression a_size, Integer a_line, Integer a_column){
     id = an_id;
     size = a_size;
     type= null;
@@ -37,7 +37,7 @@ public class IdName{
     column = a_column;
   }
 
-  public IdName(String an_id, IntLiteral a_size, Type a_type){
+  public IdName(String an_id, Expression a_size, Type a_type){
     id = an_id;
     size = a_size;
     type= a_type;
@@ -67,11 +67,11 @@ public class IdName{
     return column;
   }
 
-  public void setSize(IntLiteral a_size){
+  public void setSize(Expression a_size){
     size = a_size;
   }
 
-  public IntLiteral getSize(){
+  public Expression getSize(){
     return size;
   }
 

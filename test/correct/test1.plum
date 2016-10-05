@@ -1,10 +1,10 @@
 //testing a program with empty class
 class plumTest1{
-  boolean method(){
-    boolean x;
+  bool method(){
+    bool x;
     x = true && true;
     if (true){
-      boolean y;
+      bool y;
     }
     return x;
   }

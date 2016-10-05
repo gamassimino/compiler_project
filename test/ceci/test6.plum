@@ -1,0 +1,62 @@
+class persona{
+  integer edad;
+  bool femenino;
+
+  void persona123(integer e, bool f){
+    edad = e;
+    femenino = f;
+    return;
+  }
+
+
+  // void persona123(){
+  //   edad = 0;
+  //   femenino = false; //por defecto es hombre.
+  // }
+
+  integer getEdad( ){
+    return edad ; 
+  }
+
+
+  bool esHombre(){
+    if (!femenino){
+      return true;
+    }
+    else{ 
+      return false;
+    }
+  }
+
+  void incrementarEdad(){
+    edad += 1 ;
+    return;
+  }
+
+}
+
+class main{
+
+  void printI(integer i)extern;
+
+  void main(){
+    persona clara,juan;
+    integer y;
+    y = 7;
+
+    clara.persona123(y,true);
+    // juan.persona123();
+
+
+    // if(clara.esHombre()){
+    //   clara.incrementarEdad();
+    // }else{
+    //   printI(clara.getEdad());
+    // }
+    
+    y = clara.edad; 
+    // printI(y); 
+    return;
+  }
+
+}

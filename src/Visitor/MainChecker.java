@@ -202,4 +202,7 @@ public class MainChecker implements ASTVisitor<String>{
     return "";
   }
 
+  public String visit(Instance stmt){
+    return "";
+  }
 }

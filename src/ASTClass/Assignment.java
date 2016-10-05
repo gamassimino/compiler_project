@@ -32,7 +32,7 @@ public class Assignment extends Statement{
   public boolean supportOp(){
     if (!left.getType().toString().equals(right.getType().toString()))
       return false;
-    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"))||(left.getType().toString().equals("boolean"));
+    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"))||(left.getType().toString().equals("bool"));
   }
 
   public <T> T accept(ASTVisitor<T> v) {

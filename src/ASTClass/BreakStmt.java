@@ -9,7 +9,6 @@ public class BreakStmt extends Statement {
     column = a_column;
   }
 
-
   public BreakStmt() {
     line = null;
     column = null;

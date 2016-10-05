@@ -40,7 +40,10 @@ public class ReturnChecker implements ASTVisitor<String>{
   }
 
   public String visit(Body expr){
-    expr.getBlock().accept(this);
+    if(expr.getBlock() != null)
+      expr.getBlock().accept(this);
+    else
+      return_flag = true;
     //elBody
     return "";
   }
@@ -224,6 +227,10 @@ public class ReturnChecker implements ASTVisitor<String>{
 
   public String visit(WhileStmt stmt){
     stmt.getStatement().accept(this);
+    return "";
+  }
+  
+  public String visit(Instance stmt){
     return "";
   }
 

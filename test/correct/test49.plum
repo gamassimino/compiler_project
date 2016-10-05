@@ -1,6 +1,6 @@
 //testing and expression with 'and'
 class plumTest49{
-  boolean method(boolean t, boolean f){
+  bool method(bool t, bool f){
     return (t && f);
   }
 }
