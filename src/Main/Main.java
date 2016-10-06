@@ -8,7 +8,7 @@ import CodeGenerated.Scanner;
 import Visitor.*;
 import TableOfHash.Hash;
 import Errors.Error;
-import Assembly.Sentence;
+import Assembly.*;
 
 public class Main{
   public static void main(String args[]) throws Exception {
@@ -34,14 +34,12 @@ public class Main{
       p.accept(returnChecker);
     if(errors.getErrors().size() == 0)
       p.accept(intermediateCode);
-    
+
     for (String error: errors.getErrors()) {
       System.out.println(error);
     }
 
-    for (Sentence s : intermediateCode.getSentenceList()) {
-        System.out.println(s.toString());
-    }
+    AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
   }
 
 }

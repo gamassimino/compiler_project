@@ -36,6 +36,11 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     neqcc = 0;
     label_stack = new Stack<String>();
   }
+
+  public LinkedList<Sentence> getSentences(){
+    return sentence_list;
+  }
+
   public LinkedList<Sentence> getSentenceList(){
     return sentence_list;
   }

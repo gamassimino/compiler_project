@@ -17,6 +17,10 @@ public class Sentence{
     this.result = result;
   }
 
+  public String getOperation(){
+    return operation;
+  }
+
   public ExpressionAlgo getOperatorOne(){
     return operator_one;
   }
