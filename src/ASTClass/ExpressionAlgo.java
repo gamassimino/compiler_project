@@ -46,6 +46,10 @@ public class ExpressionAlgo{
     return this.expr;
   }
 
+  public String getName() {
+    return this.name;
+  }
+
   public Type getType() {
     return this.type;
   }

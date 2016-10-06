@@ -16,7 +16,49 @@ public class AsmGenerator{
       writer = new PrintWriter("prueba.asm", "UTF-8");
       for (Sentence s : sentence_list) {
         switch (s.getOperation()) {
-          //fill with all cases
+          case "ADD": writer.println("ADD "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName()+" "+s.getResult().getName());
+                      break;
+          case "SUB": if (s.getOperatorTwo() == null)
+                        writer.println("MUL "+s.getOperatorOne().getName()+" -1");
+                      else
+                        writer.println("SUB "+s.getOperatorOne()+" "+s.getOperatorTwo()+" "+s.getResult());
+                      break;
+          case "MUL": writer.println("MUL "+s.getOperatorOne()+" "+s.getOperatorTwo()+" "+s.getResult());
+                      break;
+          case "CMP": writer.println("CMP "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName());
+                      break;
+          case "JE": writer.println("JE "+s.getOperatorOne().getName());
+                      break;
+          case "JNE": writer.println("JNE "+s.getOperatorOne().getName());
+                      break;
+          case "JG": writer.println("JG "+s.getOperatorOne().getName());
+                      break;
+          case "JGE": writer.println("JGE "+s.getOperatorOne().getName());
+                      break;
+          case "JL": writer.println("JL "+s.getOperatorOne().getName());
+                      break;
+          case "JLE": writer.println("JLE "+s.getOperatorOne().getName());
+                      break;
+          case "JZ": writer.println("JZ "+s.getOperatorOne().getName());
+                      break;
+          case "MOV": writer.println("MOV "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName());
+                      break;
+          case "LABEL": writer.println(s.getOperatorOne().getName()+":");
+                      break;
+          case "Break": writer.println("JMP "+s.getOperatorOne().getName());
+                      break;
+          case "Continue": writer.println("JMP "+s.getOperatorOne().getName());
+                      break;
+          case "INC": writer.println("INC "+s.getOperatorOne().getName());
+                      break;
+          case "CALL": writer.println("CALL "+s.getOperatorOne().getName());
+                      break;
+          case "POP": writer.println("POP");
+                      break;
+          case "RET": writer.println("RET");
+                      break;
+          case "PUSH": writer.println("PUSH "+s.getOperatorOne().getName());
+                      break;
         }
       }
       writer.close();
