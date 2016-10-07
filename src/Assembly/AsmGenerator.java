@@ -18,12 +18,11 @@ public class AsmGenerator{
         switch (s.getOperation()) {
           case "ADD": writer.println("ADD "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName()+" "+s.getResult().getName());
                       break;
-          case "SUB": if (s.getOperatorTwo() == null)
-                        writer.println("MUL "+s.getOperatorOne().getName()+" -1");
-                      else
-                        writer.println("SUB "+s.getOperatorOne()+" "+s.getOperatorTwo()+" "+s.getResult());
+          case "SUB": writer.println("SUB "+s.getOperatorOne().getName()+" "+s.getOperatorTwo()+" "+s.getResult());
                       break;
           case "MUL": writer.println("MUL "+s.getOperatorOne()+" "+s.getOperatorTwo()+" "+s.getResult());
+                      break;
+          case "DIV": writer.println("DIV "+s.getOperatorOne()+" "+s.getOperatorTwo()+" "+s.getResult());
                       break;
           case "CMP": writer.println("CMP "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName());
                       break;
@@ -44,6 +43,8 @@ public class AsmGenerator{
           case "MOV": writer.println("MOV "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName());
                       break;
           case "LABEL": writer.println(s.getOperatorOne().getName()+":");
+                      break;
+          case "JMP": writer.println("JMP "+s.getOperatorOne().getName());
                       break;
           case "Break": writer.println("JMP "+s.getOperatorOne().getName());
                       break;

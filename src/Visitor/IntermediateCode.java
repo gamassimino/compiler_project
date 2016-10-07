@@ -18,6 +18,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   private Integer orcc;
   private Integer eqcc;
   private Integer neqcc;
+  private Integer notcc;
   private LinkedList<Sentence> sentence_list;
   private Stack<String> label_stack;
 
@@ -34,6 +35,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     orcc = 0;
     eqcc = 0;
     neqcc = 0;
+    notcc = 0;
     label_stack = new Stack<String>();
   }
 
@@ -352,7 +354,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(Not stmt){
     ExpressionAlgo left = stmt.getExpr().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(stmt.getExpr().getType());
-    Sentence result = new Sentence("Not", left, t0, null);
+    notcc++;
+    sentence_list.add(new Sentence("CMP", left, new ExpressionAlgo("1"), null));
+    sentence_list.add(new Sentence("JE", new ExpressionAlgo("notCondition"+notcc), null, null));
+    sentence_list.add(new Sentence("MOV", t0, new ExpressionAlgo("1"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("notEnd"+notcc), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("notCondition"+notcc), null, null));
+    sentence_list.add(new Sentence("MOV", t0, new ExpressionAlgo("0"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("notEnd"+notcc), null, null));
     return t0;
   }
 
