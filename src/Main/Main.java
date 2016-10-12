@@ -67,3 +67,24 @@ public class Main{
   }
 
 }
+.setOffset(offset);
+    intermediateCode.setHeap(heap);
+    if(errors.getErrors().size() == 0)
+      p.accept(intermediateCode);
+
+    for (String error: errors.getErrors()) {
+      System.out.println(error);
+    }
+
+<<<<<<< HEAD
+    intermediateCode.setInstanceOffset(insOff);
+=======
+    // for (Sentence sentece: intermediateCode.getSentenceList()) {
+    //   System.out.println(sentece.toString());
+    // }
+
+>>>>>>> asm generator optimized
+    AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
+  }
+
+}
