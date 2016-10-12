@@ -107,13 +107,8 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(BreakStmt expr){
     if (label_stack.peek().toString() == "_EndWhile"+whilecc)
       sentence_list.add(new Sentence("Break", new ExpressionAlgo("_EndWhile"+whilecc,"label"), null, null));
-    else{
-      if (label_stack.peek().toString() == "_EndFor"+forcc)
-        sentence_list.add(new Sentence("Break", new ExpressionAlgo("_EndFor"+forcc,"label"), null, null));
-      else{
-        sentence_list.add(new Sentence("Break", null, null, null));
-      }
-    }
+    if (label_stack.peek().toString() == "_EndFor"+forcc)
+      sentence_list.add(new Sentence("Break", new ExpressionAlgo("_EndFor"+forcc,"label"), null, null));
     return null;
   }
 
@@ -131,13 +126,8 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     label_stack.pop();
     if (label_stack.peek().toString() == "_BeginWhile"+whilecc)
       sentence_list.add(new Sentence("Continue", new ExpressionAlgo("_BeginWhile"+whilecc,"label"), null, null));
-    else{
-      if (label_stack.peek().toString() == "_BeginFor"+forcc)
-        sentence_list.add(new Sentence("Continue", new ExpressionAlgo("_BeginFor"+forcc,"label"), null, null));
-      else{
-        sentence_list.add(new Sentence("Continue", null, null, null));
-      }
-    }
+    if (label_stack.peek().toString() == "_BeginFor"+forcc)
+      sentence_list.add(new Sentence("Continue", new ExpressionAlgo("_BeginFor"+forcc,"label"), null, null));
     label_stack.push(top);
     return null;
   }
