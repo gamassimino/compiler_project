@@ -297,7 +297,6 @@ public class TypeChecker implements ASTVisitor<String>{
       }
     }else
       stmt.getId().accept(this);
-    stmt.setOffsetLocation();
     return "";
   }
 
@@ -323,7 +322,6 @@ public class TypeChecker implements ASTVisitor<String>{
       }
     }else
       stmt.getId().accept(this);
-    stmt.setOffsetLocation();
     return "";
   }
 

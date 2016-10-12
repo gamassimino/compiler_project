@@ -117,8 +117,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
       if (stmt.getType().toString().equals("integer")|| stmt.getType().toString().equals("bool")||
          stmt.getType().toString().equals("float")){
-        stmt.getId().setOffset(nextOffset());
-        stmt.setOffset(getOffset());
         hash.insertInLevel(stmt);
       }
       else{
@@ -165,7 +163,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(IdName stmt){
     FieldDecl founded = (FieldDecl)hash.searchInTableFD(stmt.toString());
     if(founded != null){
-      stmt.setOffset(founded.getId().getOffset());
       stmt.setType(founded.getType());
     }
     else{
@@ -202,17 +199,14 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IntLiteral stmt){
-    stmt.setOffset(getOffset());
     return "";
   }
 
   public String visit(FloatLiteral stmt){
-    stmt.setOffset(getOffset());
     return "";
   }
 
   public String visit(BoolLiteral stmt){
-    stmt.setOffset(getOffset());
     return "";
   }
 
