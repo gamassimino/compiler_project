@@ -1,11 +1,9 @@
 //testing a program with empty class
 
 
-class main{
-  void main(){
-    integer number1;
+  int main(){
+    int number1;
 
      number1 = 2+2*45;
-    return;
+    return 0;
   }
-}

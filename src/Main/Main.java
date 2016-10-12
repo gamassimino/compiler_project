@@ -17,12 +17,12 @@ public class Main{
     Integer offset = new Integer(0);
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes);
+    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, offset);
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
     CycleChecker cycleChecker = new CycleChecker(errors);
     ReturnChecker returnChecker = new ReturnChecker(errors);
-    IntermediateCode intermediateCode = new IntermediateCode();
+    IntermediateCode intermediateCode = new IntermediateCode(offset);
     // AssignOffset assignOffset = new AssignOffset(classes, offset);
 
     p.accept(declarationChecker);
@@ -42,6 +42,10 @@ public class Main{
     for (String error: errors.getErrors()) {
       System.out.println(error);
     }
+
+    // for (Sentence sentece: intermediateCode.getSentenceList()) {
+    //   System.out.println(sentece.toString());
+    // }
 
     AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
   }

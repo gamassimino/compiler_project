@@ -10,30 +10,25 @@ public class AsmGenerator{
   public AsmGenerator(){
   }
 
-  public void initialInstructions(PrintWriter writer){
-    try {
-      writer.println(".section  __TEXT,__text,regular,pure_instructions");
-      writer.println(".macosx_version_min 10, 12");
-      writer.println(".globl  _main");
-      writer.println(".align 4, 0x90");
-      writer.println(".cfi_startproc");
-    } catch (IOException ex) {
-      // report
-    }
+  public static String init(){
+    String init = ".section  __TEXT,__text,regular,pure_instructions\n";
+    init += ".macosx_version_min 10, 12\n";
+    init += ".globl  _main\n";
+    init += ".align 4, 0x90\n";
+    init += ".cfi_startproc\n";
+    return init;
   }
 
-  public void endInstructions(PrintWriter writer){
-    try {
-      writer.println("callq ___stack_chk_fail");
-      writer.println(".cfi_endproc");
-      writer.println(".subsections_via_symbols");
-    } catch (IOException ex) {
-      // report
-    }
+  public static String end(){
+    String end = "\ncallq ___stack_chk_fail\n";
+    end += ".cfi_endproc\n";
+    end += ".subsections_via_symbols";
+    return end;
   }
 
-  public static String twoDirection(String op, ExpressionAlgo fst, ExpressionAlgo snd){
-    String sentence = op;
+
+  public static String oneDir(String op, ExpressionAlgo fst){
+    String sentence = "  "+op;
     switch (fst.getType()){
       case "record" : sentence += " %"+fst.getValue();
         break;
@@ -41,85 +36,125 @@ public class AsmGenerator{
         break;
       case "value" : sentence += " $"+fst.getValue();
         break;
+      case "label" : sentence += " "+fst.getValue();
+        break;
+      case "array" : sentence += " "+fst.getValue()+"(%RBP,%RCX,8)";
+        break;
+      case "instance" : sentence += " (%R10,%RCX,8)";
+        break;
+      case "null" : break;
     }
-    sentence +=", ";
+    return sentence;
+  }
 
-    switch (snd.getType()){
-      case "record" : sentence += " %"+snd.getValue();
-        break;
-      case "offset" : sentence += " "+snd.getValue()+"(%RBP)";
-        break;
-      case "value" : sentence += " $"+snd.getValue();
-        break;
+  public static String twoDir(String op, ExpressionAlgo fst, ExpressionAlgo snd){
+    String sentence = oneDir(op,fst);
+    if(snd != null){
+      sentence +=", ";
+      switch (snd.getType()){
+        case "record" : sentence += "%"+snd.getValue();
+          break;
+        case "offset" : sentence += ""+snd.getValue()+"(%RBP)";
+          break;
+        case "array" : sentence += " "+snd.getValue()+"(%RBP,%RCX,8)";
+          break;
+        case "value" : sentence += "$"+snd.getValue();
+          break;
+        case "instance" : sentence += "(%R10,%RCX,8)";
+          break;
+      }
+    }
+    return sentence;
+  }
+
+  public static String threeDir(String op, ExpressionAlgo fst, ExpressionAlgo snd, ExpressionAlgo thr){
+    String sentence = twoDir(op,fst,snd);
+    if(thr != null){
+      sentence +=", ";
+      switch (thr.getType()){
+        case "record" : sentence += "%"+snd.getValue();
+          break;
+        case "offset" : sentence += ""+snd.getValue()+"(%RBP)";
+          break;
+        case "value" : sentence += "$"+snd.getValue();
+          break;
+      }
     }
     return sentence;
   }
 
   public static void writeAssembler(LinkedList<Sentence> sentence_list){
     PrintWriter writer;
+
     try {
-      writer = new PrintWriter("program.asm", "UTF-8");
-      this.initialInstructions(writer);
+      writer = new PrintWriter("program.s", "UTF-8");
+      writer.println(AsmGenerator.init());
       for (Sentence s : sentence_list) {
         switch (s.getOperation()) {
-          case "ADDQ": writer.println(AsmGenerator.twoDirection("ADDQ",s.getOperatorOne(), s.getOperatorTwo()));
+          case "ADDQ": writer.println(AsmGenerator.twoDir("ADDQ", s.getOperatorTwo(), s.getOperatorOne()));
                       break;
-          // case "SUBQ": writer.println("SUBQ %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo()+", %"+s.getResult());
-          //             break;
-          // case "MULQ": writer.println("MULQ %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
-          //             break;
-          // case "DIVQ": writer.println("DIVQ %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
-          //             break;
-          // case "CMPL": if (s.getOperatorTwo().isNumber())
-          //                 writer.println("CMPL $"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
-          //              else
-          //                 writer.println("CMPL "+s.getOperatorOne().getName()+"(%RBP), %"+s.getOperatorTwo().getName());
-          //             break;
-          // case "JE": writer.println("JE "+s.getOperatorOne().getName());
-          //             break;
-          // case "JNE": writer.println("JNE "+s.getOperatorOne().getName());
-          //             break;
-          // case "JG": writer.println("JG "+s.getOperatorOne().getName());
-          //             break;
-          // case "JGE": writer.println("JGE "+s.getOperatorOne().getName());
-          //             break;
-          // case "JL": writer.println("JL "+s.getOperatorOne().getName());
-          //             break;
-          // case "JLE": writer.println("JLE "+s.getOperatorOne().getName());
-          //             break;
-          // case "JZ": writer.println("JZ "+s.getOperatorOne().getName());
-          //             break;
-          // case "MOVQ": writer.println("MOVQ %"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
-          //               break;
-          // case "MOVL": if (s.getOperatorTwo().isNumber())
-          //               if (s.getOperatorOne().getName()=="EAX")
-          //                 writer.println("MOVL $"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
-          //               else
-          //                 writer.println("MOVL $"+s.getOperatorTwo().getName()+", "+s.getOperatorOne().getName()+"(%RBP)");
-          //              else
-          //               writer.println("MOVL "+s.getOperatorTwo().getName()+"(%RBP), %"+s.getOperatorOne().getName());
-          //             break;
-          // case "LABEL": writer.println(s.getOperatorOne().getName()+":");
-          //             break;
-          // case "JMP": writer.println("JMP "+s.getOperatorOne().getName());
-          //             break;
-          // case "Break": writer.println("JMP "+s.getOperatorOne().getName());
-          //             break;
-          // case "Continue": writer.println("JMP "+s.getOperatorOne().getName());
-          //             break;
-          // case "INC": writer.println("INC %"+s.getOperatorOne().getName());
-          //             break;
-          // case "CALL": writer.println("CALL %"+s.getOperatorOne().getName());
-          //             break;
-          // case "POPQ": writer.println("POPQ");
-          //             break;
-          // case "RETQ": writer.println("RETQ");
-          //             break;
-          // case "PUSHQ": writer.println("PUSHQ %"+s.getOperatorOne().getName());
-          //             break;
+          case "ADDL": writer.println(AsmGenerator.twoDir("ADDQ", s.getOperatorTwo(), s.getOperatorOne()));
+                      break;
+          case "SUBQ": writer.println(AsmGenerator.threeDir("SUBQ", s.getOperatorTwo(), s.getOperatorOne(), s.getResult()));
+                      break;
+          case "IMULQ": writer.println(AsmGenerator.twoDir("IMULQ", s.getOperatorTwo(), s.getOperatorOne()));
+                      break;
+          case "IDIVL": writer.println(AsmGenerator.oneDir("IDIVL", s.getOperatorOne()));
+                      break;
+          case "CMPL": writer.println(AsmGenerator.twoDir("CMPL", s.getOperatorTwo(), s.getOperatorOne()));
+                      break;
+          case "JE": writer.println(AsmGenerator.oneDir("JE", s.getOperatorOne()));
+                      break;
+          case "JNE": writer.println(AsmGenerator.oneDir("JNE", s.getOperatorOne()));
+                      break;
+          case "JG": writer.println(AsmGenerator.oneDir("JG", s.getOperatorOne()));
+                      break;
+          case "JGE": writer.println(AsmGenerator.oneDir("JGE", s.getOperatorOne()));
+                      break;
+          case "JL": writer.println(AsmGenerator.oneDir("JL", s.getOperatorOne()));
+                      break;
+          case "JLE": writer.println(AsmGenerator.oneDir("JLE", s.getOperatorOne()));
+                      break;
+          case "JZ": writer.println(AsmGenerator.oneDir("JZ", s.getOperatorOne()));
+                      break;
+          case "MOVQ": writer.println(AsmGenerator.twoDir("MOVQ", s.getOperatorTwo(), s.getOperatorOne()));
+                        break;
+          case "MOVL": writer.println(AsmGenerator.twoDir("MOVL", s.getOperatorTwo(), s.getOperatorOne()));
+                      break;
+          case "LABEL": writer.println(s.getOperatorOne().getValue()+":");
+                      break;
+          case "JMP": writer.println(AsmGenerator.oneDir("JMP", s.getOperatorOne()));
+                      break;
+          case "Break": writer.println(AsmGenerator.oneDir("JMP", s.getOperatorOne()));
+                      break;
+          case "Continue": writer.println(AsmGenerator.oneDir("JMP", s.getOperatorOne()));
+                      break;
+          case "INC": writer.println(AsmGenerator.oneDir("INC", s.getOperatorOne()));
+                      break;
+          case "INCQ": writer.println(AsmGenerator.oneDir("INCQ", s.getOperatorOne()));
+                      break;
+          case "INCL": writer.println(AsmGenerator.oneDir("INCL", s.getOperatorOne()));
+                      break;
+          case "CALL": writer.println(AsmGenerator.oneDir("CALL", s.getOperatorOne()));
+                      break;
+          case "POPQ": writer.println(AsmGenerator.oneDir("POPQ", s.getOperatorOne()));
+                      break;
+          case "RET": writer.println(AsmGenerator.oneDir("RET", s.getOperatorOne()));
+                      break;
+          case "PUSHQ": writer.println(AsmGenerator.oneDir("PUSHQ", s.getOperatorOne()));
+                      break;
+          case "LEAVE": writer.println(AsmGenerator.oneDir("LEAVE", s.getOperatorOne()));
+                      break;
+          case "CLTD" : writer.println("  CLTD");
+                      break;
+          case "LEAQ" : writer.println(AsmGenerator.twoDir("LEAQ", s.getOperatorTwo(), s.getOperatorOne()));
+                      break;
+          default : System.out.println("DEFAULT :"+s.getOperation());
+                    writer.println();
+                    break;
         }
       }
-      this.endInstructions(writer);
+      writer.println(AsmGenerator.end());
       writer.close();
     } catch (IOException ex) {
       // report

@@ -11,11 +11,22 @@ public class DeclarationChecker implements ASTVisitor<String>{
   Hash hash;
   Hash hash_class;
   Error errors;
+  Integer offset;
 
-  public DeclarationChecker(Error er, Hash clases){
+  public DeclarationChecker(Error er, Hash clases, Integer off){
     hash = new Hash();
     hash_class = clases;
     errors = er;
+    offset = off;
+  }
+
+  public Integer nextOffset(){
+    offset -= 4;
+    return offset;
+  }
+
+  public Integer getOffset(){
+    return offset;
   }
 
   @Override
@@ -106,6 +117,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
       if (stmt.getType().toString().equals("integer")|| stmt.getType().toString().equals("bool")||
          stmt.getType().toString().equals("float")){
+        stmt.getId().setOffset(nextOffset());
         hash.insertInLevel(stmt);
       }
       else{
