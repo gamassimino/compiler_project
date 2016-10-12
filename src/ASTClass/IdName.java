@@ -8,6 +8,7 @@ public class IdName{
   private Type type;
   private Integer line;
   private Integer column;
+  private Integer offset;
 
   public IdName(String an_id){
     id = an_id;
@@ -41,6 +42,14 @@ public class IdName{
     id = an_id;
     size = a_size;
     type= a_type;
+  }
+
+  public void setOffset(Integer off) {
+    offset = off;
+  }
+  
+  public Integer getOffset() {
+    return offset;
   }
 
   public void setIdName(String an_id){

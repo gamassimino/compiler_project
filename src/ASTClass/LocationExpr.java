@@ -4,7 +4,7 @@ import Visitor.ASTVisitor;
 import java.util.List;
 
 public class LocationExpr extends Expression {
-	private IdName id;
+  private IdName id;
   private Navigation list;
 
   public LocationExpr(IdName an_id){
@@ -25,13 +25,17 @@ public class LocationExpr extends Expression {
     list = a_list;
   }
 
-	public void setId(IdName id){
-		this.id = id;
-	}
+  public void setId(IdName id){
+    this.id = id;
+  }
 
-	public IdName getId(){
-		return id;
-	}
+  public void setOffsetLocation(){
+    this.setOffset(id.getOffset());
+  }
+
+  public IdName getId(){
+    return id;
+  }
 
   public void setList(Navigation list){
     this.list = list;

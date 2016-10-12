@@ -74,10 +74,11 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(Assignment stmt){
-    ExpressionAlgo left = stmt.getLeft().accept(this);
-    ExpressionAlgo right = stmt.getRight().accept(this);
-    sentence_list.add(new Sentence("MOVL", right, left, null));
-    return right;
+    // ExpressionAlgo left = stmt.getLeft().accept(this);
+    ExpressionAlgo left = new ExpressionAlgo(stmt.getLeft().getOffset().toString());
+    String right = (stmt.getRight() instanceof Literal)?  stmt.getRight().toString() : stmt.getRight().getOffset().toString();
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo(right), left, null));
+    return left;
   }
 
   public ExpressionAlgo visit(Block expr){
@@ -212,7 +213,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(IdName stmt){
-    ExpressionAlgo t0 = new ExpressionAlgo(stmt.getType());
+    ExpressionAlgo t0 = new ExpressionAlgo(stmt.getOffset().toString());
     return t0;
   }
 
@@ -243,7 +244,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(IntLiteral stmt){
-    ExpressionAlgo t0 = new ExpressionAlgo(stmt);
+    ExpressionAlgo t0 = new ExpressionAlgo(stmt.getRawValue().toString());
     return t0;
   }
 

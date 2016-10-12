@@ -7,6 +7,7 @@ public class ExpressionAlgo{
   protected Integer line;
   protected Integer column;
   protected String name;
+  protected Integer offset;
 
   public ExpressionAlgo(String name){
     this.name = name;
@@ -26,6 +27,15 @@ public class ExpressionAlgo{
   public ExpressionAlgo(Type type){
     this.type = type;
   }
+
+  public void setOffset(Integer off) {
+    offset = off;
+  }
+  
+  public Integer getOffset() {
+    return offset;
+  }
+  
   public Integer getLine() {
     return line;
   }

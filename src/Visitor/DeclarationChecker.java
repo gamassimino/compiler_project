@@ -11,11 +11,22 @@ public class DeclarationChecker implements ASTVisitor<String>{
   Hash hash;
   Hash hash_class;
   Error errors;
+  Integer offset;
 
-  public DeclarationChecker(Error er, Hash clases){
+  public DeclarationChecker(Error er, Hash clases, Integer an_offset){
     hash = new Hash();
     hash_class = clases;
     errors = er;
+    offset = an_offset;
+  }
+
+  public Integer nextOffset(){
+    offset -= 4;
+    return offset;
+  }
+
+  public Integer getOffset(){
+    return offset;
   }
 
   @Override
@@ -105,8 +116,11 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(FieldDecl stmt){
     if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
       if (stmt.getType().toString().equals("integer")|| stmt.getType().toString().equals("bool")||
-         stmt.getType().toString().equals("float"))
+         stmt.getType().toString().equals("float")){
+        stmt.getId().setOffset(nextOffset());
+        stmt.setOffset(getOffset());
         hash.insertInLevel(stmt);
+      }
       else{
         ClassDecl founded = (ClassDecl)hash_class.searchInTableCD(stmt.getType().toString());
         if(founded!= null)
@@ -151,6 +165,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(IdName stmt){
     FieldDecl founded = (FieldDecl)hash.searchInTableFD(stmt.toString());
     if(founded != null){
+      stmt.setOffset(founded.getId().getOffset());
       stmt.setType(founded.getType());
     }
     else{
@@ -187,14 +202,17 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(IntLiteral stmt){
+    stmt.setOffset(getOffset());
     return "";
   }
 
   public String visit(FloatLiteral stmt){
+    stmt.setOffset(getOffset());
     return "";
   }
 
   public String visit(BoolLiteral stmt){
+    stmt.setOffset(getOffset());
     return "";
   }
 

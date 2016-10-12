@@ -35,6 +35,10 @@ public class LocationStmt extends Statement {
     else
       return list.getIdName().getType();
   }
+  
+  public void setOffsetLocation(){
+    this.setOffset(id.getOffset());
+  }
 
   public void setList(Navigation list){
     this.list = list;
