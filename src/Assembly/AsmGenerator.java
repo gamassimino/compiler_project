@@ -10,6 +10,28 @@ public class AsmGenerator{
   public AsmGenerator(){
   }
 
+  public void initialInstructions(PrintWriter writer){
+    try {
+      writer.println(".section  __TEXT,__text,regular,pure_instructions");
+      writer.println(".macosx_version_min 10, 12");
+      writer.println(".globl  _main");
+      writer.println(".align 4, 0x90");
+      writer.println(".cfi_startproc");
+    } catch (IOException ex) {
+      // report
+    }
+  }
+
+  public void endInstructions(PrintWriter writer){
+    try {
+      writer.println("callq ___stack_chk_fail");
+      writer.println(".cfi_endproc");
+      writer.println(".subsections_via_symbols");
+    } catch (IOException ex) {
+      // report
+    }
+  }
+
   public static String twoDirection(String op, ExpressionAlgo fst, ExpressionAlgo snd){
     String sentence = op;
     switch (fst.getType()){
@@ -35,10 +57,9 @@ public class AsmGenerator{
 
   public static void writeAssembler(LinkedList<Sentence> sentence_list){
     PrintWriter writer;
-
-
     try {
       writer = new PrintWriter("program.asm", "UTF-8");
+      this.initialInstructions(writer);
       for (Sentence s : sentence_list) {
         switch (s.getOperation()) {
           case "ADDQ": writer.println(AsmGenerator.twoDirection("ADDQ",s.getOperatorOne(), s.getOperatorTwo()));
@@ -98,6 +119,7 @@ public class AsmGenerator{
           //             break;
         }
       }
+      this.endInstructions(writer);
       writer.close();
     } catch (IOException ex) {
       // report
