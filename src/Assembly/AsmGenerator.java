@@ -24,7 +24,7 @@ public class AsmGenerator{
                       break;
           case "DIV": writer.println("DIV %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
-          case "CMP": writer.println("CMP %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo().getName());
+          case "CMPL": writer.println("CMPL %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo().getName());
                       break;
           case "JE": writer.println("JE "+s.getOperatorOne().getName());
                       break;
