@@ -11,22 +11,11 @@ public class DeclarationChecker implements ASTVisitor<String>{
   Hash hash;
   Hash hash_class;
   Error errors;
-  Integer offset;
 
-  public DeclarationChecker(Error er, Hash clases, Integer an_offset){
+  public DeclarationChecker(Error er, Hash clases){
     hash = new Hash();
     hash_class = clases;
     errors = er;
-    offset = an_offset;
-  }
-
-  public Integer nextOffset(){
-    offset -= 4;
-    return offset;
-  }
-
-  public Integer getOffset(){
-    return offset;
   }
 
   @Override
@@ -163,6 +152,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(IdName stmt){
     FieldDecl founded = (FieldDecl)hash.searchInTableFD(stmt.toString());
     if(founded != null){
+      stmt.setOffset(founded.getId().getOffset());
       stmt.setType(founded.getType());
     }
     else{

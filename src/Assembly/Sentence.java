@@ -32,12 +32,4 @@ public class Sentence{
   public ExpressionAlgo getResult(){
     return result;
   }
-
-  public String toString(){
-    String flag = operation;
-    flag += (operator_one != null) ? " "+operator_one.getExpression() : " null";
-    flag += (operator_two != null) ? " "+operator_two.getExpression() : " null";
-    flag += (result != null) ? " "+result.getExpression() : " null";
-    return flag;
-  }
 }
