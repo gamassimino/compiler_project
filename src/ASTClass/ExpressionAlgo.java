@@ -50,6 +50,18 @@ public class ExpressionAlgo{
     return this.name;
   }
 
+  public boolean isNumber(){
+    boolean flag = false;
+    if (name != null){
+      String s = name.substring(0,1);
+      for (Integer i = 0; i<10; i++) {
+        if (s.equals(i.toString()))
+          flag = true;
+      }
+    }
+    return flag;
+  }
+
   public Type getType() {
     return this.type;
   }

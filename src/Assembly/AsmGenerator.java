@@ -13,18 +13,18 @@ public class AsmGenerator{
     PrintWriter writer;
 
     try {
-      writer = new PrintWriter("prueba.asm", "UTF-8");
+      writer = new PrintWriter("program.asm", "UTF-8");
       for (Sentence s : sentence_list) {
         switch (s.getOperation()) {
-          case "ADD": writer.println("ADD "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName()+" "+s.getResult().getName());
+          case "ADD": writer.println("ADD %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo().getName()+", %"+s.getResult().getName());
                       break;
-          case "SUB": writer.println("SUB "+s.getOperatorOne().getName()+" "+s.getOperatorTwo()+" "+s.getResult());
+          case "SUB": writer.println("SUB %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
-          case "MUL": writer.println("MUL "+s.getOperatorOne()+" "+s.getOperatorTwo()+" "+s.getResult());
+          case "MUL": writer.println("MUL %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
-          case "DIV": writer.println("DIV "+s.getOperatorOne()+" "+s.getOperatorTwo()+" "+s.getResult());
+          case "DIV": writer.println("DIV %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
-          case "CMP": writer.println("CMP "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName());
+          case "CMP": writer.println("CMP %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo().getName());
                       break;
           case "JE": writer.println("JE "+s.getOperatorOne().getName());
                       break;
@@ -40,7 +40,10 @@ public class AsmGenerator{
                       break;
           case "JZ": writer.println("JZ "+s.getOperatorOne().getName());
                       break;
-          case "MOV": writer.println("MOV "+s.getOperatorOne().getName()+" "+s.getOperatorTwo().getName());
+          case "MOVL": if (s.getOperatorTwo().isNumber())
+                        writer.println("MOVL $"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
+                       else
+                        writer.println("MOVL %"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
                       break;
           case "LABEL": writer.println(s.getOperatorOne().getName()+":");
                       break;
@@ -50,15 +53,15 @@ public class AsmGenerator{
                       break;
           case "Continue": writer.println("JMP "+s.getOperatorOne().getName());
                       break;
-          case "INC": writer.println("INC "+s.getOperatorOne().getName());
+          case "INC": writer.println("INC %"+s.getOperatorOne().getName());
                       break;
-          case "CALL": writer.println("CALL "+s.getOperatorOne().getName());
+          case "CALL": writer.println("CALL %"+s.getOperatorOne().getName());
                       break;
-          case "POP": writer.println("POP");
+          case "POPQ": writer.println("POPQ");
                       break;
-          case "RET": writer.println("RET");
+          case "RETQ": writer.println("RETQ");
                       break;
-          case "PUSH": writer.println("PUSH "+s.getOperatorOne().getName());
+          case "PUSHQ": writer.println("PUSHQ %"+s.getOperatorOne().getName());
                       break;
         }
       }
@@ -67,4 +70,6 @@ public class AsmGenerator{
       // report
     }
   }
+
+
 }
