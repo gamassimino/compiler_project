@@ -50,7 +50,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(AddAssignment stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
-    sentence_list.add(new Sentence("ADD", left, right, left));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("ADDQ", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", left, new ExpressionAlgo("EAX", "record"), null));
     return left;
   }
 
@@ -59,22 +61,21 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(stmt.getLeft().getType());
     andcc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultAnd"+andcc), null, null));
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("CMPL", right, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultAnd"+andcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endAnd"+andcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultAnd"+andcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endAnd"+andcc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultAnd"+andcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("CMPL", right, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultAnd"+andcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endAnd"+andcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultAnd"+andcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endAnd"+andcc,"label"), null, null));
     return t0;
   }
 
   public ExpressionAlgo visit(Assignment stmt){
-    // ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo left = new ExpressionAlgo(stmt.getLeft().getOffset().toString());
     String right = (stmt.getRight() instanceof Literal)?  stmt.getRight().toString() : stmt.getRight().getOffset().toString();
     sentence_list.add(new Sentence("MOVL", left, new ExpressionAlgo(right), null));
@@ -96,10 +97,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(BreakStmt expr){
     if (label_stack.peek().toString() == "_EndWhile"+whilecc)
-      sentence_list.add(new Sentence("Break", new ExpressionAlgo("_EndWhile"+whilecc), null, null));
+      sentence_list.add(new Sentence("Break", new ExpressionAlgo("_EndWhile"+whilecc,"label"), null, null));
     else{
       if (label_stack.peek().toString() == "_EndFor"+forcc)
-        sentence_list.add(new Sentence("Break", new ExpressionAlgo("_EndFor"+whilecc), null, null));
+        sentence_list.add(new Sentence("Break", new ExpressionAlgo("_EndFor"+forcc,"label"), null, null));
       else{
         sentence_list.add(new Sentence("Break", null, null, null));
       }
@@ -120,10 +121,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     String top = label_stack.peek();
     label_stack.pop();
     if (label_stack.peek().toString() == "_BeginWhile"+whilecc)
-      sentence_list.add(new Sentence("Continue", new ExpressionAlgo("_BeginWhile"+whilecc), null, null));
+      sentence_list.add(new Sentence("Continue", new ExpressionAlgo("_BeginWhile"+whilecc,"label"), null, null));
     else{
       if (label_stack.peek().toString() == "_BeginFor"+forcc)
-        sentence_list.add(new Sentence("Continue", new ExpressionAlgo("_BeginFor"+whilecc), null, null));
+        sentence_list.add(new Sentence("Continue", new ExpressionAlgo("_BeginFor"+forcc,"label"), null, null));
       else{
         sentence_list.add(new Sentence("Continue", null, null, null));
       }
@@ -136,7 +137,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = expr.getLeft().accept(this);
     ExpressionAlgo right = expr.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
-    sentence_list.add(new Sentence("DIV", left, right, t0));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("DIVQ", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EAX", "record"), null));
     return t0;
   }
 
@@ -145,14 +148,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = expr.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     eqcc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), right, null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultEqual"+eqcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endEqual"+eqcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultEqual"+eqcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endEqual"+eqcc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultEqual"+eqcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endEqual"+eqcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultEqual"+eqcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endEqual"+eqcc,"label"), null, null));
     return t0;
   }
 
@@ -164,17 +167,17 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(ForStmt stmt){
     forcc++;
     label_stack.push("_BeginFor"+forcc);
-    label_stack.push("_EndFor"+forcc);
+    label_stack.push("_EndFor"+forcc,"label");
     ExpressionAlgo i = stmt.getIdName().accept(this);
     ExpressionAlgo condition = stmt.getCondition().accept(this);
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginFor"+forcc), null, null));
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), condition, null));
-    sentence_list.add(new Sentence("CMPL", i, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_endFor"+forcc), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginFor"+forcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), condition, null));
+    sentence_list.add(new Sentence("CMPL", i, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_endFor"+forcc,"label"), null, null));
     stmt.getStatement().accept(this);
     sentence_list.add(new Sentence("INC", i, null, null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_beginFor"+forcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endFor"+forcc), null, null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_beginFor"+forcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endFor"+forcc,"label"), null, null));
     label_stack.pop();
     label_stack.pop();
     return null;
@@ -185,14 +188,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     gcc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), right, null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JG", new ExpressionAlgo("_compare_result_greater"+gcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("end_greater"+gcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_greater"+gcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("end_greater"+gcc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JG", new ExpressionAlgo("_compare_result_greater"+gcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("end_greater"+gcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_greater"+gcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("end_greater"+gcc,"label"), null, null));
     return t0;
   }
 
@@ -201,14 +204,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     gecc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), right, null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JGE", new ExpressionAlgo("_compare_result_greaterE"+gecc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_end_greaterE"+gecc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_greaterE"+gecc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_end_greaterE"+gecc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JGE", new ExpressionAlgo("_compare_result_greaterE"+gecc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_end_greaterE"+gecc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_greaterE"+gecc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_end_greaterE"+gecc,"label"), null, null));
     return t0;
   }
 
@@ -220,26 +223,26 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(IfStmt stmt){
     ifcc++;
     Sentence result;
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginIf"+ifcc), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginIf"+ifcc,"label"), null, null));
     ExpressionAlgo t0 = stmt.getCondition().accept(this);
     if(stmt.getElseBlock() != null){
-      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("1"), null));
-      sentence_list.add(new Sentence("CMPL", t0, new ExpressionAlgo("EAX"), null));
-      sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_beginElse"+ifcc), null, null));
+      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("1","value"), null));
+      sentence_list.add(new Sentence("CMPL", t0, new ExpressionAlgo("EAX", "record"), null));
+      sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_beginElse"+ifcc,"label"), null, null));
       stmt.getIfBlock().accept(this);
-      sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endIf"), null, null));
-      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginElse"+ifcc), null, null));
+      sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endIf","label"), null, null));
+      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginElse"+ifcc,"label"), null, null));
       stmt.getElseBlock().accept(this);
-      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endElse"+ifcc), null, null));
-      sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endIf"), null, null));
+      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endElse"+ifcc,"label"), null, null));
+      sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endIf","label"), null, null));
     }
     else{
-      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("1"), null));
-      sentence_list.add(new Sentence("CMPL", t0, new ExpressionAlgo("EAX"), null));
-      sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_endIf"+ifcc), null, null));
+      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("1","value"), null));
+      sentence_list.add(new Sentence("CMPL", t0, new ExpressionAlgo("EAX", "record"), null));
+      sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_endIf"+ifcc,"label"), null, null));
       stmt.getIfBlock().accept(this);
     }
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endIf"+ifcc), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endIf"+ifcc,"label"), null, null));
     return null;
   }
 
@@ -263,14 +266,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     lcc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), right, null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JL", new ExpressionAlgo("_compare_result_less"+lcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_end_less"+lcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_less"+lcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_end_less"+lcc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JL", new ExpressionAlgo("_compare_result_less"+lcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_end_less"+lcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_less"+lcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_end_less"+lcc,"label"), null, null));
     return t0;
   }
 
@@ -279,14 +282,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     lecc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), right, null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JLE", new ExpressionAlgo("_compare_result_lessE"+lecc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_end_lessE"+lecc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_lessE"+lecc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_end_lessE"+lecc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JLE", new ExpressionAlgo("_compare_result_lessE"+lecc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_end_lessE"+lecc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_compare_result_lessE"+lecc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_end_lessE"+lecc,"label"), null, null));
     return t0;
   }
 
@@ -334,12 +337,12 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(MethodDecl stmt){
-    sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP"), null, null));
-    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP"), new ExpressionAlgo("RSP"), null));
-    sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("4"), null, null));
+    sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP","record"), null, null));
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP","record"), new ExpressionAlgo("RSP","record"), null));
+    sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("4","value"), null, null));
     stmt.getBody().accept(this);
-    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSP"), new ExpressionAlgo("RBP"), null));
-    sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("RBP"), null, null));
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo("RBP","record"), null));
+    sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("RBP","record"), null, null));
     sentence_list.add(new Sentence("RETQ", null, null, null));
     return null;
   }
@@ -366,14 +369,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = stmt.getExpr().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(stmt.getExpr().getType());
     notcc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_notCondition"+notcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_notEnd"+notcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_notCondition"+notcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_notEnd"+notcc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_notCondition"+notcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_notEnd"+notcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_notCondition"+notcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_notEnd"+notcc,"label"), null, null));
     return t0;
   }
 
@@ -382,14 +385,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     neqcc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), right, null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JNE", new ExpressionAlgo("_resultNotEqual"+neqcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endNotEqual"+neqcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultNotEqual"+neqcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endNotEqual"+neqcc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JNE", new ExpressionAlgo("_resultNotEqual"+neqcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endNotEqual"+neqcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultNotEqual"+neqcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endNotEqual"+neqcc,"label"), null, null));
     return t0;
   }
 
@@ -398,17 +401,17 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     orcc++;
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultOr"+orcc), null, null));
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("CMPL", right, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultOr"+orcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0"), null));
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endOr"+orcc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultOr"+orcc), null, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endOr"+orcc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("CMPL", left, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultOr"+orcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("CMPL", right, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JE", new ExpressionAlgo("_resultOr"+orcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("0","value"), null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_endOr"+orcc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_resultOr"+orcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endOr"+orcc,"label"), null, null));
     return t0;
   }
 
@@ -421,6 +424,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
     Sentence result = new Sentence("Percentage", left, right, t0);
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("DIVQ", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EBX","label"), null));
     sentence_list.add(result);
     return t0;
   }
@@ -429,15 +435,17 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
-    sentence_list.add(new Sentence("ADD", left, right, t0));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("ADDQ", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EAX", "record"), null));
     return t0;
   }
 
   public ExpressionAlgo visit(Program stmt){
     for (ClassDecl clas : stmt.getClassList()) {
-      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_InitClass"+clas.getIdName().toString()), null, null));
+      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_InitClass"+clas.getIdName().toString(),"label"), null, null));
       clas.accept(this);
-      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_EndClass"+clas.getIdName().toString()), null, null));
+      sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_EndClass"+clas.getIdName().toString(),"label"), null, null));
     }
     return null;
   }
@@ -464,7 +472,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(SubAssignment stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
-    sentence_list.add(new Sentence("SUBQ", left, right, left));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", left, new ExpressionAlgo("EAX", "record"), null));
     return left;
   }
 
@@ -472,7 +482,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(left.getType());
-    sentence_list.add(new Sentence("MUL", left, right, t0));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("MULQ", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EAX", "record"), null));
     return t0;
   }
 
@@ -484,14 +496,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     whilecc++;
     label_stack.push("_BeginWhile"+whilecc);
     label_stack.push("_EndWhile"+whilecc);
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_BeginWhile"+whilecc), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_BeginWhile"+whilecc,"label"), null, null));
     ExpressionAlgo cond = stmt.getCondition().accept(this);
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX"), new ExpressionAlgo("1"), null));
-    sentence_list.add(new Sentence("CMPL", cond, new ExpressionAlgo("EAX"), null));
-    sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_EndWhile"+whilecc), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("1","value"), null));
+    sentence_list.add(new Sentence("CMPL", cond, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_EndWhile"+whilecc,"label"), null, null));
     stmt.getStatement().accept(this);
-    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_BeginWhile"+whilecc), null, null));
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_EndWhile"+whilecc), null, null));
+    sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_BeginWhile"+whilecc,"label"), null, null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_EndWhile"+whilecc,"label"), null, null));
     label_stack.pop();
     label_stack.pop();
     return null;

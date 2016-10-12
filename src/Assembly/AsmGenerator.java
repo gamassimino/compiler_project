@@ -16,13 +16,13 @@ public class AsmGenerator{
       writer = new PrintWriter("program.asm", "UTF-8");
       for (Sentence s : sentence_list) {
         switch (s.getOperation()) {
-          case "ADD": writer.println("ADD %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo().getName()+", %"+s.getResult().getName());
+          case "ADDQ": writer.println("ADDQ %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo().getName()+", %"+s.getResult().getName());
                       break;
-          case "SUB": writer.println("SUB %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo()+", %"+s.getResult());
+          case "SUBQ": writer.println("SUBQ %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
-          case "MUL": writer.println("MUL %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
+          case "MULQ": writer.println("MULQ %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
-          case "DIV": writer.println("DIV %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
+          case "DIVQ": writer.println("DIVQ %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
           case "CMPL": if (s.getOperatorTwo().isNumber())
                           writer.println("CMPL $"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
