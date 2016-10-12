@@ -24,7 +24,10 @@ public class AsmGenerator{
                       break;
           case "DIV": writer.println("DIV %"+s.getOperatorOne()+", %"+s.getOperatorTwo()+", %"+s.getResult());
                       break;
-          case "CMPL": writer.println("CMPL %"+s.getOperatorOne().getName()+", %"+s.getOperatorTwo().getName());
+          case "CMPL": if (s.getOperatorTwo().isNumber())
+                          writer.println("CMPL $"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
+                       else
+                          writer.println("CMPL "+s.getOperatorOne().getName()+"(%RBP), %"+s.getOperatorTwo().getName());
                       break;
           case "JE": writer.println("JE "+s.getOperatorOne().getName());
                       break;
@@ -40,10 +43,15 @@ public class AsmGenerator{
                       break;
           case "JZ": writer.println("JZ "+s.getOperatorOne().getName());
                       break;
+          case "MOVQ": writer.println("MOVQ %"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
+                        break;
           case "MOVL": if (s.getOperatorTwo().isNumber())
-                        writer.println("MOVL $"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
+                        if (s.getOperatorOne().getName()=="EAX")
+                          writer.println("MOVL $"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
+                        else
+                          writer.println("MOVL $"+s.getOperatorTwo().getName()+", "+s.getOperatorOne().getName()+"(%RBP)");
                        else
-                        writer.println("MOVL %"+s.getOperatorTwo().getName()+", %"+s.getOperatorOne().getName());
+                        writer.println("MOVL "+s.getOperatorTwo().getName()+"(%RBP), %"+s.getOperatorOne().getName());
                       break;
           case "LABEL": writer.println(s.getOperatorOne().getName()+":");
                       break;

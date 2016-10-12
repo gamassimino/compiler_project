@@ -3,9 +3,15 @@
 
 class main{
   void main(){
-    integer x;
-    integer y;
-    x = y;
+    integer number1;
+    integer number2;
+    integer number3;
+
+     number1 = 11;
+     number2 = 22;
+    if (number1 > number2){
+      number3 = 33;
+    }
     return;
   }
 }

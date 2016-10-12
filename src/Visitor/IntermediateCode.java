@@ -77,7 +77,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     // ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo left = new ExpressionAlgo(stmt.getLeft().getOffset().toString());
     String right = (stmt.getRight() instanceof Literal)?  stmt.getRight().toString() : stmt.getRight().getOffset().toString();
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo(right), left, null));
+    sentence_list.add(new Sentence("MOVL", left, new ExpressionAlgo(right), null));
     return left;
   }
 
@@ -335,10 +335,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(MethodDecl stmt){
     sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP"), null, null));
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("RBP"), new ExpressionAlgo("RSP"), null));
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP"), new ExpressionAlgo("RSP"), null));
     sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("4"), null, null));
     stmt.getBody().accept(this);
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("RSP"), new ExpressionAlgo("RBP"), null));
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSP"), new ExpressionAlgo("RBP"), null));
     sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("RBP"), null, null));
     sentence_list.add(new Sentence("RETQ", null, null, null));
     return null;
