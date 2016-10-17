@@ -90,7 +90,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(Assignment stmt){
     ExpressionAlgo left = new ExpressionAlgo(getOffset(stmt.getLeft()),"offset");
     ExpressionAlgo right = stmt.getRight().accept(this);
-    
+
     // sentence_list.add(new Sentence("MOVL", left, stmt.getRight().accept(this), null));
 
 
@@ -231,6 +231,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(IdName stmt){
     ExpressionAlgo t0 = new ExpressionAlgo(stmt.getOffset().toString(), "offset");
+    if (stmt.getSize() != null) {
+      ExpressionAlgo expOffset = stmt.getSize().accept(this);
+      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), expOffset, null));
+      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EBX", "record"), new ExpressionAlgo("RAX", "array"), t0));
+    }
+    else{
+
+    }
     return t0;
   }
 
@@ -326,13 +334,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       ExpressionAlgo t0 = param.accept(this);
       sentence_list.add(new Sentence("PUSHQ", t0, null, null));
     }
-    //=====================================================================
-    //=====================================================================
-    //=====================================================================
-    //seria un label o un value el retorno?
-    //=====================================================================
-    //=====================================================================
-    //=====================================================================
     ExpressionAlgo name = new ExpressionAlgo(stmt.getIdName().toString(),"label");
     ExpressionAlgo result = new ExpressionAlgo("result","value");
     sentence_list.add(new Sentence("CALL", name, result, null));
