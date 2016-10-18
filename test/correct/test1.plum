@@ -3,9 +3,8 @@
 
 class main{
   void main(){
-    integer number1;
-
-     number1 = 2+2*45;
+    integer number1[2];
+     number1[1+1] = 2;
     return;
   }
 }
