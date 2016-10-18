@@ -118,6 +118,13 @@ public class DeclarationChecker implements ASTVisitor<String>{
       if (stmt.getType().toString().equals("integer")|| stmt.getType().toString().equals("bool")||
          stmt.getType().toString().equals("float")){
         stmt.getId().setOffset(nextOffset());
+        if(stmt.getId().getSize() != null){
+          System.out.println("******** ENTRE ********");
+          IntLiteral size = (IntLiteral)stmt.getId().getSize();
+          for (int i = 0; i < size.getValue(); i++ ) {
+            nextOffset();
+          }
+        }
         hash.insertInLevel(stmt);
       }
       else{
@@ -166,6 +173,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(founded != null){
       stmt.setOffset(founded.getId().getOffset());
       stmt.setType(founded.getType());
+      System.out.println("******** ES ARREGLO?: "+stmt.getSize()+" ********");
+      stmt.setSize(founded.getId().getSize());
     }
     else{
       ClassDecl foundedd = (ClassDecl)hash.searchInTableCD(stmt.toString());
