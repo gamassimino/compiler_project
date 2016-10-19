@@ -24,8 +24,12 @@ public class Main{
 
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
+<<<<<<< HEAD
 
     DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, insOff, offset, methodNameOffset);
+=======
+    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, offset, methodNameOffset);
+>>>>>>> , correct pop, sub, offset, params of methods, etc
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
     CycleChecker cycleChecker = new CycleChecker(errors);
