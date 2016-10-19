@@ -12,18 +12,18 @@ import Assembly.*;
 
 public class Main{
   public static void main(String args[]) throws Exception {
+    LinkedList<Pair<String,Integer>> methodNameOffset = new LinkedList<Pair<String,Integer>>();
     Error errors = new Error();
     Hash classes = new Hash();
     Integer offset = new Integer(0);
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, offset);
+    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, offset, methodNameOffset);
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
     CycleChecker cycleChecker = new CycleChecker(errors);
     ReturnChecker returnChecker = new ReturnChecker(errors);
-    IntermediateCode intermediateCode = new IntermediateCode(offset);
-    // AssignOffset assignOffset = new AssignOffset(classes, offset);
+    IntermediateCode intermediateCode = new IntermediateCode(offset, methodNameOffset);
 
     p.accept(declarationChecker);
     if(errors.getErrors().size() == 0)
@@ -36,8 +36,6 @@ public class Main{
       p.accept(returnChecker);
     if(errors.getErrors().size() == 0)
       p.accept(intermediateCode);
-    // if(errors.getErrors().size() == 0)
-    //   p.accept(assignOffset);
 
     for (String error: errors.getErrors()) {
       System.out.println(error);

@@ -4,20 +4,25 @@ import ASTClass.*;
 import TableOfHash.Hash;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 import java_cup.runtime.*;
 import Errors.Error;
 
 public class DeclarationChecker implements ASTVisitor<String>{
-  Hash hash;
-  Hash hash_class;
-  Error errors;
-  Integer offset;
+   private String className;
+   private Hash hash;
+   private Hash hash_class;
+   private Error errors;
+   private Integer offset;
+   private LinkedList<Pair<String,Integer>> list;
 
-  public DeclarationChecker(Error er, Hash clases, Integer off){
+  public DeclarationChecker(Error er, Hash clases, Integer off, LinkedList<Pair<String,Integer>> a_list){
     hash = new Hash();
     hash_class = clases;
     errors = er;
     offset = off;
+    className = "";
+    list = a_list;
   }
 
   public Integer nextOffset(){
@@ -76,6 +81,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(ClassDecl expr){
+    className = expr.getIdName().toString();
     hash.createLevel();
     hash_class.createLevel();
     // hash_class.insertInLevel(new ClassDecl(expr.getIdName()));
@@ -383,8 +389,11 @@ public class DeclarationChecker implements ASTVisitor<String>{
       hash.insertInLevel(stmt);
       hash.createLevel();
       stmt.getParam().accept(this);
+      Integer currentOffset = getOffset();
       if (stmt.getBody().getBlock() != null)
         stmt.getBody().accept(this);
+      else
+      list.add(new Pair<String, Integer>(className+stmt.getIdName().toString(),getOffset()-currentOffset));
       hash.destroyLevel();
     }else
       errors.error2("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
@@ -428,6 +437,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
     for (Pair<Type, IdName> param : stmt.getParam()) {
       IdName id = param.getSnd();
       id.setType(param.getFst());
+      id.setOffset(nextOffset());
+      param.getSnd().setOffset(getOffset());
       hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
     }
     // search the param ?

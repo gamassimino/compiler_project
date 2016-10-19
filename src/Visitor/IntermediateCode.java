@@ -22,9 +22,13 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   private LinkedList<Sentence> sentence_list;
   private Stack<String> label_stack;
   private Integer offset;
+  private LinkedList<Pair<String,Integer>> list;
+  private String className;
 
-  public IntermediateCode(Integer off){
+  public IntermediateCode(Integer off, LinkedList<Pair<String,Integer>> a_list){
+    className = "";
     sentence_list = new LinkedList<Sentence>();
+    list = a_list;
     ifcc = 0;
     forcc = 0;
     whilecc = 0;
@@ -39,6 +43,13 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     notcc = 0;
     label_stack = new Stack<String>();
     offset = off;
+  }
+  public Integer search(String name){
+    for (Pair<String,Integer> pair : list) {
+      if(pair.getFst().equals(name))
+        return pair.getSnd();
+    }
+    return 0;
   }
 
   public Integer nextOffset(){
@@ -95,7 +106,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
 
     sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX", "record"), right, null));
-    sentence_list.add(new Sentence("MOVQ", left, new ExpressionAlgo("RAX", "record"), null));
 
     sentence_list.add(new Sentence("MOVQ", left, new ExpressionAlgo("RAX", "record"), null));
 
@@ -124,6 +134,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(ClassDecl expr){
+    className = expr.getIdName().toString();
     for (MethodDecl method_decl : expr.getMethodDecl()) {
       sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_InitMethod"+method_decl.getIdName().toString(),"label"), null, null));
       method_decl.accept(this);
@@ -172,7 +183,8 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(FieldDecl expr){
-    expr.getId().accept(this);
+
+    // expr.getId().accept(this);
     return null;
   }
 
@@ -235,7 +247,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       System.out.println("******** ENTRE OTRA VEZ ********");
       ExpressionAlgo expOffset = stmt.getSize().accept(this);
       sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), expOffset, null));
-      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EBX", "record"), new ExpressionAlgo("RAX", "array"), t0));
+      sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EBX", "record"), new ExpressionAlgo(t0.getValue(), "array"), t0));
     }
     return t0;
   }
@@ -329,15 +341,21 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       param_list.addFirst(param);
     }
     for (Expression param : param_list) {
+      // String p = (String)param;
+      // System.out.println("PARAM ES DE CLASE E E E : " +p );
+      // ExpressionAlgo t0 = new ExpressionAlgo(param.getOffset().toString(),"offset");
+      // sentence_list.add(new Sentence("PUSHQ", t0, null, null));
       ExpressionAlgo t0 = param.accept(this);
       sentence_list.add(new Sentence("PUSHQ", t0, null, null));
     }
-    ExpressionAlgo name = new ExpressionAlgo(stmt.getIdName().toString(),"label");
+    ExpressionAlgo name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
     ExpressionAlgo result = new ExpressionAlgo("result","value");
     sentence_list.add(new Sentence("CALL", name, result, null));
-    for (Expression param : stmt.getExpressions()) {
-      sentence_list.add(new Sentence("POPQ", null, null, null));
-    }
+    // for (Expression param : stmt.getExpressions()) {
+    //   sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("null",""), null, null));
+    // }
+    Integer size = stmt.getExpressions().size()*4;
+    sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
     return null;
   }
 
@@ -350,22 +368,24 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       ExpressionAlgo t0 = param.accept(this);
       sentence_list.add(new Sentence("PUSHQ", t0, null, null));
     }
-    ExpressionAlgo name = new ExpressionAlgo(stmt.getIdName().toString(),"label");
+    ExpressionAlgo name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
     sentence_list.add(new Sentence("CALL", name, null, null));
-    for (Expression param : stmt.getExpressions()) {
-      sentence_list.add(new Sentence("POPQ", null, null, null));
-    }
+    // for (Expression param : stmt.getExpressions()) {
+    //   sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("null",""), null, null));
+    // }
+    Integer size = stmt.getExpressions().size()*4;
+    sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
     return null;
   }
 
   public ExpressionAlgo visit(MethodDecl stmt){
+    Integer offset = search(className+stmt.getIdName().toString())*(-4)+12;
     sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP","record"), null, null));
     sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP","record"), new ExpressionAlgo("RSP","record"), null));
-    sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo("4","value"), null));
+    if(offset > 0)
+      sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(offset.toString(),"value"), null));
     stmt.getBody().accept(this);
-    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo("RBP","record"), null));
-    sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("RBP","record"), null, null));
-    sentence_list.add(new Sentence("RETQ", null, null, null));
+    sentence_list.add(new Sentence("LEAVE", new ExpressionAlgo("null",""), null, null));
     return null;
   }
 
@@ -442,7 +462,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(Param stmt){
-    return null;
+    System.out.println("ENTRE LA PUTA DE QUETE PARIO");
+    ExpressionAlgo t0 = new ExpressionAlgo("4","offset");
+    return t0;
   }
 
   public ExpressionAlgo visit(Percentage stmt){
