@@ -1,3 +1,4 @@
+===
 package Visitor;
 
 import ASTClass.*;
@@ -131,6 +132,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(Assignment stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
+<<<<<<< HEAD
     String record;
     String mov;
 
@@ -147,6 +149,12 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     sentence_list.add(new Sentence(mov, left, new ExpressionAlgo(record, "record"), null));
     sentence_list.add(new Sentence("", null, null, null));
     return null;
+=======
+    // sentence_list.add(new Sentence("MOVL", left, stmt.getRight().accept(this), null));
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVQ", left, new ExpressionAlgo("RAX", "record"), null));
+    return left;
+>>>>>>> generate executable assembly
   }
 
   public ExpressionAlgo visit(Block expr){
@@ -175,8 +183,11 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     className = expr.getIdName().toString();
     for (MethodDecl method_decl : expr.getMethodDecl()) {
       if (method_decl.getBody().getBlock() != null) {
+<<<<<<< HEAD
         if(method_decl.getIdName().toString().equals("main"))
           sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_main","label"), null, null));
+=======
+>>>>>>> generate executable assembly
         sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_InitMethod"+method_decl.getIdName().toString(),"label"), null, null));
         method_decl.accept(this);
         sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_EndMethod"+method_decl.getIdName().toString(),"label"), null, null));
@@ -226,6 +237,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(FieldDecl expr){
+<<<<<<< HEAD
+=======
+    // expr.getId().accept(this);
+>>>>>>> generate executable assembly
     return null;
   }
 
@@ -430,6 +445,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     for (Expression param : stmt.getExpressions()) {
       param_list.addFirst(param);
     }
+<<<<<<< HEAD
     int i = 0;
     save_record(8);
     ExpressionAlgo aux = null;
@@ -468,6 +484,29 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
         name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
       else
         name = new ExpressionAlgo("_InitMethod"+stmt.getIdName().toString(),"label");
+=======
+    int i = 1;
+    for (Expression param : param_list) {
+      // String p = (String)param;
+      // ExpressionAlgo t0 = new ExpressionAlgo(param.getOffset().toString(),"offset");
+      // sentence_list.add(new Sentence("PUSHQ", t0, null, null));
+      ExpressionAlgo t0 = param.accept(this);
+      switch (i) {
+        case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
+                  break;
+        case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSI","record"), t0, null));
+                  break;
+        case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDX","record"), t0, null));
+                  break;
+        case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RCX","record"), t0, null));
+                  break;
+        case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R8","record"), t0, null));
+                  break;
+        case 6 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R9","record"), t0, null));
+                  break;
+      }
+      i++;
+>>>>>>> generate executable assembly
     }
     ExpressionAlgo result = new ExpressionAlgo("result","value");
     sentence_list.add(new Sentence("CALL", name, result, null));
@@ -492,6 +531,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       param_list.addFirst(param);
     }
     int i = 0;
+<<<<<<< HEAD
     save_record(8);
     for (Expression param : param_list) {
       ExpressionAlgo t0 = param.accept(this);
@@ -519,6 +559,25 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
      if (stmt.getNavigation() != null){
       sentence_list.add(new Sentence("LEAQ", new ExpressionAlgo("R10","record"), new ExpressionAlgo(stmt.getIdName().getOffset().toString(), "offset"), null));
       name = new ExpressionAlgo("_InitMethod"+stmt.getNavigation().getIdName().toString(),"label");
+=======
+    for (Expression param : param_list) {
+      ExpressionAlgo t0 = param.accept(this);
+      switch (i) {
+        case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
+                  break;
+        case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSI","record"), t0, null));
+                  break;
+        case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDX","record"), t0, null));
+                  break;
+        case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RCX","record"), t0, null));
+                  break;
+        case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R8","record"), t0, null));
+                  break;
+        case 6 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R9","record"), t0, null));
+                  break;
+      }
+      i++;
+>>>>>>> generate executable assembly
     }
     else
       if (stmt.isExtern())
@@ -538,12 +597,17 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(MethodDecl stmt){
+<<<<<<< HEAD
     methodName = stmt.getIdName().toString();
     Integer offset = search(methodName+stmt.getIdName().toString())*(-4)*16;
 
     if ((Math.abs(getOffset()) % 16) != 0)
       offset = -getOffset()+8;
 
+=======
+    Integer offset = search(className+stmt.getIdName().toString())*(-4)+12;
+    offset = (offset < 16) ? 16 : offset;
+>>>>>>> generate executable assembly
     sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP","record"), null, null));
     sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP","record"), new ExpressionAlgo("RSP","record"), null));
 
@@ -551,9 +615,13 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(new_offset.toString(),"value"), null));
 
     stmt.getBody().accept(this);
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX","record"), new ExpressionAlgo("0","value"), null));
     sentence_list.add(new Sentence("LEAVE", new ExpressionAlgo("null",""), null, null));
     sentence_list.add(new Sentence("RET", new ExpressionAlgo("null",""), null, null));
+<<<<<<< HEAD
     sentence_list.add(new Sentence("", null, null, null));
+=======
+>>>>>>> generate executable assembly
     return null;
   }
 
