@@ -2,13 +2,18 @@
 
 
 class main{
-  void prin(integer a) extern;
+  void printInt(integer a) extern;
   void main(){
-    integer number1[3];
+    integer number1;
+    integer number2;
+    integer number3;
 
-    //integer number2;
-    prin(1);
-    // printf(x);
+    number1 = 1;
+    number2 = 2;
+    number3 = number1 + number2;
+
+    printInt(number3);
+
     return;
   }
 }
