@@ -292,7 +292,12 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(BoolLiteral stmt){
-    ExpressionAlgo t0 = new ExpressionAlgo(stmt.getRawValue().toString(),"value");
+    ExpressionAlgo t0;
+    if(stmt.getValue())
+      t0 = new ExpressionAlgo("1","value");
+    else
+      t0 = new ExpressionAlgo("0","value");
+
     return t0;
   }
 

@@ -12,7 +12,11 @@ public class BoolLiteral extends Literal {
    */
   public BoolLiteral(String val){
     rawValue = val; // Will convert to int value in semantic check
-    value = null;
+    if (val.equals("true")){
+      value = true;
+    }
+    else
+      value = false;
   }
 
   @Override
