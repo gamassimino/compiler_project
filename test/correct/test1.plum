@@ -4,15 +4,18 @@
 class main{
   void printInt(integer a) extern;
   void main(){
-    integer number1;
-    integer number2;
-    integer number3;
+    bool cond1;
+    bool cond2;
+    integer cond3;
 
-    number1 = 1;
-    number2 = 2;
-    number3 = number1 + number2;
+    cond1 = true;
+    cond2 = false;
+    cond3 = 45;
+    if (cond1 && (cond2||cond1)){
+      cond3 = 93090;
+    }
 
-    printInt(number3);
+    printInt(cond3);
 
     return;
   }
