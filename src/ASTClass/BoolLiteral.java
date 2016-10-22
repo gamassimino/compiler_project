@@ -5,6 +5,7 @@ import Visitor.ASTVisitor;
 public class BoolLiteral extends Literal {
   private String rawValue;
   private Boolean value;
+  private String intValue;
 
   /*
    * Constructor for int literal that takes a string as an input
@@ -14,9 +15,12 @@ public class BoolLiteral extends Literal {
     rawValue = val; // Will convert to int value in semantic check
     if (val.equals("true")){
       value = true;
+      intValue = "1";
     }
-    else
+    else{
       value = false;
+      intValue = "0";
+    }
   }
 
   @Override
@@ -34,6 +38,10 @@ public class BoolLiteral extends Literal {
 
   public Boolean getValue() {
     return value;
+  }
+
+  public String getIntValue() {
+    return intValue;
   }
 
   public void setValue(Boolean value) {

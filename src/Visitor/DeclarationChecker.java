@@ -179,7 +179,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(founded != null){
       stmt.setOffset(founded.getId().getOffset());
       stmt.setType(founded.getType());
-      System.out.println("******** ES ARREGLO?: "+stmt.getSize()+" ********");
+      // System.out.println("******** ES ARREGLO?: "+stmt.getSize()+" ********");
       stmt.setSize(founded.getId().getSize());
     }
     else{
