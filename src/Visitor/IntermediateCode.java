@@ -156,9 +156,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = expr.getLeft().accept(this);
     ExpressionAlgo right = expr.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
-    sentence_list.add(new Sentence("DIVQ", new ExpressionAlgo("EAX", "record"), right, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("IDIVQ", left, null, null));
+    sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RAX", "record"), null));
     return t0;
   }
 
@@ -426,10 +426,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     if (stmt.getRight() != null){
       right = stmt.getRight().accept(this);
-      sentence_list.add(new Sentence("SUBQ", left, right, t0));
+      sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX", "record"), left, null));
+      sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RAX", "record"), right, null));
+      sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RAX", "record"), null));
     }
     else{
-      sentence_list.add(new Sentence("IMULQ", left, new ExpressionAlgo("-1","value"), t0));
+      sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX", "record"), left, null));
+      sentence_list.add(new Sentence("IMULQ", new ExpressionAlgo("RAX", "record"), new ExpressionAlgo("-1","value"), null));
+      sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RAX", "record"), null));
     }
     return t0;
   }
@@ -489,7 +493,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(Param stmt){
-    // System.out.println("ENTRE LA PUTA DE QUETE PARIO");
     ExpressionAlgo t0 = new ExpressionAlgo("4","offset");
     return t0;
   }
@@ -498,18 +501,16 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
-    Sentence result = new Sentence("Percentage", left, right, t0);
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
-    sentence_list.add(new Sentence("DIVQ", new ExpressionAlgo("EAX", "record"), right, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EBX","label"), null));
-    sentence_list.add(result);
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("IDIVQ", left, null, null));
+    sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RDX", "record"), null));
+
     return t0;
   }
 
   public ExpressionAlgo visit(Plus stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
-    // next offset -= 4;
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX", "record"), left, null));
     sentence_list.add(new Sentence("ADDQ", new ExpressionAlgo("RAX", "record"), right, null));
