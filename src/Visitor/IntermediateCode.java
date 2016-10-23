@@ -576,8 +576,8 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_BeginWhile"+whilecc,"label"), null, null));
     ExpressionAlgo cond = stmt.getCondition().accept(this);
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), new ExpressionAlgo("1","value"), null));
-    sentence_list.add(new Sentence("CMPL", cond, new ExpressionAlgo("EAX", "record"), null));
-    sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_EndWhile"+whilecc,"label"), null, null));
+    sentence_list.add(new Sentence("CMPL", new ExpressionAlgo("EAX", "record"), cond, null));
+    sentence_list.add(new Sentence("JNE", new ExpressionAlgo("_EndWhile"+whilecc,"label"), null, null));
     stmt.getStatement().accept(this);
     sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_BeginWhile"+whilecc,"label"), null, null));
     sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_EndWhile"+whilecc,"label"), null, null));
