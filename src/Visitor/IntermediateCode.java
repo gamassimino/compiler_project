@@ -515,9 +515,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
-    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
-    sentence_list.add(new Sentence("ADDL", new ExpressionAlgo("EAX", "record"), right, null));
-    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX", "record"), left, null));
+    sentence_list.add(new Sentence("ADDQ", new ExpressionAlgo("RAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RAX", "record"), null));
     return t0;
   }
 
