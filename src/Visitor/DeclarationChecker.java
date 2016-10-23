@@ -153,6 +153,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   // the declaration of the integer i for example
   public String visit(ForStmt stmt){
     hash.createLevel();
+    stmt.getIdName().accept(this);
     stmt.getCondition().accept(this);
     stmt.getStep().accept(this);
 

@@ -1,9 +1,12 @@
 //testing method type is void
-class plumTest113{
-  void method_one(){
-    float x;
+class main{
+  void printInt(integer a) extern;
+  void main(){
+    integer x;
     integer y;
-    for z = x, y{}
+    integer z;
+    z = 1;
+    for x = z, y{}
     return ;
   }
 }

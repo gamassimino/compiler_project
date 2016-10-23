@@ -188,13 +188,16 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     label_stack.push("_BeginFor"+forcc);
     label_stack.push("_EndFor"+forcc);
     ExpressionAlgo i = stmt.getIdName().accept(this);
+    ExpressionAlgo step = stmt.getStep().accept(this);
     ExpressionAlgo condition = stmt.getCondition().accept(this);
-    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginFor"+forcc,"label"), null, null));
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), condition, null));
-    sentence_list.add(new Sentence("CMPL", i, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("MOVL", i, new ExpressionAlgo("EAX", "record"), null));
+    sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_beginFor"+forcc,"label"), null, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), i, null));
+    sentence_list.add(new Sentence("CMPL", step, new ExpressionAlgo("EAX", "record"), null));
     sentence_list.add(new Sentence("JZ", new ExpressionAlgo("_endFor"+forcc,"label"), null, null));
     stmt.getStatement().accept(this);
-    sentence_list.add(new Sentence("INC", i, null, null));
+    sentence_list.add(new Sentence("INCL", i, null, null));
     sentence_list.add(new Sentence("JMP", new ExpressionAlgo("_beginFor"+forcc,"label"), null, null));
     sentence_list.add(new Sentence("LABEL", new ExpressionAlgo("_endFor"+forcc,"label"), null, null));
     label_stack.pop();
@@ -512,9 +515,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
-    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX", "record"), left, null));
-    sentence_list.add(new Sentence("ADDQ", new ExpressionAlgo("RAX", "record"), right, null));
-    sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RAX", "record"), null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("ADDL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", t0, new ExpressionAlgo("EAX", "record"), null));
     return t0;
   }
 
