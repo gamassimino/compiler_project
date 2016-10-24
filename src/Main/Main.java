@@ -38,10 +38,13 @@ public class Main{
 
     p.accept(declarationChecker);
     offset = declarationChecker.getOffset();
+<<<<<<< HEAD
     heap = declarationChecker.getHeap();
 
     instances = declarationChecker.getHashInstance();
     intermediateCode.setHashInstance(instances);
+=======
+>>>>>>> fix offset
 
     typeChecker.setOffset(offset);
     if(errors.getErrors().size() == 0)
@@ -58,6 +61,7 @@ public class Main{
       p.accept(returnChecker);
 
     intermediateCode.setOffset(offset);
+<<<<<<< HEAD
     intermediateCode.setHeap(heap);
     if(errors.getErrors().size() == 0)
       p.accept(intermediateCode);
@@ -73,6 +77,8 @@ public class Main{
 }
 .setOffset(offset);
     intermediateCode.setHeap(heap);
+=======
+>>>>>>> fix offset
     if(errors.getErrors().size() == 0)
       p.accept(intermediateCode);
 

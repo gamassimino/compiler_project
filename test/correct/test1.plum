@@ -2,18 +2,22 @@
 class main{
   void printInt(integer a) extern;
   void main(){
-    // integer num1;
-    // integer num2;
-    bool num3;
+    integer num1;
+    integer num2;
+    // bool num3;
 
-    // num1 = 0;
-    // num2 = 0;
-    // // num3 = 45;
-    num3 = (1+1)>(1+0);
+    num1 = (1+1);
+    num2 = (1+0);
+    printInt(num1);
+    // num3 = 90;
+
+    // num3 = num1>num2;
+    // printInt(num3);
+
     // if (num3){
-    //   printInt(num2);
+    //   printInt(45);
     // }
-    // while (num1 < num3){
+    // while (num1 != num3){
     //   printInt(num1);
     //   num1 += 1;
     // }
