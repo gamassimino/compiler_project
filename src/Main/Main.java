@@ -26,14 +26,23 @@ public class Main{
     IntermediateCode intermediateCode = new IntermediateCode(offset, methodNameOffset);
 
     p.accept(declarationChecker);
+    offset = declarationChecker.getOffset();
+
+    typeChecker.setOffset(offset);
     if(errors.getErrors().size() == 0)
       p.accept(typeChecker);
+
+      offset = typeChecker.getOffset();
     if(errors.getErrors().size() == 0)
       p.accept(mainChecker);
+
     if(errors.getErrors().size() == 0)
       p.accept(cycleChecker);
+
     if(errors.getErrors().size() == 0)
       p.accept(returnChecker);
+
+    intermediateCode.setOffset(offset);
     if(errors.getErrors().size() == 0)
       p.accept(intermediateCode);
 

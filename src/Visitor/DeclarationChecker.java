@@ -26,7 +26,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public Integer nextOffset(){
-    offset -= 4;
+    offset -= 8;
     return offset;
   }
 
@@ -125,7 +125,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
          stmt.getType().toString().equals("float")){
         stmt.getId().setOffset(nextOffset());
         if(stmt.getId().getSize() != null){
-          System.out.println("******** ENTRE ********");
           IntLiteral size = (IntLiteral)stmt.getId().getSize();
           for (int i = 0; i < size.getValue(); i++ ) {
             nextOffset();
@@ -180,7 +179,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(founded != null){
       stmt.setOffset(founded.getId().getOffset());
       stmt.setType(founded.getType());
-      // System.out.println("******** ES ARREGLO?: "+stmt.getSize()+" ********");
       stmt.setSize(founded.getId().getSize());
     }
     else{
@@ -269,7 +267,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
       }else
         stmt.getId().accept(this);
         
-        // System.out.println("###################");
       if (stmt.getList() != null && !founded)
         errors.error13(class_name, stmt.getList().getIdName().toString(), stmt.getLine(), stmt.getColumn());
     }
@@ -303,7 +300,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
       }else
         stmt.getId().accept(this);
         
-        // System.out.println("###################");
       if (stmt.getList() != null && !founded)
         errors.error13(class_name, stmt.getList().getIdName().toString(), stmt.getLine(), stmt.getColumn());
     }

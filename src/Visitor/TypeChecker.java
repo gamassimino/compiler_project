@@ -22,12 +22,16 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public Integer nextOffset(){
-    offset -= 4;
+    offset -= 8;
     return offset;
   }
 
   public Integer getOffset(){
     return offset;
+  }
+
+  public void setOffset(Integer off){
+    offset = off;
   }
 
   public String visit(AddAssignment stmt){
