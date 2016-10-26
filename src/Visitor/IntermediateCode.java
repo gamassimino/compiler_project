@@ -436,8 +436,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(MethodDecl stmt){
-    Integer offset = search(className+stmt.getIdName().toString())*(-4)+12;
-    offset = (offset < 16) ? 48 : offset;
+    Integer offset = search(className+stmt.getIdName().toString())*(-4)*16;
+    // offset = (offset < 64) ? 1024 : offset;
+
+    if ((getOffset() % 16) == 0)
+      offset = getOffset() * -1 +16;
+    else
+      offset = getOffset()* -1 +8;
+
     sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP","record"), null, null));
     sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP","record"), new ExpressionAlgo("RSP","record"), null));
     if(offset > 0)
