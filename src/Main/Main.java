@@ -35,6 +35,7 @@ public class Main{
     CycleChecker cycleChecker = new CycleChecker(errors);
     ReturnChecker returnChecker = new ReturnChecker(errors);
     IntermediateCode intermediateCode = new IntermediateCode(offset, methodNameOffset);
+    Optimizer optimizer = new Optimizer();
 
     p.accept(declarationChecker);
     offset = declarationChecker.getOffset();
@@ -59,6 +60,9 @@ public class Main{
 
     if(errors.getErrors().size() == 0)
       p.accept(returnChecker);
+
+    if(errors.getErrors().size() == 0)
+      p.accept(optimizer);
 
     intermediateCode.setOffset(offset);
 <<<<<<< HEAD
