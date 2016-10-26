@@ -123,13 +123,14 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
       if (stmt.getType().toString().equals("integer")|| stmt.getType().toString().equals("bool")||
          stmt.getType().toString().equals("float")){
-        stmt.getId().setOffset(nextOffset());
         if(stmt.getId().getSize() != null){
           IntLiteral size = (IntLiteral)stmt.getId().getSize();
           for (int i = 0; i < size.getValue(); i++ ) {
+            System.out.println("ENTREEE "+ i);
             nextOffset();
           }
         }
+        stmt.getId().setOffset(nextOffset());
         hash.insertInLevel(stmt);
       }
       else{
@@ -179,7 +180,9 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(founded != null){
       stmt.setOffset(founded.getId().getOffset());
       stmt.setType(founded.getType());
-      stmt.setSize(founded.getId().getSize());
+      // stmt.setSize(founded.getId().getSize());
+      if(stmt.getSize() != null)
+        stmt.getSize().accept(this);
     }
     else{
       ClassDecl foundedd = (ClassDecl)hash.searchInTableCD(stmt.toString());

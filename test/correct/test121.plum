@@ -1,0 +1,61 @@
+//testing a program with for, using assembler
+class main{
+  void printInt(integer a) extern;
+  void printB() extern;
+  void main(){
+    integer num1;
+    integer num2;
+    integer num3;
+    integer num4;
+    integer num5;
+
+    num1 = 0;
+    num2 = 0;
+    num3 = 45;
+    num4 = 0;
+    num5 = 0;
+
+    if((1+1)>(1+0)){
+        for num1 = num2, num3{
+            printInt(num1);
+           for num4 = num2, num3{
+                printInt(num1);
+                for num5 = num2, num3{
+                    printInt(num4);
+
+                }
+           }
+        }
+        while(num1 < 100){
+          num2 = 0;
+        printInt(num1);
+          while(num2 < 100){
+            printInt(num2);
+            num2 +=1;
+          }
+          num1 += 1;
+        }
+
+        printInt(num1);
+        printInt(num1);
+        printInt(num1);
+        printInt(num1);
+        printInt(num4);
+        printInt(num4);
+        printInt(num4);
+        printInt(num4);
+        printInt(num4);
+        printInt(num4);
+        printInt(num4);
+        printInt(num5);
+        printInt(num5);
+        printInt(num5);
+        printInt(num5);
+        printInt(num5);
+        printInt(num5);
+        printInt(num5);
+        printInt(num5);
+    }
+    return;
+  }
+}
