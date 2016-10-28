@@ -2,6 +2,7 @@ package Visitor;
 
 import ASTClass.*;
 import TableOfHash.Hash;
+import TableOfHash.InstanceOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
@@ -15,14 +16,16 @@ public class DeclarationChecker implements ASTVisitor<String>{
    private Error errors;
    private Integer offset;
    private LinkedList<Pair<String,Integer>> list;
+   private InstanceOffset instanceOffset;
 
-  public DeclarationChecker(Error er, Hash clases, Integer off, LinkedList<Pair<String,Integer>> a_list){
+  public DeclarationChecker(Error er, Hash clases, InstanceOffset insOff, Integer off, LinkedList<Pair<String,Integer>> a_list){
     hash = new Hash();
     hash_class = clases;
     errors = er;
     offset = off;
     className = "";
     list = a_list;
+    instanceOffset = insOff;
   }
 
   public Integer nextOffset(){
@@ -81,6 +84,9 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(ClassDecl expr){
+    Integer index = 0;
+    // HERE SET DE INDEX TO ATTRIBUTES AND METHOD'S
+    Integer currentOffset = getOffset();
     className = expr.getIdName().toString();
     hash.createLevel();
     hash_class.createLevel();
@@ -88,18 +94,25 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
     for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
       for (FieldDecl field : fields_decl) {
+        field.setIndex(index);
         field.accept(this);
+        field.getId().setIndex(index);
+        index++;
         // hash_class.insertInLevel(field);
       }
     }
 
     for (MethodDecl statement : expr.getMethodDecl()) {
+      statement.setIndex(index);
       statement.accept(this);
+      index++;
       // hash_class.insertInLevel(statement);
     }
     hash_class.insertInLevel(new ClassDecl(expr.getIdName(),expr.getFieldDecl(),expr.getMethodDecl(),expr.getLine(),expr.getColumn()));
 
     hash.destroyLevel();
+    currentOffset -= getOffset();
+    instanceOffset.insert(new Pair<String, Integer>(expr.getIdName().toString(), currentOffset/8));
     return "";
   }
 
@@ -135,8 +148,15 @@ public class DeclarationChecker implements ASTVisitor<String>{
       }
       else{
         ClassDecl founded = (ClassDecl)hash_class.searchInTableCD(stmt.getType().toString());
-        if(founded!= null)
+        if(founded!= null){
+          for (int i = 0; i < instanceOffset.getOffset(stmt.getId().toString()); i++ ) {
+            System.out.println("ENTREEE "+ i);
+            nextOffset();
+          }
+          stmt.getId().setOffset(nextOffset()); 
           hash.insertInLevel(new Instance(stmt.getId().toString(), stmt.getType(), founded.getFieldDecl(), founded.getMethodDecl()));
+          
+        }
         else
           errors.error2("Class", stmt.getId().toString(),stmt.getId().getLine(),stmt.getId().getColumn());  
       }

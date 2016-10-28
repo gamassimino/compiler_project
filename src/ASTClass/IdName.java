@@ -9,6 +9,7 @@ public class IdName{
   private Integer line;
   private Integer column;
   private Integer offset;
+  private Integer index;
 
   public IdName(String an_id){
     id = an_id;
@@ -74,6 +75,14 @@ public class IdName{
 
   public Integer getColumn(){
     return column;
+  }
+
+  public void setIndex(Integer a_index) {
+    index = a_index;
+  }
+  
+  public Integer getIndex() {
+    return index;
   }
 
   public void setSize(Expression a_size){

@@ -7,6 +7,7 @@ import CodeGenerated.Parser;
 import CodeGenerated.Scanner;
 import Visitor.*;
 import TableOfHash.Hash;
+import TableOfHash.InstanceOffset;
 import Errors.Error;
 import Assembly.*;
 
@@ -15,10 +16,11 @@ public class Main{
     LinkedList<Pair<String,Integer>> methodNameOffset = new LinkedList<Pair<String,Integer>>();
     Error errors = new Error();
     Hash classes = new Hash();
+    InstanceOffset insOff = new InstanceOffset();
     Integer offset = new Integer(0);
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, offset, methodNameOffset);
+    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, insOff, offset, methodNameOffset);
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
     CycleChecker cycleChecker = new CycleChecker(errors);
@@ -53,7 +55,7 @@ public class Main{
     // for (Sentence sentece: intermediateCode.getSentenceList()) {
     //   System.out.println(sentece.toString());
     // }
-
+    intermediateCode.setInstanceOffset(insOff);
     AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
   }
 
