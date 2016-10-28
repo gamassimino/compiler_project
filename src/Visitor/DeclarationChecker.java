@@ -37,6 +37,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
     return offset;
   }
 
+  public Hash getHashInstance(){
+    return hash;
+  }
+
   @Override
   public String visit(AddAssignment stmt){
     stmt.getLeft().accept(this);
@@ -95,8 +99,12 @@ public class DeclarationChecker implements ASTVisitor<String>{
     for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
       for (FieldDecl field : fields_decl) {
         field.setIndex(index);
-        field.accept(this);
+        if(field.getId().getSize() != null){
+          IntLiteral size = (IntLiteral)field.getId().getSize();
+          index += size.getValue();
+        }
         field.getId().setIndex(index);
+        field.accept(this);
         index++;
         // hash_class.insertInLevel(field);
       }

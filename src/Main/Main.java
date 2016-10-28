@@ -16,10 +16,13 @@ public class Main{
     LinkedList<Pair<String,Integer>> methodNameOffset = new LinkedList<Pair<String,Integer>>();
     Error errors = new Error();
     Hash classes = new Hash();
+    Hash instances = new Hash();
     InstanceOffset insOff = new InstanceOffset();
     Integer offset = new Integer(0);
+
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
+    
     DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, insOff, offset, methodNameOffset);
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
@@ -29,6 +32,9 @@ public class Main{
 
     p.accept(declarationChecker);
     offset = declarationChecker.getOffset();
+
+    instances = declarationChecker.getHashInstance();
+    intermediateCode.setHashInstance(instances);
 
     typeChecker.setOffset(offset);
     if(errors.getErrors().size() == 0)

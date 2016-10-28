@@ -5,7 +5,6 @@ class person{
     age = an_age;
     return;
   }
-
 }
 
 class main{

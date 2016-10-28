@@ -6,6 +6,7 @@ import java.util.Stack;
 import java_cup.runtime.*;
 import Assembly.Sentence;
 import TableOfHash.InstanceOffset;
+import TableOfHash.Hash;
 
 public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   private Integer ifcc;
@@ -26,6 +27,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   private LinkedList<Pair<String,Integer>> list;
   private String className;
   private InstanceOffset insOff;
+  private Hash instance;
 
   public IntermediateCode(Integer off, LinkedList<Pair<String,Integer>> a_list){
     className = "";
@@ -66,6 +68,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public void setOffset(Integer off){
     offset = off;
+  }
+
+  public void setHashInstance(Hash a_ins){
+    instance = a_ins;
   }
 
   public void setInstanceOffset(InstanceOffset a_insOff){
