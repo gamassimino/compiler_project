@@ -7,6 +7,7 @@ import CodeGenerated.Parser;
 import CodeGenerated.Scanner;
 import Visitor.*;
 import TableOfHash.Hash;
+import TableOfHash.Heap;
 import TableOfHash.InstanceOffset;
 import Errors.Error;
 import Assembly.*;
@@ -16,6 +17,7 @@ public class Main{
     LinkedList<Pair<String,Integer>> methodNameOffset = new LinkedList<Pair<String,Integer>>();
     Error errors = new Error();
     Hash classes = new Hash();
+    Heap heap = new Heap();
     Hash instances = new Hash();
     InstanceOffset insOff = new InstanceOffset();
     Integer offset = new Integer(0);
@@ -32,6 +34,7 @@ public class Main{
 
     p.accept(declarationChecker);
     offset = declarationChecker.getOffset();
+    heap = declarationChecker.getHeap();
 
     instances = declarationChecker.getHashInstance();
     intermediateCode.setHashInstance(instances);
@@ -51,6 +54,7 @@ public class Main{
       p.accept(returnChecker);
 
     intermediateCode.setOffset(offset);
+    intermediateCode.setHeap(heap);
     if(errors.getErrors().size() == 0)
       p.accept(intermediateCode);
 
