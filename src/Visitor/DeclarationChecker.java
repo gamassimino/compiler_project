@@ -161,12 +161,12 @@ public class DeclarationChecker implements ASTVisitor<String>{
             System.out.println("ENTREEE "+ i);
             nextOffset();
           }
-          stmt.getId().setOffset(nextOffset()); 
+          stmt.getId().setOffset(nextOffset());
           hash.insertInLevel(new Instance(stmt.getId().toString(), stmt.getType(), founded.getFieldDecl(), founded.getMethodDecl()));
-          
+
         }
         else
-          errors.error2("Class", stmt.getId().toString(),stmt.getId().getLine(),stmt.getId().getColumn());  
+          errors.error2("Class", stmt.getId().toString(),stmt.getId().getLine(),stmt.getId().getColumn());
       }
     }else
       errors.error2("Identifier", stmt.getId().toString(),stmt.getId().getLine(),stmt.getId().getColumn());
@@ -297,7 +297,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
         }
       }else
         stmt.getId().accept(this);
-        
+
       if (stmt.getList() != null && !founded)
         errors.error13(class_name, stmt.getList().getIdName().toString(), stmt.getLine(), stmt.getColumn());
     }
@@ -330,7 +330,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
         }
       }else
         stmt.getId().accept(this);
-        
+
       if (stmt.getList() != null && !founded)
         errors.error13(class_name, stmt.getList().getIdName().toString(), stmt.getLine(), stmt.getColumn());
     }
@@ -351,8 +351,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
             stmt.getNavigation().setIdName(method.getIdName());
             founded = true;
             for (Expression expr: stmt.getExpressions()) {
-              expr.accept(this);      
-            }      
+              expr.accept(this);
+            }
             break;
           }
         }
@@ -360,9 +360,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
         MethodDecl method_founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
         if(method_founded != null){
           stmt.setIdName(method_founded.getIdName());
+          stmt.setExtern(method_founded.getBody().getBlock() == null);
           for (Expression expr: stmt.getExpressions()) {
-            expr.accept(this);    
-          }      
+            expr.accept(this);
+          }
         }
         else
           errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
@@ -388,8 +389,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
             stmt.getNavigation().setIdName(method.getIdName());
             founded = true;
             for (Expression expr: stmt.getExpressions()) {
-              expr.accept(this);      
-            }      
+              expr.accept(this);
+            }
             break;
           }
         }
@@ -398,8 +399,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
         if(method_founded != null){
           stmt.setIdName(method_founded.getIdName());
           for (Expression expr: stmt.getExpressions()) {
-            expr.accept(this);    
-          }      
+            expr.accept(this);
+          }
         }
         else
           errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());

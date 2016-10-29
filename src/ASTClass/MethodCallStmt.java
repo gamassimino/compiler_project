@@ -8,6 +8,7 @@ public class MethodCallStmt extends Statement{
   private IdName id;
   private Navigation navigation;
   private List<Expression> expression;
+  private Boolean extern;
 
   public MethodCallStmt(IdName an_id, Navigation a_navigation, ArrayList<Expression> an_expression, Integer a_line, Integer a_column){
     id = an_id;
@@ -62,6 +63,14 @@ public class MethodCallStmt extends Statement{
 
   public List<Expression> getExpressions(){
     return (expression == null) ? new ArrayList<Expression>() : expression;
+  }
+
+  public void setExtern(Boolean extern){
+    this.extern = extern;
+  }
+
+  public Boolean isExtern(){
+    return extern;
   }
 
   public String className(){

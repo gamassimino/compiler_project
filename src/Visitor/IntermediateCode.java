@@ -398,7 +398,20 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       }
       i++;
     }
-    ExpressionAlgo name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
+    // ExpressionAlgo name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
+    ExpressionAlgo name;
+    if (stmt.getNavigation() != null){
+      // isInstance = true;
+      sentence_list.add(new Sentence("LEAQ", new ExpressionAlgo("R10","record"), new ExpressionAlgo(stmt.getIdName().getOffset().toString(), "offset"), null));
+      name = new ExpressionAlgo("_InitMethod"+stmt.getNavigation().getIdName().toString(),"label");
+    }
+    else{
+      if (stmt.isExtern())
+        name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
+      else
+        name = new ExpressionAlgo("_InitMethod"+stmt.getIdName().toString(),"label");
+    }
+
     ExpressionAlgo result = new ExpressionAlgo("result","value");
     sentence_list.add(new Sentence("CALL", name, result, null));
     // for (Expression param : stmt.getExpressions()) {
