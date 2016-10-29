@@ -453,24 +453,24 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     for (Expression param : stmt.getExpressions()) {
       param_list.addFirst(param);
     }
-    int i = 1;
+    int i = 0;
     for (Expression param : param_list) {
       // String p = (String)param;
       // ExpressionAlgo t0 = new ExpressionAlgo(param.getOffset().toString(),"offset");
       // sentence_list.add(new Sentence("PUSHQ", t0, null, null));
       ExpressionAlgo t0 = param.accept(this);
       switch (i) {
-        case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
+        case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
                   break;
-        case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSI","record"), t0, null));
+        case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSI","record"), t0, null));
                   break;
-        case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDX","record"), t0, null));
+        case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDX","record"), t0, null));
                   break;
-        case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RCX","record"), t0, null));
+        case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RCX","record"), t0, null));
                   break;
-        case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R8","record"), t0, null));
+        case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R8","record"), t0, null));
                   break;
-        case 6 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R9","record"), t0, null));
+        case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R9","record"), t0, null));
                   break;
         default : sentence_list.add(new Sentence("PUSHQ", t0, null, null));
                   break;
@@ -501,7 +501,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
     }
     sentence_list.add(new Sentence("", null, null, null));
-    return null;
+    return new ExpressionAlgo("CARLO","record");
   }
 
   public ExpressionAlgo visit(MethodCallExpr stmt){
@@ -518,17 +518,17 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     for (Expression param : param_list) {
       ExpressionAlgo t0 = param.accept(this);
       switch (i) {
-        case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
+        case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
                   break;
-        case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSI","record"), t0, null));
+        case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RSI","record"), t0, null));
                   break;
-        case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDX","record"), t0, null));
+        case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDX","record"), t0, null));
                   break;
-        case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RCX","record"), t0, null));
+        case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RCX","record"), t0, null));
                   break;
-        case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R8","record"), t0, null));
+        case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R8","record"), t0, null));
                   break;
-        case 6 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R9","record"), t0, null));
+        case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("R9","record"), t0, null));
                   break;
       }
       i++;
@@ -547,10 +547,12 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     // for (Expression param : stmt.getExpressions()) {
     //   sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("null",""), null, null));
     // }
-    Integer size = stmt.getExpressions().size()*4;
-    sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
+    if(stmt.getExpressions().size() > 6){
+      Integer size = (stmt.getExpressions().size() - 6)*4;
+      sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
+    }
     sentence_list.add(new Sentence("", null, null, null));
-    return null;
+    return new ExpressionAlgo("EAX","record");
   }
 
   public ExpressionAlgo visit(MethodDecl stmt){
@@ -566,7 +568,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     if(offset > 0)
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(offset.toString(),"value"), null));
     stmt.getBody().accept(this);
-    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX","record"), new ExpressionAlgo("0","value"), null));
     sentence_list.add(new Sentence("LEAVE", new ExpressionAlgo("null",""), null, null));
     sentence_list.add(new Sentence("RET", new ExpressionAlgo("null",""), null, null));
     sentence_list.add(new Sentence("", null, null, null));
@@ -693,17 +694,16 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     if (stmt.getExpression() == null)
      result = new Sentence("ReturnStmt", null, null, null);
     else{
-      ExpressionAlgo return_value = new ExpressionAlgo(stmt.getExpression().toString(),"value");
-      result = new Sentence("ReturnStmt", return_value, null, null);
+      ExpressionAlgo return_value = stmt.getExpression().accept(this);
+      result = new Sentence("MOVQ", new ExpressionAlgo("RAX","record"), return_value, null);
     }
     sentence_list.add(result);
     return null;
   }
 
   public ExpressionAlgo visit(ReturnExpr stmt){
-    ExpressionAlgo return_value = new ExpressionAlgo(stmt.getExpression().toString(),"value");
-    Sentence result = new Sentence("ReturnExpr", return_value, null, null);
-    sentence_list.add(result);
+    ExpressionAlgo return_value = stmt.getExpression().accept(this);
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RAX","record"), return_value, null));
     sentence_list.add(new Sentence("", null, null, null));
     return null;
   }
