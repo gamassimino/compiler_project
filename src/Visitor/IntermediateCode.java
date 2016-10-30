@@ -410,7 +410,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       // return (new ExpressionAlgo(t0.getValue(), "array"));
     }else{
       System.out.print(className+" "+stmt.getId().toString());
-      if (heap.search(className+methodName, stmt.getId().toString()))
+      if (heap.search(className+methodName, stmt.getId().toString()) || className.equals("main"))
         return stmt.getId().accept(this);
       else{
         System.out.println("LLEGUEEE ");
@@ -432,7 +432,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       // sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
       // return (new ExpressionAlgo(t0.getValue(), "array"));
     }else{
-      if (heap.search(className+methodName, stmt.getId().toString()))
+      if (heap.search(className+methodName, stmt.getId().toString()) || className.equals("main"))
         return stmt.getId().accept(this);
       else{
         System.out.println("LLEGUEEE ");
@@ -541,7 +541,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       name = new ExpressionAlgo("_InitMethod"+stmt.getNavigation().getIdName().toString(),"label");
     }
     else
-      name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
+      if (stmt.isExtern())
+        name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
+      else
+        name = new ExpressionAlgo("_InitMethod"+stmt.getIdName().toString(),"label");
 
     sentence_list.add(new Sentence("CALL", name, null, null));
     // for (Expression param : stmt.getExpressions()) {
@@ -552,7 +555,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
     }
     sentence_list.add(new Sentence("", null, null, null));
-    return new ExpressionAlgo("EAX","record");
+    return new ExpressionAlgo("RAX","record");
   }
 
   public ExpressionAlgo visit(MethodDecl stmt){
@@ -560,13 +563,15 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     Integer offset = search(methodName+stmt.getIdName().toString())*(-4)*16;
     // offset = (offset < 64) ? 1024 : offset;
 
-    if ((getOffset() % 16) == 0)
-      offset = getOffset()* -1 +8;
+    if ((getOffset() % 16) != 0)
+      offset = -getOffset()+8;
 
     sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP","record"), null, null));
     sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP","record"), new ExpressionAlgo("RSP","record"), null));
     if(offset > 0)
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(offset.toString(),"value"), null));
+    else
+      sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo("128","value"), null));
     stmt.getBody().accept(this);
     sentence_list.add(new Sentence("LEAVE", new ExpressionAlgo("null",""), null, null));
     sentence_list.add(new Sentence("RET", new ExpressionAlgo("null",""), null, null));

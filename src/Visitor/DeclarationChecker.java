@@ -443,6 +443,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
         MethodDecl method_founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
         if(method_founded != null){
           stmt.setIdName(method_founded.getIdName());
+          stmt.setExtern(method_founded.getBody().getBlock() == null);
           for (Expression expr: stmt.getExpressions()) {
             expr.accept(this);
           }
@@ -543,6 +544,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
                   param.getSnd().setOffset(getOffset());
                   break;
       }
+      count++;
       hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
     }
     // search the param ?
