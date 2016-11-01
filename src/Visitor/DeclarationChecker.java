@@ -214,6 +214,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
     if(founded != null){
       stmt.setOffset(founded.getId().getOffset());
       stmt.setRecord(founded.getId().getRecord());
+      stmt.setIndex(founded.getId().getIndex());
       stmt.setType(founded.getType());
       // stmt.setSize(founded.getId().getSize());
       if(stmt.getSize() != null)
@@ -277,14 +278,25 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(LocationExpr stmt){
-    if(stmt.getList() != null && stmt.getList().getNavigation() != null)
+
+    if(stmt.getList() != null && stmt.getList().getNavigation() != null){
+      System.out.println("  LOCATION EXPR   MUCHAS NAVEGACIONES");
+      System.out.println(stmt.getList().getNavigation().getIdName());
+      System.out.println(stmt.getList().getNavigation().getIdName().getSize());
+      System.out.println(stmt.getList().getIdName().getSize());
+      // System.out.println(stmt.getId()+"   ");
+      // System.out.println(stmt.getList().getIdName()+"   ");
+      // System.out.print(stmt.getList().getNavigation() != null);
+      // System.out.println();
       errors.error15(stmt.getId().toString(), stmt.getLine(), stmt.getColumn());
+    }
     else{
       // ClassDecl founded = (ClassDecl)hash_class.searchInTableCD(stmt.getId().getType().toString());
       // if(founded != null && hash_class.searchInTableAD(founded.getIdName().toString(), stmt.getList().getIdName.toString()))
       boolean founded = false;
       String class_name = "";
       if (stmt.getList() != null){
+        System.out.println("  LOCATION EXPR UNA NAVEGACION   "+stmt.getList().getIdName() +" "+stmt.getList().getIdName().getSize());
         Instance i = (Instance)hash.searchInTableI(stmt.getId().toString());
         stmt.getId().setOffset(i.getOffset());
         class_name = i.getType().toString();
@@ -320,9 +332,11 @@ public class DeclarationChecker implements ASTVisitor<String>{
             }
           }
         }
-      }else
+      }else{
+        System.out.println("  LOCATION EXPR SIN NAVEGACION   "+ stmt.getId().toString());
         stmt.getId().accept(this);
-
+      }
+        
       if (stmt.getList() != null && !founded)
         errors.error13(class_name, stmt.getList().getIdName().toString(), stmt.getLine(), stmt.getColumn());
     }
@@ -564,6 +578,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
       }
       count++;
       hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
+      count++;
     }
     // search the param ?
     // declare a new identifie on the table ?

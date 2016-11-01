@@ -292,12 +292,12 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(IdName stmt){
-    System.out.print("INDEX IS NULL??? ");
-    System.out.println(stmt.getIndex());
-    System.out.println();
-    System.out.println();
-    System.out.print("RECORD ?? ");
-    System.out.println(stmt.getRecord());
+    // System.out.print("INDEX IS NULL??? ");
+    // System.out.println(stmt.getIndex());
+    // System.out.println();
+    // System.out.println();
+    // System.out.print("RECORD ?? ");
+    // System.out.println(stmt.getRecord());
 
     ExpressionAlgo t0;
 
@@ -404,6 +404,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(LocationExpr stmt){
     if (stmt.getList() != null){
+      System.out.println("ENTREE  LOCATION EXPR CON INSTANCIA");
       ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getList().getIdName().getIndex().toString(),"value");
       sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
       return (new ExpressionAlgo(stmt.getId().getOffset().toString(), "array"));
@@ -418,7 +419,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
         return stmt.getId().accept(this);
       else{
         System.out.println("LLEGUEEE ");
-        ExpressionAlgo expOffset = new ExpressionAlgo("0","value");
+        ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getId().getIndex().toString(),"value");
         sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
         return (new ExpressionAlgo("", "instance"));
       }
@@ -427,6 +428,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(LocationStmt stmt){
     if (stmt.getList() != null){
+      System.out.println("ENTREE  LOCATION STMT CON INSTANCIA");
       ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getList().getIdName().getIndex().toString(),"value");
       sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
       return (new ExpressionAlgo(stmt.getId().getOffset().toString(), "array"));
@@ -440,7 +442,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
         return stmt.getId().accept(this);
       else{
         System.out.println("LLEGUEEE ");
-        ExpressionAlgo expOffset = new ExpressionAlgo("0","value");
+        ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getId().getIndex().toString(),"value");
         sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
         return (new ExpressionAlgo("", "instance"));
       }
@@ -560,9 +562,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       //   save_record(i);
     }
     ExpressionAlgo name;
-    System.out.print(stmt.getIdName().toString());
-    System.out.println(" is null????");
-    if (stmt.getNavigation() != null){
+     if (stmt.getNavigation() != null){
       sentence_list.add(new Sentence("LEAQ", new ExpressionAlgo("R10","record"), new ExpressionAlgo(stmt.getIdName().getOffset().toString(), "offset"), null));
       name = new ExpressionAlgo("_InitMethod"+stmt.getNavigation().getIdName().toString(),"label");
     }

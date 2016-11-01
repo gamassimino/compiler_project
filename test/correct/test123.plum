@@ -1,19 +1,62 @@
 class person{
   integer age;
+  integer dob[3];
+
+  void printInt(integer a) extern;
 
   void setAge(integer an_age){
     age = an_age;
     return;
   }
+
+  void setDay(integer day){
+    dob[0] = day;
+    return;
+  }
+
+  void setMonth(integer month){
+    dob[1] = month;
+    return;
+  }
+
+  void setYear(integer year){
+    dob[2] = year;
+    return;
+  }
+
+  void printDob(){
+    printInt(dob[0]);
+    printInt(dob[1]);
+    printInt(dob[2]);
+    return;
+  }
+
+  void printAge(){
+    printInt(age);
+    return;
+  }
+
 }
 
 class main{
   void printInt(integer a) extern;
   void main(){
     person ezequiel;
-    ezequiel.age = 24;
 
-    printInt(ezequiel.age);
+    ezequiel.setAge(19);
+
+    // ezequiel.setDay(24);
+    // ezequiel.setMonth(8);
+    // ezequiel.setYear(1992);
+    ezequiel.dob[0] = 24;
+    ezequiel.dob[1] = 9;
+    ezequiel.dob[2] = 1992;
+
+    ezequiel.printAge();
+    printInt(ezequiel.dob[0]);
+    printInt(ezequiel.dob[1]);
+    printInt(ezequiel.dob[2]);
+    // ezequiel.printDob();
     return;
   }
 }
