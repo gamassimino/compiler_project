@@ -207,12 +207,6 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(IdName stmt){
-    if (stmt.getSize() != null){
-      // if (!stmt.getType().toString().equals("integer"))
-      //   error.error6("IdName","integer",stmt.getLine(),stmt.getColumn());
-      // if (stmt.getSize().getValue() <= 0)
-      //   error.error9("IdName", stmt.getLine(), stmt.getColumn());
-    }
     return "";
   }
 
@@ -241,17 +235,14 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(IntLiteral stmt){
-    //nada
     return "";
   }
 
   public String visit(FloatLiteral stmt){
-    //nada
     return "";
   }
 
   public String visit(BoolLiteral stmt){
-    //nada
     return "";
   }
 
@@ -280,7 +271,6 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(LocationExpr stmt){
-
     boolean founded = false;
     if (stmt.getList() != null){
       Instance i = (Instance)hash.searchInTableI(stmt.getId().toString());
@@ -531,7 +521,6 @@ public class TypeChecker implements ASTVisitor<String>{
     for (ClassDecl class_decl : stmt.getClassList()) {
       class_decl.accept(this);
     }
-    //nada
     return "";
   }
 
@@ -572,7 +561,6 @@ public class TypeChecker implements ASTVisitor<String>{
   }
 
   public String visit(Type stmt){
-    //nada
     return "";
   }
 
@@ -597,5 +585,5 @@ public class TypeChecker implements ASTVisitor<String>{
   public String visit(Instance stmt){
     return "";
   }
-  
+
 }

@@ -22,7 +22,6 @@ public class CycleChecker implements ASTVisitor<String>{
   }
 
   public String visit(And stmt){
-    //visitar
     return "";
   }
 
@@ -42,7 +41,6 @@ public class CycleChecker implements ASTVisitor<String>{
   public String visit(Body expr){
     if(expr.getBlock() != null)
       expr.getBlock().accept(this);
-    //elBody
     return "";
   }
 
@@ -108,17 +106,14 @@ public class CycleChecker implements ASTVisitor<String>{
   }
 
   public String visit(IntLiteral stmt){
-    //nada
     return "";
   }
 
   public String visit(FloatLiteral stmt){
-    //nada
     return "";
   }
 
   public String visit(BoolLiteral stmt){
-    //nada
     return "";
   }
 
@@ -157,8 +152,6 @@ public class CycleChecker implements ASTVisitor<String>{
   }
 
   public String visit(Navigation stmt){
-    // i don't know what put here
-    // nada
     return "";
   }
 
@@ -174,7 +167,6 @@ public class CycleChecker implements ASTVisitor<String>{
     return "";
   }
 
-  // need the new implementation of FieldDecl
   public String visit(Param stmt){
     return "";
   }
@@ -191,7 +183,6 @@ public class CycleChecker implements ASTVisitor<String>{
     for (ClassDecl class_decl : stmt.getClassList()) {
       class_decl.accept(this);
     }
-    //nada
     return "";
   }
 
@@ -216,7 +207,6 @@ public class CycleChecker implements ASTVisitor<String>{
   }
 
   public String visit(Type stmt){
-    //nada
     return "";
   }
 

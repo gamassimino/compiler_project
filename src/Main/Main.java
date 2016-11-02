@@ -24,7 +24,7 @@ public class Main{
 
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-    
+
     DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, insOff, offset, methodNameOffset);
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
@@ -62,9 +62,6 @@ public class Main{
       System.out.println(error);
     }
 
-    // for (Sentence sentece: intermediateCode.getSentenceList()) {
-    //   System.out.println(sentece.toString());
-    // }
     intermediateCode.setInstanceOffset(insOff);
     AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
   }

@@ -33,8 +33,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   private InstanceOffset insOff;
   private Hash instance;
   private Heap heap;
-  // private Boolean isInstance;
-  // instance is instance of some class
 
   public IntermediateCode(Integer off, LinkedList<Pair<String,Integer>> a_list){
     className = "";
@@ -57,7 +55,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     offset = off;
     restore_values = new LinkedList<Pair<String,Integer>>();
     callList = new LinkedList<Integer>();
-    // isInstance = false;
   }
 
   public Integer search(String name){
@@ -134,7 +131,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(Assignment stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
-    // sentence_list.add(new Sentence("MOVL", left, stmt.getRight().accept(this), null));
     String record;
     String mov;
 
@@ -230,7 +226,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(FieldDecl expr){
-    // expr.getId().accept(this);
     return null;
   }
 
@@ -293,13 +288,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public ExpressionAlgo visit(IdName stmt){
-    // System.out.print("INDEX IS NULL??? ");
-    // System.out.println(stmt.getIndex());
-    // System.out.println();
-    // System.out.println();
-    // System.out.print("RECORD ?? ");
-    // System.out.println(stmt.getRecord());
-
     ExpressionAlgo t0;
 
     if (stmt.getRecord()!= null)
@@ -309,10 +297,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
     if (stmt.getSize() != null) {
       ExpressionAlgo expOffset = stmt.getSize().accept(this);
-      System.out.println("VALUE OF EXPR ARRAY "+expOffset.getValue());
       sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
-      // sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EBX", "record"), new ExpressionAlgo(t0.getValue(), "array"), t0));
-      System.out.println("VALUE OF T0"+ t0.getValue());
       return (new ExpressionAlgo(t0.getValue(), "array"));
     }
     sentence_list.add(new Sentence("", null, null, null));
@@ -405,21 +390,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(LocationExpr stmt){
     if (stmt.getList() != null){
-      System.out.println("ENTREE  LOCATION EXPR CON INSTANCIA");
       ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getList().getIdName().getIndex().toString(),"value");
       sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
       return (new ExpressionAlgo(stmt.getId().getOffset().toString(), "array"));
-      // ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
-      // System.out.println(stmt.getList().getIdName().getIndex().toString());
-      // ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getList().getIdName().getIndex().toString(),"value");
-      // sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
-      // return (new ExpressionAlgo(t0.getValue(), "array"));
     }else{
       System.out.print(className+" "+stmt.getId().toString());
       if (heap.search(className+methodName, stmt.getId().toString()) || className.equals("main"))
         return stmt.getId().accept(this);
       else{
-        System.out.println("LLEGUEEE ");
         ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getId().getIndex().toString(),"value");
         sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
         return (new ExpressionAlgo("", "instance"));
@@ -429,20 +407,13 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public ExpressionAlgo visit(LocationStmt stmt){
     if (stmt.getList() != null){
-      System.out.println("ENTREE  LOCATION STMT CON INSTANCIA");
       ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getList().getIdName().getIndex().toString(),"value");
       sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
       return (new ExpressionAlgo(stmt.getId().getOffset().toString(), "array"));
-      // ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
-      // System.out.println(stmt.getList().getIdName().getIndex().toString());
-      // ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getList().getIdName().getIndex().toString(),"value");
-      // sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
-      // return (new ExpressionAlgo(t0.getValue(), "array"));
     }else{
       if (heap.search(className+methodName, stmt.getId().toString()) || className.equals("main"))
         return stmt.getId().accept(this);
       else{
-        System.out.println("LLEGUEEE ");
         ExpressionAlgo expOffset = new ExpressionAlgo(stmt.getId().getIndex().toString(),"value");
         sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
         return (new ExpressionAlgo("", "instance"));
@@ -485,14 +456,11 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       }
       i++;
     }
-    // sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), new ExpressionAlgo("16","offset"), null));
 
     if (i>5 && i%2!=0)
       sentence_list.add(new Sentence("PUSHQ", aux, null, null));
-    // ExpressionAlgo name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
     ExpressionAlgo name;
     if (stmt.getNavigation() != null){
-      // isInstance = true;
       sentence_list.add(new Sentence("LEAQ", new ExpressionAlgo("R10","record"), new ExpressionAlgo(stmt.getIdName().getOffset().toString(), "offset"), null));
       name = new ExpressionAlgo("_InitMethod"+stmt.getNavigation().getIdName().toString(),"label");
     }
@@ -506,9 +474,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     sentence_list.add(new Sentence("CALL", name, result, null));
     if (i != 0)
       load_record();
-    // for (Expression param : stmt.getExpressions()) {
-    //   sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("null",""), null, null));
-    // }
     if(stmt.getExpressions().size() > 6){
       Integer size = (stmt.getExpressions().size() - 6)*4;
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
@@ -529,7 +494,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     }
     int i = 0;
     save_record(8);
-    // LinkedList<Pair<String,Integer>> restore_values = new LinkedList<Pair<String,Integer>>();
     for (Expression param : param_list) {
       ExpressionAlgo t0 = param.accept(this);
 
@@ -566,9 +530,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     sentence_list.add(new Sentence("CALL", name, null, null));
     if (i != 0)
       load_record();
-    // for (Expression param : stmt.getExpressions()) {
-    //   sentence_list.add(new Sentence("POPQ", new ExpressionAlgo("null",""), null, null));
-    // }
     if(stmt.getExpressions().size() > 6){
       Integer size = (stmt.getExpressions().size() - 6)*4;
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
@@ -580,39 +541,16 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(MethodDecl stmt){
     methodName = stmt.getIdName().toString();
     Integer offset = search(methodName+stmt.getIdName().toString())*(-4)*16;
-    // offset = (offset < 64) ? 1024 : offset;
 
     if ((Math.abs(getOffset()) % 16) != 0)
       offset = -getOffset()+8;
 
     sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP","record"), null, null));
     sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RBP","record"), new ExpressionAlgo("RSP","record"), null));
-    // if(offset > 0)
-    //   sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(offset.toString(),"value"), null));
-    // else
-    //   sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo("128","value"), null));
 
     Integer new_offset = 2048;
     sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(new_offset.toString(),"value"), null));
 
-    // Integer t0 = 128;
-    // for (int i = 0; i<6; i++) {
-    //   switch (i) {
-    //     case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(t0.toString(), "offset") ,new ExpressionAlgo("R9","record"), null));
-    //               break;
-    //     case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(t0.toString(), "offset") ,new ExpressionAlgo("R8","record"), null));
-    //               break;
-    //     case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(t0.toString(), "offset") ,new ExpressionAlgo("RCX","record"), null));
-    //               break;
-    //     case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(t0.toString(), "offset") ,new ExpressionAlgo("RDX","record"), null));
-    //               break;
-    //     case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(t0.toString(), "offset") ,new ExpressionAlgo("RSI","record"), null));
-    //               break;
-    //     case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(t0.toString(), "offset") ,new ExpressionAlgo("RDI","record"), null));
-    //               break;
-    //   }
-    //   t0 -= 16;
-    // }
     stmt.getBody().accept(this);
     sentence_list.add(new Sentence("LEAVE", new ExpressionAlgo("null",""), null, null));
     sentence_list.add(new Sentence("RET", new ExpressionAlgo("null",""), null, null));
@@ -819,7 +757,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
   public void save_record(Integer records){
     int i = 0;
-    // callList.add(records);
     while(i < records){
       switch (i) {
         case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("RDI","record"), null));
@@ -851,31 +788,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public void load_record(){
     int i = 0;
     while(i < 7){
-      // switch (i) {
       Pair<String,Integer> pair = restore_values.removeLast();
       sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(pair.getFst(), "record"), new ExpressionAlgo(pair.getSnd().toString(), "offset"), null));
-      //   case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(pair.getFst(), "record"), new ExpressionAlgo(pair.getSnd().toString(), "offset"), null));
-      //            restore_values.removeLast();
-      //             break;
-      //   case 1 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("RSI","record"), null));
-      //            restore_values.removeLast();
-      //             break;
-      //   case 2 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("RDX","record"), null));
-      //            restore_values.removeLast();
-      //             break;
-      //   case 3 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("RCX","record"), null));
-      //            restore_values.removeLast();
-      //             break;
-      //   case 4 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R8","record"), null));
-      //            restore_values.removeLast();
-      //             break;
-      //   case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R9","record"), null));
-      //            restore_values.removeLast();
-      //             break;
-      // }
       i++;
     }
-    // callList.removeLast();
   }
 
 }

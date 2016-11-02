@@ -143,7 +143,6 @@ public class MainChecker implements ASTVisitor<String>{
     return "";
   }
 
-  // need the new implementation of FieldDecl
   public String visit(Param stmt){
     return "";
   }
@@ -165,15 +164,12 @@ public class MainChecker implements ASTVisitor<String>{
           class_decl.accept(this);
           if(hash.searchInTableMD("main") == null)
             errors.error1("Method", "main", stmt.getLine(), stmt.getColumn());
-            // System.out.println("Metodo Main no definido");
         }
       }else
         errors.error2("Class", class_decl.getIdName().toString(), stmt.getLine(), stmt.getColumn());
-        // System.out.println("Clase Repetida");
     }
     if(hash.searchInLastLevelCD("main") == null)
       errors.error1("Class", "main", stmt.getLine(), stmt.getColumn());
-      // System.out.println("Clase Main no definida");
     hash.destroyLevel();
     return "";
   }

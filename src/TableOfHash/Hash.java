@@ -160,48 +160,6 @@ public class Hash{
     return null;
   }
 
-
-  /**
-  *
-  * this are methods for search in the table the ClassDecl
-  * asd
-  * asd
-  * asdasda
-  * where the Id is equal to item
-  *
-  **/
-
-  // this method return true if the item is
-  // allready in the table and bind the item
-  // with the element on the table, modifying
-  // ast structure, if the item isn't on the table
-  // then return false
-
-  // public AST searchInTableAD(String name_class, String attr){
-  //   boolean found;
-  //   for (int i = stack.size()-1; i >= 0; i--) {
-  //     for (AST ast : stack.get(i)) {
-  //       if(ast.getClass().toString().equals("class ASTClass.ClassDecl")){
-  //         ClassDecl classD = (ClassDecl)ast;
-  //         if(classD.getIdName().toString().equals(name_class))
-  //           found = true;
-  //           break;
-  //       }
-  //     }
-  //     if(found){
-  //       for (AST ast : stack.get(i)){
-  //         if(ast.getClass().toString().equals("class ASTClass.IdName")){
-  //           IdName id = (IdName)ast;
-  //           if(classD.getIdName().toString().equals(attr))
-  //             return id;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   return null;
-  // }
-
-
   // this method return true if the item is
   // allready in the table and bind the item
   // with the element on the table, modifying
@@ -230,14 +188,6 @@ public class Hash{
     }
     return null;
   }
-
-
-
-
-
-
-
-
 
   /**
   *

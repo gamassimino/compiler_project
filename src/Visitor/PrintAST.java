@@ -74,8 +74,6 @@ public class PrintAST implements ASTVisitor<String>{
   public String visit(FieldDecl stmt){
     String flag = "  "+stmt.getType().accept(this)+" ";
     flag += stmt.getId().accept(this);
-    // if (stmt.getId().getSize() != null)
-    //   flag += "["+stmt.getId().getSize().toString()+"]";
     return flag+=";\n";
   }
 
@@ -184,7 +182,6 @@ public class PrintAST implements ASTVisitor<String>{
     return stmt.getLeft().accept(this)+" || "+stmt.getRight().accept(this);
   }
 
-   // it's no needed right?
   public String visit(Param stmt){
     int size = stmt.getParam().size();
     String flag = "";
