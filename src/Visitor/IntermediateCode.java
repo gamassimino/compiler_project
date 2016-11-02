@@ -7,6 +7,7 @@ import java_cup.runtime.*;
 import Assembly.Sentence;
 import TableOfHash.InstanceOffset;
 import TableOfHash.*;
+import java.lang.Math;
 
 public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   private Integer ifcc;
@@ -460,7 +461,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       param_list.addFirst(param);
     }
     int i = 0;
-    save_record(6);
+    save_record(8);
     ExpressionAlgo aux = null;
     for (Expression param : param_list) {
       ExpressionAlgo t0 = param.accept(this);
@@ -485,12 +486,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       i++;
     }
     // sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), new ExpressionAlgo("16","offset"), null));
-    if(i !=0){
-      // if (i>5)
 
-      // else
-      //   save_record(i);
-    }
     if (i>5 && i%2!=0)
       sentence_list.add(new Sentence("PUSHQ", aux, null, null));
     // ExpressionAlgo name = new ExpressionAlgo("_"+stmt.getIdName().toString(),"label");
@@ -532,7 +528,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       param_list.addFirst(param);
     }
     int i = 0;
-    save_record(6);
+    save_record(8);
     // LinkedList<Pair<String,Integer>> restore_values = new LinkedList<Pair<String,Integer>>();
     for (Expression param : param_list) {
       ExpressionAlgo t0 = param.accept(this);
@@ -555,12 +551,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       }
       i++;
     }
-    if(i !=0){
-      // if (i>5)
 
-      // else
-      //   save_record(i);
-    }
     ExpressionAlgo name;
      if (stmt.getNavigation() != null){
       sentence_list.add(new Sentence("LEAQ", new ExpressionAlgo("R10","record"), new ExpressionAlgo(stmt.getIdName().getOffset().toString(), "offset"), null));
@@ -591,7 +582,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     Integer offset = search(methodName+stmt.getIdName().toString())*(-4)*16;
     // offset = (offset < 64) ? 1024 : offset;
 
-    if ((getOffset() % 16) != 0)
+    if ((Math.abs(getOffset()) % 16) != 0)
       offset = -getOffset()+8;
 
     sentence_list.add(new Sentence("PUSHQ", new ExpressionAlgo("RBP","record"), null, null));
@@ -601,7 +592,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     // else
     //   sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo("128","value"), null));
 
-    Integer new_offset = 1024;
+    Integer new_offset = 2048;
     sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(new_offset.toString(),"value"), null));
 
     // Integer t0 = 128;
@@ -848,6 +839,12 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
                   break;
         case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R9","record"), null));
                  restore_values.add(new Pair<String, Integer>("R9", getOffset()));
+                  break;
+        case 6 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R10","record"), null));
+                 restore_values.add(new Pair<String, Integer>("R10", getOffset()));
+                  break;
+        case 7 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("RCX","record"), null));
+                 restore_values.add(new Pair<String, Integer>("RCX", getOffset()));
                   break;
       }
       i++;
