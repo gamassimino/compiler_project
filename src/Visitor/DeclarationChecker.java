@@ -576,7 +576,6 @@ public class DeclarationChecker implements ASTVisitor<String>{
                   new_offset -= 8;
                   break;
       }
-      count++;
       hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
       count++;
     }

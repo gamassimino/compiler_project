@@ -843,20 +843,17 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
         case 6 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R10","record"), null));
                  restore_values.add(new Pair<String, Integer>("R10", getOffset()));
                   break;
-        case 7 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("RCX","record"), null));
-                 restore_values.add(new Pair<String, Integer>("RCX", getOffset()));
-                  break;
-      }
+        }
       i++;
     }
   }
 
   public void load_record(){
     int i = 0;
-    while(i < 6){
+    while(i < 7){
       // switch (i) {
-        Pair<String,Integer> pair = restore_values.removeLast();
-          sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(pair.getFst(), "record"), new ExpressionAlgo(pair.getSnd().toString(), "offset"), null));
+      Pair<String,Integer> pair = restore_values.removeLast();
+      sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(pair.getFst(), "record"), new ExpressionAlgo(pair.getSnd().toString(), "offset"), null));
       //   case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(pair.getFst(), "record"), new ExpressionAlgo(pair.getSnd().toString(), "offset"), null));
       //            restore_values.removeLast();
       //             break;
