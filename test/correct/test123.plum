@@ -1,6 +1,8 @@
 class person{
   integer age;
-  integer dob[3];
+  integer day;
+  integer month;
+  integer year;
 
   void printInt(integer a) extern;
 
@@ -9,30 +11,44 @@ class person{
     return;
   }
 
-  void setDay(integer day){
-    dob[0] = day;
+  void setDay(integer a_day){
+    day = a_day;
     return;
   }
 
-  void setMonth(integer month){
-    dob[1] = month;
+  void setMonth(integer a_month){
+    month = a_month;
     return;
   }
 
-  void setYear(integer year){
-    dob[2] = year;
+  void setYear(integer a_year){
+    year = a_year;
     return;
   }
 
-  void printDob(){
-    printInt(dob[0]);
-    printInt(dob[1]);
-    printInt(dob[2]);
+  void printDay(){
+    printInt(day);
+    return;
+  }
+
+  void printMonth(){
+    printInt(month);
+    return;
+  }
+
+  void printYear(){
+    printInt(year);
     return;
   }
 
   void printAge(){
     printInt(age);
+    return;
+  }
+  void printDob(){
+    printInt(day);
+    printInt(month);
+    printInt(year);
     return;
   }
 
@@ -42,21 +58,38 @@ class main{
   void printInt(integer a) extern;
   void main(){
     person ezequiel;
+    person gaston;
 
     ezequiel.setAge(19);
-
-    // ezequiel.setDay(24);
-    // ezequiel.setMonth(8);
-    // ezequiel.setYear(1992);
-    ezequiel.dob[0] = 24;
-    ezequiel.dob[1] = 9;
-    ezequiel.dob[2] = 1992;
-
+    ezequiel.setDay(24);
+    ezequiel.setMonth(8);
+    ezequiel.setYear(1992);
+ 
     ezequiel.printAge();
-    printInt(ezequiel.dob[0]);
-    printInt(ezequiel.dob[1]);
-    printInt(ezequiel.dob[2]);
-    // ezequiel.printDob();
+    ezequiel.printDob();
+
+    // ezequiel.printDay();
+    // ezequiel.printMonth();
+    // ezequiel.printYear();
+
+
+    gaston.setAge(21);
+    gaston.setDay(31);
+    gaston.setMonth(5);
+    gaston.setYear(1995);
+
+    // ezequiel.day = 24;
+    // ezequiel.month = 9;
+    // ezequiel.year = 1992;
+
+
+    gaston.printAge();
+    gaston.printDob();
+
+    // gaston.printDay();
+    // gaston.printMonth();
+    // gaston.printYear();
+
     return;
   }
 }
