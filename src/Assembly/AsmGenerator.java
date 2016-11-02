@@ -149,8 +149,7 @@ public class AsmGenerator{
                       break;
           case "LEAQ" : writer.println(AsmGenerator.twoDir("LEAQ", s.getOperatorTwo(), s.getOperatorOne()));
                       break;
-          default : System.out.println("DEFAULT :"+s.getOperation());
-                    writer.println();
+          default : writer.println();
                     break;
         }
       }

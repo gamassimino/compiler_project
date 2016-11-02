@@ -394,7 +394,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("ECX", "record"), expOffset, null));
       return (new ExpressionAlgo(stmt.getId().getOffset().toString(), "array"));
     }else{
-      System.out.print(className+" "+stmt.getId().toString());
       if (heap.search(className+methodName, stmt.getId().toString()) || className.equals("main"))
         return stmt.getId().accept(this);
       else{
