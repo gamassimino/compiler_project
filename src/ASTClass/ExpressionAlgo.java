@@ -2,60 +2,30 @@ package ASTClass;
 
 
 public class ExpressionAlgo{
-  protected Expression expr;
-  protected Type type;
-  protected Integer line;
-  protected Integer column;
-  protected String name;
+  private String value;
+  private String type;
 
-  public ExpressionAlgo(String name){
-    this.name = name;
-    this.type = new Type("Label");
+  public ExpressionAlgo(String a_value, String a_type){
+    this.value = a_value;
+    this.type = a_type;
   }
 
-  public ExpressionAlgo(Expression expr, Type type){
-    this.type = type;
-    this.expr = expr;
+  public String getValue() {
+    return this.value;
   }
 
-  public ExpressionAlgo(Expression expr){
-    this.expr = expr;
-    this.type = expr.getType();
+
+  public void setValue(String a_value) {
+    this.value = a_value;
   }
 
-  public ExpressionAlgo(Type type){
-    this.type = type;
-  }
-  public Integer getLine() {
-    return line;
-  }
 
-  public void setLine(Integer ln) {
-    line = ln;
-  }
-
-  public Integer getColumn() {
-    return column;
-  }
-
-  public void setColumn(Integer cn) {
-    column = cn;
-  }
-
-  public Expression getExpression(){
-    return this.expr;
-  }
-
-  public Type getType() {
+  public String getType() {
     return this.type;
   }
 
-  public void setType(Type t) {
-    this.type = t;
-  }
 
-  public boolean supportOp(){
-    return true;
+  public void setType(String a_type) {
+    this.type = a_type;
   }
-
 }

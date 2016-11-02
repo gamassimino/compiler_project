@@ -1,0 +1,16 @@
+//testing a program with while
+class main{
+  void printInt(integer a) extern;
+  void main(){
+    integer num1;
+    integer num3;
+
+    num1 = 0;
+    num3 = 90;
+    while (num1 != num3){
+      printInt(num1);
+      num1 += 1;
+    }
+    return;
+  }
+}

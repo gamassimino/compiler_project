@@ -12,12 +12,26 @@ public class TypeChecker implements ASTVisitor<String>{
   Hash hash;
   Hash hash_class;
   Error error;
+  Integer offset;
 
-  public TypeChecker(Error error, Hash classes){
+  public TypeChecker(Error error, Hash classes, Integer an_offset){
     hash = new Hash();
     hash_class = classes;
     this.error = error;
+    offset = an_offset;
+  }
 
+  public Integer nextOffset(){
+    offset -= 8;
+    return offset;
+  }
+
+  public Integer getOffset(){
+    return offset;
+  }
+
+  public void setOffset(Integer off){
+    offset = off;
   }
 
   public String visit(AddAssignment stmt){
@@ -287,7 +301,6 @@ public class TypeChecker implements ASTVisitor<String>{
       }
     }else
       stmt.getId().accept(this);
-
     return "";
   }
 
@@ -313,7 +326,6 @@ public class TypeChecker implements ASTVisitor<String>{
       }
     }else
       stmt.getId().accept(this);
-
     return "";
   }
 

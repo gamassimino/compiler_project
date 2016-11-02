@@ -1,0 +1,113 @@
+class main{
+  void printInt(integer a) extern;
+  void main(){
+    integer i;
+    integer h;
+    integer j;
+    integer num2[5];
+
+
+    i = 0;
+    while (i < 5){
+      num2[i] = i+15;
+      printInt(num2[i]);
+      i += 1;
+    }
+
+    i = 0;
+    j = 0;
+    h = 0;
+    while (i < 5){
+      while (j < 5){
+        while (h < 5){
+          printInt(num2[h]);
+          h += 1;
+        }
+        h = 0;
+        printInt(num2[j]);
+        j += 1;
+      }
+      j = 0;
+      printInt(num2[i]);
+      i += 1;
+    }
+
+    return;
+  }
+}
+
+
+
+// class main{
+//   void printInt(integer a) extern;
+//   void main(){
+//     integer num2[10];
+//     integer num1;
+//     integer num22;
+
+
+//     num1 = 0;
+//     while (num1 < 10){
+//       num2[num1] = num1;
+//       printInt(num1);
+//       printInt(num2[num1]);
+//       num1 += 1;
+//     } 
+
+//     num1 = 0;
+//     num22 = 0;
+//     while (num1 < 10){
+//       printInt(num2[num1]);
+//       while (num22 < 10){
+//         printInt(num2[num22]);
+//         num22 += 1;
+//       }
+//       num22 = 0;
+//       num1 += 1;
+//     }
+//       // printInt(num2[2]);
+//       // printInt(num2[4]);
+
+
+//     return;
+//   }
+// }
+
+// class main{
+//   void printInt(integer a) extern;
+//   void main(){
+//     integer num1;
+//     integer num2[20];
+
+
+//     num1 = 0;
+//     while (num1 < 20){
+//       num2[num1] = num1;
+//       num1 = num1 + 1;
+//     }
+//       printInt(num2[0]);
+//       printInt(num2[1]);
+//       printInt(num2[2]);
+//       printInt(num2[3]);
+//       printInt(num2[4]);
+//       printInt(num2[5]);
+//       printInt(num2[6]);
+//       printInt(num2[7]);
+//       printInt(num2[8]);
+//       printInt(num2[9]);
+//       printInt(num2[10]);
+//       printInt(num2[11]);
+//       printInt(num2[12]);
+//       printInt(num2[13]);
+//       printInt(num2[14]);
+//       printInt(num2[15]);
+//       printInt(num2[16]);
+//       printInt(num2[17]);
+//       printInt(num2[18]);
+//       printInt(num2[19]);
+//       // printInt(num2[20]);
+
+
+//     return;
+//   }
+// }

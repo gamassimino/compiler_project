@@ -17,6 +17,10 @@ public class Sentence{
     this.result = result;
   }
 
+  public String getOperation(){
+    return operation;
+  }
+
   public ExpressionAlgo getOperatorOne(){
     return operator_one;
   }
@@ -31,9 +35,9 @@ public class Sentence{
 
   public String toString(){
     String flag = operation;
-    flag += (operator_one != null) ? " "+operator_one.getExpression() : " null";
-    flag += (operator_two != null) ? " "+operator_two.getExpression() : " null";
-    flag += (result != null) ? " "+result.getExpression() : " null";
+    flag += (operator_one != null) ? " "+operator_one.getValue() : " null";
+    flag += (operator_two != null) ? " "+operator_two.getValue() : " null";
+    flag += (result != null) ? " "+result.getValue() : " null";
     return flag;
   }
 }

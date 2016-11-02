@@ -7,11 +7,13 @@ class main{
 
   integer pruArreglos(integer b, integer c ){
     float y;
-    y = 8.87;
+    b = 1;
+    c = 2;
+    // y = 8.87;
     A[0] = 4; 
-    B[55] = 2.6 + y;
-    C[0] = ((b < c)) ;
-    C[1] = b >= c;
+    // B[55] = 2.6 + y;
+    // C[0] = ((b < c)) ;
+    A[1] = b + c;
     return 2; 
   }
 
@@ -23,13 +25,13 @@ class main{
   integer main(){
     integer y2;
     y = true;
-    B[0] = 2.6;
+    // B[0] = 2.6;
     C[2] = !((4 < 6)) ;
     y2 = 7 +(3+3);
     C[3] = ( 5 >= A[7 +(3+3)]) || true ;
-    printI(pruArreglos(4, (8 * 6) / (7 % 2) ));
-    printB(C[1]==false); 
-    printF(3.5 + 4.0);    
+    // printI(pruArreglos(4, (8 * 6) / (7 % 2) ));
+    // printB(C[1]==false); 
+    // printF(3.5 + 4.0);    
     return 1;
   }
 

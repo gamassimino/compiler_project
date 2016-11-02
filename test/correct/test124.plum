@@ -1,0 +1,47 @@
+//testing a program with empty class
+class main{
+  void printInt(integer a) extern;
+  integer set(integer a, integer num){
+    a = num;
+    return a;
+  }
+
+  void printAll(integer a,integer b,integer c,integer d,integer e,integer f,integer g, integer h, integer j){
+    printInt(a);
+    printInt(b);
+    printInt(c);
+    printInt(d);
+    printInt(e);
+    printInt(f);
+    printInt(g);
+    printInt(h);
+    printInt(j);
+    return;
+  }
+
+  void main(){
+    integer number1;
+    integer number2;
+    integer number3;
+    integer number4;
+    integer number5;
+    integer number6;
+    integer number7;
+    integer number8;
+    integer number9;
+
+    number1 = set(number1, 1);
+    number2 = set(number2, 2);
+    number3 = set(number3, 3);
+    number4 = set(number4, 4);
+    number5 = set(number5, 5);
+    number6 = set(number6, 6);
+    number7 = set(number7, 7);
+    number8 = set(number8, 8);
+    number9 = set(number9, 9);
+
+    printAll(number1,number2,number3,number4,number5,number6,number7,number8,number9);
+
+    return;
+  }
+}

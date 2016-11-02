@@ -196,6 +196,7 @@ method_call_expr ::= ID:id navigation:na LPAREN method_expr:m_e RPAREN {: RESULT
 //                         REVIEW THE NAVIGATION
 // ### Navigation ###
 navigation ::= POINT ID:id {: RESULT = new Navigation( new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
+             | POINT ID:id LBRACKET expr:exp RBRACKET {: RESULT = new Navigation( new IdName(id,exp,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
              | navigation:na POINT ID:id {: RESULT = new Navigation(na, new IdName(id,idxleft.getLine(),idxleft.getColumn()),naxleft.getLine(),naxleft.getColumn());:};
 
 //                          REVIEW THE METHOD EXPRESSION
@@ -209,10 +210,11 @@ method_expr ::= expr:e {: ArrayList<Expression> list = new ArrayList<Expression>
 // ### Location ###
 location_expr ::= ID:id {: RESULT = new LocationExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
                 | ID:id LBRACKET expr:s RBRACKET {: RESULT = new LocationExpr(new IdName(id,s,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
-                | ID:id location_aux:l_a {: RESULT = new LocationExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()), l_a,l_axleft.getLine(),l_axleft.getColumn()) ;:};
+                | ID:id navigation:l_a {: RESULT = new LocationExpr(new IdName(id,idxleft.getLine(),idxleft.getColumn()), l_a,l_axleft.getLine(),l_axleft.getColumn()) ;:};
 // this never is used
 location_stmt ::= ID:id {: RESULT = new LocationStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
-                | ID:id location_aux:l_a {: RESULT = new LocationStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()), l_a,l_axleft.getLine(),l_axleft.getColumn()) ;:};
+                | ID:id LBRACKET expr:s RBRACKET {: RESULT = new LocationStmt(new IdName(id,s,idxleft.getLine(),idxleft.getColumn()),idxleft.getLine(),idxleft.getColumn()) ;:}
+                | ID:id navigation:l_a {: RESULT = new LocationStmt(new IdName(id,idxleft.getLine(),idxleft.getColumn()), l_a,l_axleft.getLine(),l_axleft.getColumn()) ;:};
 
-location_aux ::= navigation:n {:  RESULT = n; :}
-               | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new Navigation(na, exp,naxleft.getLine(),naxleft.getColumn()); :};
+// location_aux ::= navigation:n {:  RESULT = n; :}
+               // | navigation:na LBRACKET expr:exp RBRACKET {: RESULT = new Navigation(na, exp,naxleft.getLine(),naxleft.getColumn()); :};
