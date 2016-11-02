@@ -24,12 +24,7 @@ public class Main{
 
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-<<<<<<< HEAD
-
     DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, insOff, offset, methodNameOffset);
-=======
-    DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, offset, methodNameOffset);
->>>>>>> , correct pop, sub, offset, params of methods, etc
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
     CycleChecker cycleChecker = new CycleChecker(errors);
@@ -39,13 +34,10 @@ public class Main{
 
     p.accept(declarationChecker);
     offset = declarationChecker.getOffset();
-<<<<<<< HEAD
     heap = declarationChecker.getHeap();
 
     instances = declarationChecker.getHashInstance();
     intermediateCode.setHashInstance(instances);
-=======
->>>>>>> fix offset
 
     typeChecker.setOffset(offset);
     if(errors.getErrors().size() == 0)
@@ -65,7 +57,6 @@ public class Main{
       p.accept(optimizer);
 
     intermediateCode.setOffset(offset);
-<<<<<<< HEAD
     intermediateCode.setHeap(heap);
     if(errors.getErrors().size() == 0)
       p.accept(intermediateCode);
@@ -75,29 +66,6 @@ public class Main{
     }
 
     intermediateCode.setInstanceOffset(insOff);
-    AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
-  }
-
-}
-.setOffset(offset);
-    intermediateCode.setHeap(heap);
-=======
->>>>>>> fix offset
-    if(errors.getErrors().size() == 0)
-      p.accept(intermediateCode);
-
-    for (String error: errors.getErrors()) {
-      System.out.println(error);
-    }
-
-<<<<<<< HEAD
-    intermediateCode.setInstanceOffset(insOff);
-=======
-    // for (Sentence sentece: intermediateCode.getSentenceList()) {
-    //   System.out.println(sentece.toString());
-    // }
-
->>>>>>> asm generator optimized
     AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
   }
 
