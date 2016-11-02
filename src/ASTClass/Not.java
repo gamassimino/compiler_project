@@ -20,11 +20,11 @@ public class Not extends Expression{
   }
 
   public Type getType(){
-    return new Type("boolean");
+    return new Type("bool");
   }
 
   public boolean supportOp(){
-    return expr.getType().toString().equals("boolean");
+    return expr.getType().toString().equals("bool");
   }
 
 

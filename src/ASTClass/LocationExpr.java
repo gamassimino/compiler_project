@@ -4,8 +4,12 @@ import Visitor.ASTVisitor;
 import java.util.List;
 
 public class LocationExpr extends Expression {
-	private IdName id;
+  private IdName id;
   private Navigation list;
+
+  public LocationExpr(IdName an_id){
+    id = an_id;
+  }
 
   public LocationExpr(IdName an_id, Integer a_line, Integer a_column){
     line = a_line;
@@ -21,13 +25,17 @@ public class LocationExpr extends Expression {
     list = a_list;
   }
 
-	public void setId(IdName id){
-		this.id = id;
-	}
+  public void setId(IdName id){
+    this.id = id;
+  }
 
-	public IdName getId(){
-		return id;
-	}
+  public void setOffsetLocation(){
+    this.setOffset(id.getOffset());
+  }
+
+  public IdName getId(){
+    return id;
+  }
 
   public void setList(Navigation list){
     this.list = list;
@@ -38,7 +46,10 @@ public class LocationExpr extends Expression {
   }
 
   public Type getType(){
-    return id.getType();
+    if (list == null)
+      return id.getType();
+    else
+      return list.getIdName().getType();
   }
 
   public <T> T accept(ASTVisitor<T> v) {

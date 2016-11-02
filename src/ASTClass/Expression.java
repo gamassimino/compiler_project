@@ -13,6 +13,10 @@ public abstract class Expression extends AST {
     this.type = t;
   }
 
+  public Expression getExpression(){
+    return this.expr;
+  }
+
   public boolean supportOp(){
     return true;
   }

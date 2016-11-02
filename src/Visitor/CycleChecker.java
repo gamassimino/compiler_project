@@ -40,7 +40,8 @@ public class CycleChecker implements ASTVisitor<String>{
   }
 
   public String visit(Body expr){
-    expr.getBlock().accept(this);
+    if(expr.getBlock() != null)
+      expr.getBlock().accept(this);
     //elBody
     return "";
   }
@@ -226,4 +227,7 @@ public class CycleChecker implements ASTVisitor<String>{
     return "";
   }
 
+  public String visit(Instance stmt){
+    return "";
+  }
 }

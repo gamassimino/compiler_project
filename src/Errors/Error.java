@@ -60,4 +60,16 @@ public class Error{
   public void error12(String operator, Integer line, Integer column){
     list.add("In Line "+line+" Column "+column+ " "+operator+": found Continue outside of cicle");
   }
+
+  public void error13(String class_name, String var_name, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " Attribute: "+var_name+" not declared in class "+class_name);
+  }
+
+  public void error14(String class_name, String var_name, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " Method: "+var_name+" is not declared in class "+class_name);
+  }
+
+  public void error15(String class_name, Integer line, Integer column){
+    list.add("In Line "+line+" Column "+column+ " Navigation: only support one navigation after the Class "+class_name);
+  }
 }

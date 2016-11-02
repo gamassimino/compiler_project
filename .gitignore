@@ -1,8 +1,11 @@
 .project
 bin/*
 
-dist/*r
+dist/*
 
 */.DS_Store
 
 src/CodeGenerated/*
+
+*.c
+*.s

@@ -30,11 +30,11 @@ public class Or extends Expression{
   }
 
   public Type getType(){
-    return new Type("boolean");
+    return new Type("bool");
   }
 
   public boolean supportOp(){
-    return left.getType().toString().equals("boolean");
+    return left.getType().toString().equals("bool");
   }
 
   public <T> T accept(ASTVisitor<T> v) {

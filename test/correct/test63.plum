@@ -1,9 +1,9 @@
 //testing semantic for divide operator
 class plumTest63{
-  //wrong divide(not suport booleans)
+  //wrong divide(not suport bools)
   integer method_four(){
     integer x;
-    boolean y;
+    bool y;
     x = x/y;
   }
 }

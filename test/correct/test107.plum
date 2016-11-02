@@ -10,8 +10,8 @@ class plumTest107{
     return x;
   }
 
-  boolean method_three(){
-    boolean x;
+  bool method_three(){
+    bool x;
     return x;
   }
 }

@@ -26,7 +26,7 @@ public class EqualTo extends Expression{
   }
 
   public Type getType(){
-    return new Type("boolean");
+    return new Type("bool");
   }
   public Expression getRight(){
     return right;
@@ -35,7 +35,7 @@ public class EqualTo extends Expression{
   public boolean supportOp(){
     if (!left.getType().toString().equals(right.getType().toString()))
       return false;
-    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"))||(left.getType().toString().equals("boolean"));
+    return (left.getType().toString().equals("integer"))||(left.getType().toString().equals("float"))||(left.getType().toString().equals("bool"));
   }
 
   public <T> T accept(ASTVisitor<T> v) {

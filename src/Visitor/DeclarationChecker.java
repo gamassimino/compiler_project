@@ -2,18 +2,51 @@ package Visitor;
 
 import ASTClass.*;
 import TableOfHash.Hash;
+import TableOfHash.Heap;
+import TableOfHash.InstanceOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LinkedList;
 import java_cup.runtime.*;
 import Errors.Error;
 
 public class DeclarationChecker implements ASTVisitor<String>{
-  Hash hash;
-  Error errors;
+   private String className;
+   private Hash hash;
+   private Heap heap;
+   private Hash hash_class;
+   private Error errors;
+   private Integer offset;
+   private LinkedList<Pair<String,Integer>> list;
+   private InstanceOffset instanceOffset;
+   private LinkedList<String> listId;
 
-  public DeclarationChecker(Error er){
+  public DeclarationChecker(Error er, Hash clases, InstanceOffset insOff, Integer off, LinkedList<Pair<String,Integer>> a_list){
     hash = new Hash();
+    hash_class = clases;
     errors = er;
+    offset = off;
+    className = "";
+    list = a_list;
+    instanceOffset = insOff;
+    heap = new Heap();
+  }
+
+  public Integer nextOffset(){
+    offset -= 8;
+    return offset;
+  }
+
+  public Integer getOffset(){
+    return offset;
+  }
+
+  public Hash getHashInstance(){
+    return hash;
+  }
+
+  public Heap getHeap(){
+    return heap;
   }
 
   @Override
@@ -41,6 +74,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
     for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
       for (FieldDecl field : fields_decl) {
         field.accept(this);
+        listId.add(field.getId().toString());
       }
     }
 
@@ -53,7 +87,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(Body expr){
-    expr.getBlock().accept(this);
+    if(expr.getBlock() != null)
+      expr.getBlock().accept(this);
     return "";
   }
 
@@ -62,19 +97,39 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(ClassDecl expr){
+    Integer index = 0;
+    // HERE SET DE INDEX TO ATTRIBUTES AND METHOD'S
+    Integer currentOffset = getOffset();
+    className = expr.getIdName().toString();
     hash.createLevel();
+    hash_class.createLevel();
+    // hash_class.insertInLevel(new ClassDecl(expr.getIdName()));
 
     for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
       for (FieldDecl field : fields_decl) {
+        field.setIndex(index);
+        if(field.getId().getSize() != null){
+          IntLiteral size = (IntLiteral)field.getId().getSize();
+          index += size.getValue();
+        }
+        field.getId().setIndex(index);
         field.accept(this);
+        index++;
+        // hash_class.insertInLevel(field);
       }
     }
 
     for (MethodDecl statement : expr.getMethodDecl()) {
+      statement.setIndex(index);
       statement.accept(this);
+      index++;
+      // hash_class.insertInLevel(statement);
     }
+    hash_class.insertInLevel(new ClassDecl(expr.getIdName(),expr.getFieldDecl(),expr.getMethodDecl(),expr.getLine(),expr.getColumn()));
 
     hash.destroyLevel();
+    currentOffset -= getOffset();
+    instanceOffset.insert(new Pair<String, Integer>(expr.getIdName().toString(), currentOffset/8));
     return "";
   }
 
@@ -96,10 +151,31 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
   public String visit(FieldDecl stmt){
     if(hash.searchInLastLevelFD(stmt.getId().toString()) == null){
-      hash.insertInLevel(stmt);
-    }else{
+      if (stmt.getType().toString().equals("integer")|| stmt.getType().toString().equals("bool")||
+         stmt.getType().toString().equals("float")){
+        if(stmt.getId().getSize() != null){
+          IntLiteral size = (IntLiteral)stmt.getId().getSize();
+          for (int i = 0; i < size.getValue(); i++ ) {
+            nextOffset();
+          }
+        }
+        stmt.getId().setOffset(nextOffset());
+        hash.insertInLevel(stmt);
+      }
+      else{
+        ClassDecl founded = (ClassDecl)hash_class.searchInTableCD(stmt.getType().toString());
+        if(founded!= null){
+          for (int i = 0; i < instanceOffset.getOffset(stmt.getType().toString()); i++ ) {
+            nextOffset();
+          }
+          stmt.getId().setOffset(nextOffset());
+          hash.insertInLevel(new Instance(stmt.getId().toString(), stmt.getType(), founded.getFieldDecl(), founded.getMethodDecl(), getOffset()));
+        }
+        else
+          errors.error2("Class", stmt.getId().toString(),stmt.getId().getLine(),stmt.getId().getColumn());
+      }
+    }else
       errors.error2("Identifier", stmt.getId().toString(),stmt.getId().getLine(),stmt.getId().getColumn());
-    }
     return "";
   }
 
@@ -111,6 +187,7 @@ public class DeclarationChecker implements ASTVisitor<String>{
   // the declaration of the integer i for example
   public String visit(ForStmt stmt){
     hash.createLevel();
+    stmt.getIdName().accept(this);
     stmt.getCondition().accept(this);
     stmt.getStep().accept(this);
 
@@ -135,10 +212,19 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public String visit(IdName stmt){
     FieldDecl founded = (FieldDecl)hash.searchInTableFD(stmt.toString());
     if(founded != null){
+      stmt.setOffset(founded.getId().getOffset());
+      stmt.setRecord(founded.getId().getRecord());
+      stmt.setIndex(founded.getId().getIndex());
       stmt.setType(founded.getType());
+      // stmt.setSize(founded.getId().getSize());
+      if(stmt.getSize() != null)
+        stmt.getSize().accept(this);
     }
-    else
-      errors.error1("Identifier", stmt.toString(),stmt.getLine(),stmt.getColumn());
+    else{
+      ClassDecl foundedd = (ClassDecl)hash.searchInTableCD(stmt.toString());
+      if (foundedd == null)
+        errors.error1("Identifier", stmt.toString(),stmt.getLine(),stmt.getColumn());
+    }
     return "";
   }
 
@@ -192,46 +278,219 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(LocationExpr stmt){
-    stmt.getId().accept(this);
-    if(stmt.getList() != null)
-      stmt.getList().accept(this);
+
+    if(stmt.getList() != null && stmt.getList().getNavigation() != null){
+      System.out.println("  LOCATION EXPR   MUCHAS NAVEGACIONES");
+      System.out.println(stmt.getList().getNavigation().getIdName());
+      System.out.println(stmt.getList().getNavigation().getIdName().getSize());
+      System.out.println(stmt.getList().getIdName().getSize());
+      // System.out.println(stmt.getId()+"   ");
+      // System.out.println(stmt.getList().getIdName()+"   ");
+      // System.out.print(stmt.getList().getNavigation() != null);
+      // System.out.println();
+      errors.error15(stmt.getId().toString(), stmt.getLine(), stmt.getColumn());
+    }
+    else{
+      // ClassDecl founded = (ClassDecl)hash_class.searchInTableCD(stmt.getId().getType().toString());
+      // if(founded != null && hash_class.searchInTableAD(founded.getIdName().toString(), stmt.getList().getIdName.toString()))
+      boolean founded = false;
+      String class_name = "";
+      if (stmt.getList() != null){
+        System.out.println("  LOCATION EXPR UNA NAVEGACION   "+stmt.getList().getIdName() +" "+stmt.getList().getIdName().getSize());
+        Instance i = (Instance)hash.searchInTableI(stmt.getId().toString());
+        stmt.getId().setOffset(i.getOffset());
+        class_name = i.getType().toString();
+        if(i.getFieldDecl().size() > 0){
+          for (List<FieldDecl> fields_decl : i.getFieldDecl()) {
+            if(fields_decl!= null){
+              for (FieldDecl field : fields_decl) {
+                if (stmt.getList().getIdName().toString().equals(field.getId().toString())){
+                  // System.out.println();
+                  // System.out.print("OFFSET HASH ");
+                  // System.out.println(field.getId().getOffset());
+                  // System.out.print("INDEX HASH ");
+                  // System.out.println(field.getId().getIndex());
+                  // System.out.println();
+                  // System.out.println();
+                  stmt.getList().setIdName(field.getId());
+                  stmt.getList().getIdName().setOffset(field.getId().getOffset());
+                  stmt.getList().getIdName().setRecord(field.getId().getRecord());
+                  stmt.getList().getIdName().setIndex(field.getId().getIndex());
+                  // System.out.println();
+                  // System.out.print("OFFSET OBJECT ");
+                  // System.out.println(stmt.getList().getIdName().getOffset());
+                  // System.out.print("INDEX OBJECT ");
+                  // System.out.println(stmt.getList().getIdName().getIndex());
+                  // System.out.println();
+                  // System.out.println();
+                  founded = true;
+                  break;
+                }
+              }
+              if (founded)
+                break;
+            }
+          }
+        }
+      }else{
+        System.out.println("  LOCATION EXPR SIN NAVEGACION   "+ stmt.getId().toString());
+        stmt.getId().accept(this);
+      }
+        
+      if (stmt.getList() != null && !founded)
+        errors.error13(class_name, stmt.getList().getIdName().toString(), stmt.getLine(), stmt.getColumn());
+    }
     return "";
   }
 
   public String visit(LocationStmt stmt){
-    stmt.getId().accept(this);
-    if(stmt.getList() != null)
-      stmt.getList().accept(this);
+    if(stmt.getList() != null && stmt.getList().getNavigation() != null)
+      errors.error15(stmt.getId().toString(), stmt.getLine(), stmt.getColumn());
+    else{
+      boolean founded = false;
+      String class_name = "";
+      if (stmt.getList() != null){
+        Instance i = (Instance)hash.searchInTableI(stmt.getId().toString());
+        stmt.getId().setOffset(i.getOffset());
+        class_name = i.getType().toString();
+        if(i.getFieldDecl().size() > 0){
+          for (List<FieldDecl> fields_decl : i.getFieldDecl()) {
+            if(fields_decl!= null){
+              for (FieldDecl field : fields_decl) {
+                if (stmt.getList().getIdName().toString().equals(field.getId().toString())){
+                  // System.out.println();
+                  // System.out.print("OFFSET HASH ");
+                  // System.out.println(field.getId().getOffset());
+                  // System.out.print("INDEX HASH ");
+                  // System.out.println(field.getId().getIndex());
+                  // System.out.println();
+                  // System.out.println();
+                  stmt.getList().setIdName(field.getId());
+                  stmt.getList().getIdName().setOffset(field.getId().getOffset());
+                  stmt.getList().getIdName().setRecord(field.getId().getRecord());
+                  stmt.getList().getIdName().setIndex(field.getId().getIndex());
+                  // System.out.println();
+                  // System.out.print("OFFSET OBJECT ");
+                  // System.out.println(stmt.getList().getIdName().getOffset());
+                  // System.out.print("INDEX OBJECT ");
+                  // System.out.println(stmt.getList().getIdName().getIndex());
+                  // System.out.println();
+                  // System.out.println();
+                  founded = true;
+                  break;
+                }
+              }
+              if (founded)
+                break;
+            }
+          }
+        }
+      }else
+        stmt.getId().accept(this);
+
+      if (stmt.getList() != null && !founded)
+        errors.error13(class_name, stmt.getList().getIdName().toString(), stmt.getLine(), stmt.getColumn());
+    }
     return "";
   }
 
   public String visit(MethodCallStmt stmt){
-   MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
-    if(founded != null){
-      stmt.setIdName(founded.getIdName());
+    if(stmt.getNavigation() != null && stmt.getNavigation().getNavigation() != null)
+      errors.error15(stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
+    else{
+      String class_name = "";
+      boolean founded = false;
+      if (stmt.getNavigation() != null){
+        Instance i = (Instance)hash.searchInTableI(stmt.getIdName().toString());
+        stmt.getIdName().setOffset(i.getOffset());
+        class_name = i.getType().toString();
+        for (MethodDecl method : i.getMethodDecl()) {
+          if (stmt.getNavigation().getIdName().toString().equals(method.getIdName().toString())){
+            stmt.getNavigation().setIdName(method.getIdName());
+            founded = true;
+            for (Expression expr: stmt.getExpressions()) {
+              expr.accept(this);
+            }
+            break;
+          }
+        }
+      }else{
+        MethodDecl method_founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
+        if(method_founded != null){
+          stmt.setIdName(method_founded.getIdName());
+          stmt.setExtern(method_founded.getBody().getBlock() == null);
+          for (Expression expr: stmt.getExpressions()) {
+            expr.accept(this);
+          }
+        }
+        else
+          errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
+      }
+
+      if(!founded && stmt.getNavigation() != null)
+        errors.error14(class_name, stmt.getNavigation().getIdName().toString(), stmt.getLine(), stmt.getColumn());
     }
-    else
-      errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
   public String visit(MethodCallExpr stmt){
-   MethodDecl founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
-    if(founded != null){
-      stmt.setIdName(founded.getIdName());
+    if(stmt.getNavigation() != null && stmt.getNavigation().getNavigation() != null)
+      errors.error15(stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
+    else{
+      String class_name = "";
+      boolean founded = false;
+      if (stmt.getNavigation() != null){
+        Instance i = (Instance)hash.searchInTableI(stmt.getIdName().toString());
+        stmt.getIdName().setOffset(i.getOffset());
+        class_name = i.getType().toString();
+        for (MethodDecl method : i.getMethodDecl()) {
+          if (stmt.getNavigation().getIdName().toString().equals(method.getIdName().toString())){
+            stmt.getNavigation().setIdName(method.getIdName());
+            founded = true;
+            for (Expression expr: stmt.getExpressions()) {
+              expr.accept(this);
+            }
+            break;
+          }
+        }
+      }else{
+        MethodDecl method_founded = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
+        if(method_founded != null){
+          stmt.setIdName(method_founded.getIdName());
+          stmt.setExtern(method_founded.getBody().getBlock() == null);
+          for (Expression expr: stmt.getExpressions()) {
+            expr.accept(this);
+          }
+        }
+        else
+          errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
+      }
+
+      if(!founded && stmt.getNavigation() != null)
+        errors.error14(class_name, stmt.getNavigation().getIdName().toString(), stmt.getLine(), stmt.getColumn());
     }
-    else
-      errors.error1("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
     return "";
   }
 
   // the body create a level and destroy it
   public String visit(MethodDecl stmt){
+    listId = new LinkedList<String>();
     if(hash.searchInLastLevelMD(stmt.getIdName().toString()) == null){
       hash.insertInLevel(stmt);
       hash.createLevel();
       stmt.getParam().accept(this);
-      stmt.getBody().accept(this);
+
+      if (stmt.getParam() != null && stmt.getParam().getParam() != null)
+        for (Pair<Type, IdName> pair: stmt.getParam().getParam()) {
+           listId.add(pair.getSnd().toString());
+        }
+
+      Integer currentOffset = getOffset();
+      if (stmt.getBody().getBlock() != null)
+        stmt.getBody().accept(this);
+      else
+        list.add(new Pair<String, Integer>(className+stmt.getIdName().toString(),getOffset()-currentOffset));
+      heap.insert(className+stmt.getIdName().toString(), listId);
       hash.destroyLevel();
     }else
       errors.error2("Method", stmt.getIdName().toString(), stmt.getLine(), stmt.getColumn());
@@ -272,10 +531,53 @@ public class DeclarationChecker implements ASTVisitor<String>{
 
   // need the new implementation of FieldDecl
   public String visit(Param stmt){
+    int count = 0;
+    Integer new_offset;
+    if (stmt.getParam().size() % 2 == 0)
+      new_offset = 8+(stmt.getParam().size()-6)*8;
+    else
+      new_offset = 16+(stmt.getParam().size()-6)*8;
     for (Pair<Type, IdName> param : stmt.getParam()) {
       IdName id = param.getSnd();
       id.setType(param.getFst());
+      switch (count){
+        case 0 : id.setRecord("RDI");
+                 param.getSnd().setRecord("RDI");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
+                  break;
+        case 1 : id.setRecord("RSI");
+                 param.getSnd().setRecord("RSI");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
+                  break;
+        case 2 : id.setRecord("RDX");
+                 param.getSnd().setRecord("RDX");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
+                  break;
+        case 3 : id.setRecord("RCX");
+                 param.getSnd().setRecord("RCX");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
+                  break;
+        case 4 : id.setRecord("R8");
+                 param.getSnd().setRecord("R8");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
+                  break;
+        case 5 : id.setRecord("R9");
+                 param.getSnd().setRecord("R9");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
+                  break;
+        default : id.setOffset(nextOffset());
+                  param.getSnd().setOffset(new_offset);
+                  new_offset -= 8;
+                  break;
+      }
       hash.insertInLevel(new FieldDecl(param.getFst(), id, id.getLine(), id.getColumn()));
+      count++;
     }
     // search the param ?
     // declare a new identifie on the table ?
@@ -296,9 +598,13 @@ public class DeclarationChecker implements ASTVisitor<String>{
   }
 
   public String visit(Program stmt){
+    hash.createLevel();
+
     for (ClassDecl class_decl : stmt.getClassList()) {
       class_decl.accept(this);
     }
+
+    hash.destroyLevel();
     return "";
   }
 
@@ -343,5 +649,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
     }
     return "";
   }
+
+  public String visit(Instance stmt){
+    return "";
+  }
+
 
 }

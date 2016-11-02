@@ -1,0 +1,22 @@
+//testing a program with empty class
+
+
+class main{
+  void printInt(integer a) extern;
+  void main(){
+    bool cond1;
+    bool cond2;
+    integer cond3;
+
+    cond1 = true;
+    cond2 = false;
+    cond3 = 45;
+    if (cond1 && (cond2||cond1)){
+      cond3 = 93090;
+    }
+
+    printInt(cond3);
+
+    return;
+  }
+}

@@ -77,7 +77,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 // "null" { return symbol("Null", sym.NULL); }
 
 // ### Numeric Values ###
-"-"[1-9]+[0-9]*|0|[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER_I, new IntLiteral(yytext())); }
+[1-9]+[0-9]*|0|[1-9]+[0-9]* { return symbol("Integral Number",sym.NUMBER_I, new IntLiteral(yytext())); }
 [0-9]+"."[0-9]+ { return symbol("Float Number",sym.NUMBER_F, new FloatLiteral(yytext())); }
 
 // ### Types ##
@@ -128,7 +128,7 @@ import java_cup.runtime.ComplexSymbolFactory.Location;
 "]" { return symbol("Right Bracket",sym.RBRACKET); }
 
 // ### Identifier ###
-[a-z]+[a-zA-Z0-9_]* { return symbol("Id", sym.ID, yytext()); }
+[a-zA-Z]+[a-zA-Z0-9_]* { return symbol("Id", sym.ID, yytext()); }
 
 [ \t\r\n\f] { /* ignore white space. */ }
 . { System.err.println("Illegal character: "+yytext()); }

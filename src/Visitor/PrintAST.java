@@ -10,6 +10,7 @@ public class PrintAST implements ASTVisitor<String>{
   public PrintAST(){
 
   }
+
   @Override
   public String visit(AddAssignment stmt){
     return stmt.getLeft().accept(this)+" += "+stmt.getRight().accept(this);
@@ -232,5 +233,9 @@ public class PrintAST implements ASTVisitor<String>{
 
   public String visit(WhileStmt stmt){
     return "while ("+stmt.getCondition().accept(this)+")"+stmt.getStatement().accept(this);
+  }
+
+  public String visit(Instance stmt){
+    return "";
   }
 }

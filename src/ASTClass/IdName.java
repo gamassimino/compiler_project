@@ -4,10 +4,13 @@ import Visitor.ASTVisitor;
 
 public class IdName{
   private String id;
-  private IntLiteral size;
+  private String record;
+  private Expression size;
   private Type type;
   private Integer line;
   private Integer column;
+  private Integer offset;
+  private Integer index;
 
   public IdName(String an_id){
     id = an_id;
@@ -19,28 +22,43 @@ public class IdName{
     id = an_id;
     size = null;
     type = null;
+    record = null;
+    offset = null;
     line = a_line;
     column = a_column;
   }
 
-  public IdName(String an_id, IntLiteral a_size){
+  public IdName(String an_id, Expression a_size){
     id = an_id;
     size = a_size;
     type= null;
+    offset = null;
   }
 
-  public IdName(String an_id, IntLiteral a_size, Integer a_line, Integer a_column){
+  public IdName(String an_id, Expression a_size, Integer a_line, Integer a_column){
     id = an_id;
     size = a_size;
     type= null;
     line = a_line;
     column = a_column;
+    record = null;
+    offset = null;
   }
 
-  public IdName(String an_id, IntLiteral a_size, Type a_type){
+  public IdName(String an_id, Expression a_size, Type a_type){
     id = an_id;
     size = a_size;
     type= a_type;
+    record = null;
+    offset = null;
+  }
+
+  public void setOffset(Integer off) {
+    offset = off;
+  }
+  
+  public Integer getOffset() {
+    return offset;
   }
 
   public void setIdName(String an_id){
@@ -67,11 +85,27 @@ public class IdName{
     return column;
   }
 
-  public void setSize(IntLiteral a_size){
+  public void setIndex(Integer a_index) {
+    index = a_index;
+  }
+  
+  public Integer getIndex() {
+    return index;
+  }
+  
+  public void setRecord(String a_record) {
+    record = a_record;
+  }
+  
+  public String getRecord() {
+    return record;
+  }
+
+  public void setSize(Expression a_size){
     size = a_size;
   }
 
-  public IntLiteral getSize(){
+  public Expression getSize(){
     return size;
   }
 

@@ -1,4 +1,4 @@
-//testing a program with empty method that return an integer with boolean param
+//testing a program with empty method that return an integer with bool param
 class plumTest11{
-  integer method(boolean param){}
+  integer method(bool param){}
 }
