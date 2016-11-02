@@ -518,30 +518,48 @@ public class DeclarationChecker implements ASTVisitor<String>{
   // need the new implementation of FieldDecl
   public String visit(Param stmt){
     int count = 0;
+    Integer new_offset;
+    if (stmt.getParam().size() % 2 == 0)
+      new_offset = 8+(stmt.getParam().size()-6)*8;
+    else
+      new_offset = 16+(stmt.getParam().size()-6)*8;
     for (Pair<Type, IdName> param : stmt.getParam()) {
       IdName id = param.getSnd();
       id.setType(param.getFst());
       switch (count){
         case 0 : id.setRecord("RDI");
                  param.getSnd().setRecord("RDI");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
                   break;
         case 1 : id.setRecord("RSI");
                  param.getSnd().setRecord("RSI");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
                   break;
         case 2 : id.setRecord("RDX");
                  param.getSnd().setRecord("RDX");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
                   break;
         case 3 : id.setRecord("RCX");
                  param.getSnd().setRecord("RCX");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
                   break;
         case 4 : id.setRecord("R8");
                  param.getSnd().setRecord("R8");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
                   break;
         case 5 : id.setRecord("R9");
                  param.getSnd().setRecord("R9");
+                 id.setOffset(nextOffset());
+                 param.getSnd().setOffset(getOffset());
                   break;
         default : id.setOffset(nextOffset());
-                  param.getSnd().setOffset(getOffset());
+                  param.getSnd().setOffset(new_offset);
+                  new_offset -= 8;
                   break;
       }
       count++;
