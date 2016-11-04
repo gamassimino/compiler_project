@@ -25,6 +25,19 @@ Our Team is formed by
 > $ ./run.sh
 ```
 
+###
+**Compile an especific file** _On the terminal(root project directory) you need exec this script_
+###
+```
+> $ sh plumc.sh <file.plum>
+```
+
+###
+**Run an especific file** _On the terminal(root project directory) you need exec this script_
+###
+```
+> $ sh plum.sh <file>
+```
 
 > **Note:** _If you have any problem executing our scrip, you need grant permits like._
 
