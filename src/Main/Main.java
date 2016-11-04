@@ -31,6 +31,7 @@ public class Main{
     ReturnChecker returnChecker = new ReturnChecker(errors);
     IntermediateCode intermediateCode = new IntermediateCode(offset, methodNameOffset);
     Optimizer optimizer = new Optimizer();
+    RecordOptimizer recordOptimizer = new RecordOptimizer();
 
     p.accept(declarationChecker);
     offset = declarationChecker.getOffset();
@@ -55,6 +56,9 @@ public class Main{
 
     if(errors.getErrors().size() == 0)
       p.accept(optimizer);
+
+    if(errors.getErrors().size() == 0)
+      p.accept(recordOptimizer);
 
     intermediateCode.setOffset(offset);
     intermediateCode.setHeap(heap);
