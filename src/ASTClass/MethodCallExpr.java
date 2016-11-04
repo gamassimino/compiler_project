@@ -9,6 +9,7 @@ public class MethodCallExpr extends Expression{
   private Navigation navigation;
   private List<Expression> expression;
   private Boolean extern;
+  private Integer attr_number;
 
   public MethodCallExpr(IdName an_id, Navigation a_navigation, ArrayList<Expression> an_expression, Integer a_line, Integer a_column){
     line = a_line;
@@ -75,6 +76,13 @@ public class MethodCallExpr extends Expression{
 
   public Boolean isExtern(){
     return extern;
+  }
+
+  public void setAttrNum(Integer attr){
+    this.attr_number = attr;
+  }
+  public Integer getAttrNum(){
+    return attr_number;
   }
 
   public List<Expression> getExpressions(){
