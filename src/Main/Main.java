@@ -30,7 +30,7 @@ public class Main{
     CycleChecker cycleChecker = new CycleChecker(errors);
     ReturnChecker returnChecker = new ReturnChecker(errors);
     IntermediateCode intermediateCode = new IntermediateCode(offset, methodNameOffset);
-    Optimizer optimizer = new Optimizer();
+    ConstantOptimizer constantOptimizer = new ConstantOptimizer();
     RecordOptimizer recordOptimizer = new RecordOptimizer();
 
     p.accept(declarationChecker);
@@ -54,8 +54,10 @@ public class Main{
     if(errors.getErrors().size() == 0)
       p.accept(returnChecker);
 
+    // run the optimizer of code
+
     if(errors.getErrors().size() == 0)
-      p.accept(optimizer);
+      p.accept(constantOptimizer);
 
     if(errors.getErrors().size() == 0)
       p.accept(recordOptimizer);
@@ -70,7 +72,8 @@ public class Main{
     }
 
     intermediateCode.setInstanceOffset(insOff);
-    AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
+    if(errors.getErrors().size() == 0)
+      AsmGenerator.writeAssembler(intermediateCode.getSentenceList());
   }
 
 }

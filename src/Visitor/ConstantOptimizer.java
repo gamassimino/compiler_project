@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java_cup.runtime.*;
 
-public class Optimizer implements ASTVisitor<Literal>{
+public class ConstantOptimizer implements ASTVisitor<Literal>{
 
-  public Optimizer(){
+  public ConstantOptimizer(){
   }
 
   @Override
