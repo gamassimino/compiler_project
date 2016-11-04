@@ -24,13 +24,14 @@ public class Main{
 
     ComplexSymbolFactory sf = new ComplexSymbolFactory();
     Program p = (Program) new Parser(new Scanner(new java.io.FileInputStream(args[0]),sf),sf).parse().value;
-
     DeclarationChecker declarationChecker = new DeclarationChecker(errors, classes, insOff, offset, methodNameOffset);
     TypeChecker typeChecker = new TypeChecker(errors, classes, offset);
     MainChecker mainChecker = new MainChecker(errors);
     CycleChecker cycleChecker = new CycleChecker(errors);
     ReturnChecker returnChecker = new ReturnChecker(errors);
     IntermediateCode intermediateCode = new IntermediateCode(offset, methodNameOffset);
+    Optimizer optimizer = new Optimizer();
+    RecordOptimizer recordOptimizer = new RecordOptimizer();
 
     p.accept(declarationChecker);
     offset = declarationChecker.getOffset();
@@ -52,6 +53,12 @@ public class Main{
 
     if(errors.getErrors().size() == 0)
       p.accept(returnChecker);
+
+    if(errors.getErrors().size() == 0)
+      p.accept(optimizer);
+
+    if(errors.getErrors().size() == 0)
+      p.accept(recordOptimizer);
 
     intermediateCode.setOffset(offset);
     intermediateCode.setHeap(heap);

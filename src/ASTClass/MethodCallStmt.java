@@ -9,6 +9,7 @@ public class MethodCallStmt extends Statement{
   private Navigation navigation;
   private List<Expression> expression;
   private Boolean extern;
+  private Integer attr_number;
 
   public MethodCallStmt(IdName an_id, Navigation a_navigation, ArrayList<Expression> an_expression, Integer a_line, Integer a_column){
     id = an_id;
@@ -71,6 +72,13 @@ public class MethodCallStmt extends Statement{
 
   public Boolean isExtern(){
     return extern;
+  }
+
+  public void setAttrNum(Integer attr){
+    this.attr_number = attr;
+  }
+  public Integer getAttrNum(){
+    return attr_number;
   }
 
   public String className(){

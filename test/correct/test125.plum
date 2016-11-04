@@ -1,0 +1,34 @@
+//testing a program with empty class
+class main{
+  void printInt(integer a) extern;
+  integer set(integer a, integer num){
+    a = num;
+    return a;
+  }
+
+  void print1(){
+    printInt(1);
+    return;
+  }
+
+  void printA(){
+    print1();
+    print1();
+    print1();
+    print1();
+    print1();
+    print1();
+    print1();
+    print1();
+    return;
+  }
+
+  void main(){
+    integer number1;
+    number1 = set(number1, 1);
+
+    printA();
+
+    return;
+  }
+}

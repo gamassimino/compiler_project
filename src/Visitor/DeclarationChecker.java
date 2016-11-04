@@ -11,15 +11,17 @@ import java_cup.runtime.*;
 import Errors.Error;
 
 public class DeclarationChecker implements ASTVisitor<String>{
-   private String className;
-   private Hash hash;
-   private Heap heap;
-   private Hash hash_class;
-   private Error errors;
-   private Integer offset;
-   private LinkedList<Pair<String,Integer>> list;
-   private InstanceOffset instanceOffset;
-   private LinkedList<String> listId;
+  private String className;
+  private Hash hash;
+  private Heap heap;
+  private Hash hash_class;
+  private Error errors;
+  private Integer offset;
+  private LinkedList<Pair<String,Integer>> list;
+  private InstanceOffset instanceOffset;
+  private LinkedList<String> listId;
+  // private LinkedList<Integer> callList;
+
 
   public DeclarationChecker(Error er, Hash clases, InstanceOffset insOff, Integer off, LinkedList<Pair<String,Integer>> a_list){
     hash = new Hash();
@@ -30,6 +32,8 @@ public class DeclarationChecker implements ASTVisitor<String>{
     list = a_list;
     instanceOffset = insOff;
     heap = new Heap();
+    // callList = new LinkedList<Integer>();
+    // callList.add(6);
   }
 
   public Integer nextOffset(){
@@ -40,6 +44,10 @@ public class DeclarationChecker implements ASTVisitor<String>{
   public Integer getOffset(){
     return offset;
   }
+
+  // public LinkedList<Integer> getCallList(){
+  //   return callList;
+  // }
 
   public Hash getHashInstance(){
     return hash;

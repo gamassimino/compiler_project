@@ -54,7 +54,6 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     label_stack = new Stack<String>();
     offset = off;
     restore_values = new LinkedList<Pair<String,Integer>>();
-    callList = new LinkedList<Integer>();
   }
 
   public Integer search(String name){
@@ -63,6 +62,10 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
         return pair.getSnd();
     }
     return 0;
+  }
+
+  public void setCallList(LinkedList<Integer> a_call_List){
+    callList = a_call_List;
   }
 
   public Integer nextOffset(){
@@ -431,7 +434,9 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       param_list.addFirst(param);
     }
     int i = 0;
-    save_record(8);
+    System.out.println(" PARAMETROS "+ param_list.size());
+
+    save_record(stmt.getAttrNum());
     ExpressionAlgo aux = null;
     for (Expression param : param_list) {
       ExpressionAlgo t0 = param.accept(this);
@@ -471,8 +476,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     }
     ExpressionAlgo result = new ExpressionAlgo("result","value");
     sentence_list.add(new Sentence("CALL", name, result, null));
-    if (i != 0)
-      load_record();
+    load_record(stmt.getAttrNum());
     if(stmt.getExpressions().size() > 6){
       Integer size = (stmt.getExpressions().size() - 6)*4;
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
@@ -492,7 +496,8 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
       param_list.addFirst(param);
     }
     int i = 0;
-    save_record(8);
+    System.out.println(" PARAMETROS "+ param_list.size());
+    save_record(stmt.getAttrNum());
     for (Expression param : param_list) {
       ExpressionAlgo t0 = param.accept(this);
 
@@ -527,8 +532,7 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
         name = new ExpressionAlgo("_InitMethod"+stmt.getIdName().toString(),"label");
 
     sentence_list.add(new Sentence("CALL", name, null, null));
-    if (i != 0)
-      load_record();
+    load_record(stmt.getAttrNum());
     if(stmt.getExpressions().size() > 6){
       Integer size = (stmt.getExpressions().size() - 6)*4;
       sentence_list.add(new Sentence("SUBQ", new ExpressionAlgo("RSP","record"), new ExpressionAlgo(size.toString(),"value"), null));
@@ -755,7 +759,12 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   }
 
   public void save_record(Integer records){
+    System.out.println(" RECORD "+ records);
+
     int i = 0;
+    if (records > 6)
+      records = 6;
+    // System.out.println("pongo "+callList.getLast());
     while(i < records){
       switch (i) {
         case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("RDI","record"), null));
@@ -776,21 +785,26 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
         case 5 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R9","record"), null));
                  restore_values.add(new Pair<String, Integer>("R9", getOffset()));
                   break;
-        case 6 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R10","record"), null));
-                 restore_values.add(new Pair<String, Integer>("R10", getOffset()));
-                  break;
         }
       i++;
     }
+    System.out.println(" CANTIDAD DE CICHLOS "+ i);
+
+    sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(nextOffset().toString(), "offset"), new ExpressionAlgo("R10","record"), null));
+    restore_values.add(new Pair<String, Integer>("R10", getOffset()));
+    // callList.add(records);
   }
 
-  public void load_record(){
+  public void load_record(Integer records){
+    // callList.removeLast();
+    // System.out.println("saco "+callList.getLast());
     int i = 0;
-    while(i < 7){
+    while(i <= records){
       Pair<String,Integer> pair = restore_values.removeLast();
       sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo(pair.getFst(), "record"), new ExpressionAlgo(pair.getSnd().toString(), "offset"), null));
       i++;
     }
+    // System.out.println("size "+restore_values.size());
   }
 
 }

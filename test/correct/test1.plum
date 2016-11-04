@@ -1,11 +1,26 @@
 //testing a program with empty class
-
-
 class main{
+  void printInt(integer a) extern;
   void main(){
-    integer number1;
+    integer num1;
+    integer num2;
+    // bool num3;
 
-     number1 = 2+2*45;
+    num1 = (1+1);
+    num2 = (1+0);
+    printInt(num1);
+    // num3 = 90;
+
+    // num3 = num1>num2;
+    // printInt(num3);
+
+    // if (num3){
+    //   printInt(45);
+    // }
+    // while (num1 != num3){
+    //   printInt(num1);
+    //   num1 += 1;
+    // }
     return;
   }
 }
