@@ -493,9 +493,11 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
 
     save_record(stmt.getAttrNum());
     ExpressionAlgo aux = null;
+    LinkedList<ExpressionAlgo> resolved_params = new LinkedList<ExpressionAlgo>();
     for (Expression param : param_list) {
-      ExpressionAlgo t0 = param.accept(this);
-
+      resolved_params.add(param.accept(this));
+    }
+    for (ExpressionAlgo t0 : resolved_params) {
       switch (i) {
         case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
                   break;
@@ -552,9 +554,11 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     }
     int i = 0;
     save_record(stmt.getAttrNum());
+    LinkedList<ExpressionAlgo> resolved_params = new LinkedList<ExpressionAlgo>();
     for (Expression param : param_list) {
-      ExpressionAlgo t0 = param.accept(this);
-
+      resolved_params.add(param.accept(this));
+    }
+    for (ExpressionAlgo t0 : resolved_params) {
       switch (i) {
         case 0 : sentence_list.add(new Sentence("MOVQ", new ExpressionAlgo("RDI","record"), t0, null));
                   break;
