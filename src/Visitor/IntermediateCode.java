@@ -131,18 +131,25 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     String record;
     String mov;
-
-    // if is variable or param set recoord to record=RAX and mov=MOVQ
-    if(right.getType().equals("record")){
-      record = "RAX";
-      mov = "MOVQ";
-    }else{
-      record = "EAX";
-      mov = "MOVL";
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
     }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
+    // if is variable or param set recoord to record=RAX and mov=MOVQ
+    // if(right.getType().equals("record")){
+    //   record = "RAX";
+    //   mov = "MOVQ";
+    // }else{
+    //   record = "EAX";
+    //   mov = "MOVL";
+    // }
 
-    sentence_list.add(new Sentence(mov, new ExpressionAlgo(record, "record"), right, null));
-    sentence_list.add(new Sentence(mov, left, new ExpressionAlgo(record, "record"), null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
+    sentence_list.add(new Sentence("MOVL", left, new ExpressionAlgo("EAX", "record"), null));
     sentence_list.add(new Sentence("", null, null, null));
     return null;
   }
@@ -198,9 +205,19 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = expr.getLeft().accept(this);
     ExpressionAlgo right = expr.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
+
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EBX", "record"), right, null));
     sentence_list.add(new Sentence("CLTD", null, null, null));
-    sentence_list.add(new Sentence("IDIVL", right, null, null));
+    sentence_list.add(new Sentence("IDIVL", new ExpressionAlgo("EBX", "record"), null, null));
     sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RAX", "record"), null));
     sentence_list.add(new Sentence("", null, null, null));
     return t0;
@@ -209,6 +226,15 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(EqualTo expr){
     ExpressionAlgo left = expr.getLeft().accept(this);
     ExpressionAlgo right = expr.getRight().accept(this);
+
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     eqcc++;
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
@@ -256,6 +282,15 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     gcc++;
+
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
     sentence_list.add(new Sentence("CMPL", new ExpressionAlgo("EAX", "record"), left, null));
     sentence_list.add(new Sentence("JL", new ExpressionAlgo("_compare_result_greater"+gcc,"label"), null, null));
@@ -273,6 +308,15 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     gecc++;
+
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
     sentence_list.add(new Sentence("CMPL", new ExpressionAlgo("EAX", "record"), left, null));
     sentence_list.add(new Sentence("JLE", new ExpressionAlgo("_compare_result_greaterE"+gecc,"label"), null, null));
@@ -357,6 +401,15 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     lcc++;
+
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
     sentence_list.add(new Sentence("CMPL", new ExpressionAlgo("EAX", "record"), left, null));
     sentence_list.add(new Sentence("JG", new ExpressionAlgo("_compare_result_less"+lcc,"label"), null, null));
@@ -374,6 +427,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     lecc++;
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
     sentence_list.add(new Sentence("CMPL", new ExpressionAlgo("EAX", "record"), left, null));
     sentence_list.add(new Sentence("JGE", new ExpressionAlgo("_compare_result_lessE"+lecc,"label"), null, null));
@@ -596,6 +657,14 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
   public ExpressionAlgo visit(NotEqualTo stmt){
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
     neqcc++;
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), right, null));
@@ -639,9 +708,19 @@ public class IntermediateCode implements ASTVisitor<ExpressionAlgo>{
     ExpressionAlgo left = stmt.getLeft().accept(this);
     ExpressionAlgo right = stmt.getRight().accept(this);
     ExpressionAlgo t0 = new ExpressionAlgo(nextOffset().toString(),"offset");
+
+    if (left.getType().equals("record") && left.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      left.setValue(left.getValue().replace("R","E"));
+    }
+    if (right.getType().equals("record") && right.getValue().charAt(0)==('R')){
+      System.out.println("Lo REMPLACE");
+      right.setValue(right.getValue().replace("R","E"));
+    }
     sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EAX", "record"), left, null));
+    sentence_list.add(new Sentence("MOVL", new ExpressionAlgo("EBX", "record"), right, null));
     sentence_list.add(new Sentence("CLTD", null, null, null));
-    sentence_list.add(new Sentence("IDIVL", right, null, null));
+    sentence_list.add(new Sentence("IDIVL", new ExpressionAlgo("EBX", "record"), null, null));
     sentence_list.add(new Sentence("MOVQ", t0, new ExpressionAlgo("RDX", "record"), null));
     sentence_list.add(new Sentence("", null, null, null));
     return t0;
