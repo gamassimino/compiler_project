@@ -36,10 +36,19 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(Block expr){
+    for (List<FieldDecl> fields_decl : expr.getFieldDecl()) {
+      for (FieldDecl field : fields_decl) {
+        field.accept(this);
+      }
+    }
+    for (Statement statement : expr.getStatements()) {
+      statement.accept(this);
+    }
     return "";
   }
 
   public String visit(Body expr){
+    expr.getBlock().accept(this);
     return "";
   }
 
@@ -75,6 +84,9 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(ForStmt stmt){
+    stmt.getCondition().accept(this);
+    stmt.getStep().accept(this);
+    stmt.getStatement().accept(this);
     return "";
   }
 
@@ -95,6 +107,10 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(IfStmt stmt){
+    stmt.getCondition().accept(this);
+    stmt.getIfBlock().accept(this);
+    if (stmt.getElseBlock() != null)
+      stmt.getElseBlock().accept(this);
     return "";
   }
 
@@ -123,14 +139,27 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(LocationExpr stmt){
+    if (stmt.getList() != null){
+      stmt.getList().accept(this);
+    }else
+      stmt.getId().accept(this);
     return "";
   }
 
   public String visit(LocationStmt stmt){
+    if (stmt.getList() != null){
+      stmt.getList().accept(this);
+    }else
+      stmt.getId().accept(this);
     return "";
   }
 
   public String visit(MethodCallStmt stmt){
+    if (stmt.getExpressions() != null){
+      for (Expression expr : stmt.getExpressions()) {
+        expr.accept(this);
+      }
+    }
     stmt.setAttrNum(callList.getLast());
     callList.add(stmt.getExpressions().size());
     MethodDecl md = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
@@ -142,6 +171,11 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(MethodCallExpr stmt){
+    if (stmt.getExpressions() != null){
+      for (Expression expr : stmt.getExpressions()) {
+        expr.accept(this);
+      }
+    }
     stmt.setAttrNum(callList.getLast());
     callList.add(stmt.getExpressions().size());
     MethodDecl md = (MethodDecl)hash.searchInTableMD(stmt.getIdName().toString());
@@ -158,7 +192,7 @@ public class RecordOptimizer implements ASTVisitor<String>{
       if (stmt.getBody().getBlock() != null) {
         for (Statement st : stmt.getBody().getBlock().getStatements()) {
           st.accept(this);
-        } 
+        }
       }
     }
     return "";
@@ -171,6 +205,9 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(Navigation stmt){
+    stmt.getIdName().accept(this);
+    if (stmt.getExpression() != null)
+      stmt.getExpression().accept(this);
     return "";
   }
 
@@ -217,10 +254,14 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(ReturnExpr stmt){
+    if (stmt.getExpression() != null)
+      stmt.getExpression().accept(this);
     return "";
   }
 
   public String visit(ReturnStmt stmt){
+    if (stmt.getExpression() != null)
+      stmt.getExpression().accept(this);
     return "";
   }
 
@@ -241,6 +282,12 @@ public class RecordOptimizer implements ASTVisitor<String>{
   }
 
   public String visit(WhileStmt stmt){
+    stmt.getCondition().accept(this);
+    if(stmt.getStatement().className() == "Block")
+      stmt.getStatement().accept(this);
+    else{
+      stmt.getStatement().accept(this);
+    }
     return "";
   }
 

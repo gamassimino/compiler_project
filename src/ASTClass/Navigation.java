@@ -12,7 +12,7 @@ public class Navigation{
   /**
   * the attribute expression is only the navigation is a method
   */
-  
+
   public Navigation(Navigation a_navigation, IdName an_id, Integer a_line, Integer a_column){
     navigation = a_navigation;
     id = an_id;
@@ -57,6 +57,10 @@ public class Navigation{
 
   public Navigation getNavigation(){
     return navigation;
+  }
+
+  public Expression getExpression(){
+    return expr;
   }
 
   public <T> T accept(ASTVisitor<T> v) {
